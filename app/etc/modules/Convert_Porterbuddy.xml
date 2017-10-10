@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Convert Team
+ * @copyright Copyright (c) 2017 Convert (http://www.convert.no/)
+ */
+-->
+<config>
+    <modules>
+        <Convert_Porterbuddy>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Convert_Porterbuddy>
+    </modules>
+</config>

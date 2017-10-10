@@ -1,0 +1,40 @@
+<?php
+/**
+ * @author Convert Team
+ * @copyright Copyright (c) 2017 Convert (http://www.convert.no/)
+ */
+/** @var Convert_Porterbuddy_Block_Popup $this */
+?>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        window.porterbuddyPopup = new PorterbuddyPopup({
+            formKey: '<?php echo $this->getFormKey() ?>',
+            orderNumber: '<?php echo $this->getOrder()->getIncrementId() ?>',
+            protectCode: '<?php echo $this->getOrder()->getProtectCode() ?>',
+            mapsApiKey: '<?php echo $this->jsQuoteEscape($this->getMapsApiKey()) ?>',
+            deliveryLocation: <?php echo json_encode($this->getDeliveryLocation()) ?>,
+            deliveryAddress: '<?php echo $this->jsQuoteEscape($this->getDeliveryAddress()) ?>',
+            storeLocation: <?php echo json_encode($this->getStoreLocation()) ?>,
+            storeAddress: '<?php echo $this->jsQuoteEscape($this->getStoreAddress()) ?>',
+            zoom: <?php echo $this->getMapsZoom() ?>,
+            defaultLocation: <?php echo json_encode($this->getDefaultLocation()) ?>,
+            defaultZoom: <?php echo $this->getDefaultZoom() ?>,
+            markerOptions: window.porterbuddyMarkerOptions || {
+                url: '<?php echo $this->getSkinUrl('images/porterbuddy_marker.svg') ?>',
+                size: [100, 52],
+                origin: [0, 0],
+                anchor: [49, 52],
+                coords: [
+                    1, 1,
+                    100, 1,
+                    100, 40,
+                    61, 40,
+                    49, 52,
+                    37, 40,
+                    1, 40
+                ]
+            },
+            locationSaveUrl: '<?php echo $this->getUrl('convert_porterbuddy/location/save') ?>'
+        });
+    });
+</script>

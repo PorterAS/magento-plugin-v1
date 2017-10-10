@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Convert Team
+ * @copyright Copyright (c) 2017 Convert (http://www.convert.no/)
+ */
+-->
+<layout>
+    <!-- this part is most likely to be replaced with custom popup solution (jQuery etc.) -->
+    <convert_porterbuddy_popup_assets>
+        <reference name="head">
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/alphacube.css</name>
+            </action>
+            <action method="addJs">
+                <script>prototype/window.js</script>
+            </action>
+        </reference>
+    </convert_porterbuddy_popup_assets>
+</layout>

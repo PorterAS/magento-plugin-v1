@@ -1,0 +1,55 @@
+<?php
+/**
+ * @author Convert Team
+ * @copyright Copyright (c) 2017 Convert (http://www.convert.no/)
+ */
+/** @var Convert_Porterbuddy_Block_Adminhtml_Info $this */
+$order = $this->getOrder();
+$shippingAddress = $order->getShippingAddress();
+?>
+<?php if ($this->canEditOptions()): ?>
+    <form method="post" action="<?php echo $this->getUrl('adminhtml/porterbuddy_location/options', array('order_id' => $order->getId())) ?>">
+        <?php echo $this->getBlockHtml('formkey')?>
+        <div>
+            <strong><?php echo $this->__('Leave package outside the door') ?>:</strong>
+            <select name="leave_doorstep">
+                <option value="0" <?php if (!$this->getLeaveDoorstep()) echo ' selected="selected"'?>>
+                    <?php echo $this->__('No') ?>
+                </option>
+                <option value="1" <?php if ($this->getLeaveDoorstep()) echo ' selected="selected"'?>>
+                    <?php echo $this->__('Yes') ?>
+                </option>
+            </select>
+        </div>
+        <div>
+            <strong><?php echo $this->__('Message to courier') ?>:</strong><br/>
+            <textarea name="comment" style="height:8em; width: 99%;" maxlength="512"><?php echo $this->escapeHtml($this->getComment()) ?></textarea>
+        </div>
+        <div>
+            <button type="submit" class="scalable save">
+                <?php echo $this->__('Save Options') ?>
+            </button>
+        </div>
+    </form>
+<?php else: ?>
+    <div>
+        <strong><?php echo $this->__('Leave package outside the door') ?>:</strong>
+        <?php echo $this->getLeaveDoorstep() ? $this->__('Yes') : $this->__('No') ?>
+    </div>
+    <div>
+        <strong><?php echo $this->__('Message to courier') ?>:</strong><br/>
+        <?php if (strlen($this->getComment())): ?>
+            <?php echo nl2br($this->escapeHtml(Mage::helper('core/string')->truncate($this->getComment(), 110, '', $_remainder))) ?>
+            <?php if ($_remainder): ?>
+                ... <span id="<?php echo $_id = 'id' . uniqid()?>"><?php echo nl2br($this->escapeHtml($_remainder)) ?></span>
+                <script type="text/javascript">
+                    $('<?php echo $_id ?>').hide();
+                    $('<?php echo $_id ?>').up().observe('mouseover', function(){$('<?php echo $_id ?>').show();});
+                    $('<?php echo $_id ?>').up().observe('mouseout',  function(){$('<?php echo $_id ?>').hide();});
+                </script>
+            <?php endif;?>
+        <?php else: ?>
+            <i><?php echo $this->__('None') ?></i>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

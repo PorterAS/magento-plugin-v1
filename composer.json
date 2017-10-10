@@ -1,0 +1,17 @@
+{
+    "name": "convert/porterbuddy",
+    "type": "magento-module",
+    "license":"OSL-3.0",
+    "description":"Porterbuddy shipping integration for Magento 1",
+    "authors":[
+        {
+            "name":"Convert AS",
+            "email":"post@convert.no"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "5.7.*",
+        "phpunit/php-invoker": "*",
+        "phpunit/dbunit": "*"
+    }
+}
