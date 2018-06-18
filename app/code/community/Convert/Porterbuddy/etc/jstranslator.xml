@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Convert Team
+ * @copyright Copyright (c) 2017 Convert (http://www.convert.no/)
+ */
+-->
+<jstranslator>
+    <porterbuddy-previous-day translate="message" module="convert_porterbuddy">
+        <message>Previous Day</message>
+    </porterbuddy-previous-day>
+    <porterbuddy-today translate="message" module="convert_porterbuddy">
+        <message>Today</message>
+    </porterbuddy-today>
+    <porterbuddy-day translate="message" module="convert_porterbuddy">
+        <message>%s day</message>
+    </porterbuddy-day>
+    <porterbuddy-days translate="message" module="convert_porterbuddy">
+        <message>%s days</message>
+    </porterbuddy-days>
+    <porterbuddy-hour translate="message" module="convert_porterbuddy">
+        <message>%s hour</message>
+    </porterbuddy-hour>
+    <porterbuddy-hours translate="message" module="convert_porterbuddy">
+        <message>%s hours</message>
+    </porterbuddy-hours>
+    <porterbuddy-minute translate="message" module="convert_porterbuddy">
+        <message>%s minute</message>
+    </porterbuddy-minute>
+    <porterbuddy-minutes translate="message" module="convert_porterbuddy">
+        <message>%s minutes</message>
+    </porterbuddy-minutes>
+</jstranslator>

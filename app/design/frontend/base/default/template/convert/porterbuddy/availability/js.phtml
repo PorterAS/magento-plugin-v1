@@ -1,0 +1,31 @@
+<?php
+/** @var Convert_Porterbuddy_Block_Availability $this */
+/** @var Mage_Core_Helper_Data $coreHelper */
+$coreHelper = $this->helper('core');
+?>
+<script type="text/javascript">
+    jQuery(function() {
+        // create once in case block is duplicated
+        if (!window.porterbuddyAvailability) {
+            window.porterbuddyAvailability = window.porterbuddyAvailability || new PorterbudyAvailability({
+                $element: jQuery('.porterbuddy-availability'),
+                mapsApiKey: '<?php echo $this->jsQuoteEscape($this->getMapsApiKey()) ?>',
+                getLocationURL: '<?php echo $this->getUrl('convert_porterbuddy/delivery/location') ?>',
+                getAvailabilityURL: '<?php echo $this->getUrl('convert_porterbuddy/delivery/availability') ?>',
+                isAlwaysShow: <?php echo json_encode($this->isAlwaysShow()) ?>,
+                locationDiscovery: <?php echo json_encode($this->helper->getLocationDiscovery()) ?>,
+                defaultCountry: <?php echo json_encode($coreHelper->getDefaultCountry()) ?>,
+                textClickToSee: <?php echo json_encode($this->helper->getAvailabilityTextClickToSee()) ?>,
+                textFetching: <?php echo json_encode($this->helper->processPlaceholders(
+                    $this->helper->getAvailabilityTextFetching()
+                )) ?>,
+                textDeliveryUnavailable: <?php echo json_encode($this->helper->processPlaceholders(
+                    $this->helper->getAvailabilityTextPostcodeError()
+                )) ?>
+            });
+            <?php if ($this->getProduct()->isComposite() && $this->helper->availabilityAutoUpdateComposite()): ?>
+                window.porterbuddyAvailability.update();
+            <?php endif; ?>
+        }
+    });
+</script>

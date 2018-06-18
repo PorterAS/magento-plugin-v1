@@ -1,0 +1,12 @@
+## Modman Module
+app/etc/modules/* app/etc/modules/
+app/code/community/Convert/Porterbuddy app/code/community/Convert/Porterbuddy
+app/design/adminhtml/default/default/template/convert/porterbuddy app/design/adminhtml/default/default/template/convert/porterbuddy
+app/design/frontend/base/default/layout/convert/* app/design/frontend/base/default/layout/convert/
+app/design/frontend/base/default/template/convert/* app/design/frontend/base/default/template/convert/
+app/locale/en_US/Convert_Porterbuddy.csv app/locale/en_US/Convert_Porterbuddy.csv
+app/locale/en_US/template/email/* app/locale/en_US/template/email/
+app/locale/nb_NO/Convert_Porterbuddy.csv app/locale/nb_NO/Convert_Porterbuddy.csv
+skin/frontend/base/default/js/convert/* skin/frontend/base/default/js/convert/
+skin/frontend/base/default/css/convert/* skin/frontend/base/default/css/convert/
+skin/frontend/base/default/images/* skin/frontend/base/default/images/

@@ -1,0 +1,837 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+/**
+ * @author Convert Team
+ * @copyright Copyright (c) 2017 Convert (http://www.convert.no/)
+ */
+-->
+<config>
+    <sections>
+        <carriers>
+            <groups>
+                <cnvporterbuddy translate="label" module="convert_porterbuddy">
+                    <label>Convert Porterbuddy</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>200</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <description translate="label">
+                            <label>Description</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </description>
+                        <asap_name translate="label">
+                            <label>Express Delivery Name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </asap_name>
+                        <choose_later_name translate="label">
+                            <label>Choose Timeslot Later Name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </choose_later_name>
+                        <api_mode translate="label">
+                            <label>Porterbuddy Mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_mode</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </api_mode>
+                        <development_api_key translate="label">
+                            <label>API Key (Development)</label>
+                            <frontend_type>password</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><api_mode>development</api_mode></depends>
+                        </development_api_key>
+                        <testing_api_key translate="label">
+                            <label>API Key (Testing)</label>
+                            <frontend_type>password</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><api_mode>testing</api_mode></depends>
+                        </testing_api_key>
+                        <production_api_key translate="label">
+                            <label>API Key (Production)</label>
+                            <frontend_type>password</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><api_mode>production</api_mode></depends>
+                        </production_api_key>
+                        <inbound_token translate="label">
+                            <label>Access token for requests from Porterbuddy</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>convert_porterbuddy/adminhtml_frontend_token</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </inbound_token>
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+                        <debug translate="label">
+                            <label>Debug</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </debug>
+
+                        <heading_availability_widget translate="label">
+                            <label>Availability Widget Settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_availability_widget>
+                        <show_availability translate="label">
+                            <label>Show Geo-based Availibility Widget</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_availability</source_model>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_availability>
+                        <location_discovery translate="label">
+                            <label>Location Discovery</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_location</source_model>
+                            <can_be_empty>1</can_be_empty>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </location_discovery>
+                        <postcodes translate="label comment">
+                            <label>Allowed Postcodes</label>
+                            <comment>Each on a separate line, leave empty to allow any</comment>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </postcodes>
+                        <availability_text_click_to_see translate="label tooltip">
+                            <label>Click to see text</label>
+                            <tooltip><![CDATA[Can use &lt;a&gt;link&lt;/a&gt;, &lt;a class="button"&gt;link&lt;/a&gt; for clickable link]]></tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </availability_text_click_to_see>
+                        <location_link_template translate="label comment tooltip">
+                            <label>Location Link Template</label>
+                            <comment>Can use {{location}}, {{postcode}}, {{city}}, {{country}} placeholders</comment>
+                            <tooltip><![CDATA[Can use &lt;a&gt;link&lt;/a&gt;, &lt;a class="button"&gt;link&lt;/a&gt; for clickable link]]></tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </location_link_template>
+                        <availability_text_fetching translate="label comment">
+                            <label>Availability fetching text</label>
+                            <comment>Can use {{location}}, {{postcode}}, {{city}}, {{country}} placeholders</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>190</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </availability_text_fetching>
+                        <availability_template translate="label comment">
+                            <label>Availability Text Template</label>
+                            <comment>Can use {{date}}, {{countdown}} placeholders</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </availability_template>
+                        <availability_text_postcode_error translate="label comment">
+                            <label>Postcode not available text</label>
+                            <comment>Can use {{location}}, {{postcode}}, {{city}}, {{country}} placeholders</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </availability_text_postcode_error>
+                        <availability_text_delivery_out_of_stock translate="label comment">
+                            <label>Product is out of stock text</label>
+                            <comment>Can use {{location}}, {{postcode}}, {{city}}, {{country}} placeholders</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </availability_text_delivery_out_of_stock>
+                        <availability_text_delivery_no_date translate="label comment">
+                            <label>No available dates text</label>
+                            <comment>Can use {{location}}, {{postcode}}, {{city}}, {{country}} placeholders</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </availability_text_delivery_no_date>
+                        <availability_choose_popup_title translate="label">
+                            <label>Availability Change Popup Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>250</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </availability_choose_popup_title>
+                        <availability_choose_popup_description translate="label">
+                            <label>Availability Change Popup Description</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>260</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </availability_choose_popup_description>
+                        <availability_auto_update_composite translate="label comment">
+                            <label>Load configurable product availability</label>
+                            <comment>Disable if automatic simple option preselect is installed to eliminate double loading and widget flickering</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>270</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </availability_auto_update_composite>
+
+                        <heading_checkout_widget translate="label">
+                            <label>Checkout Widget Settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_checkout_widget>
+                        <timeslot_selection translate="label">
+                            <label>Pick time slot</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_timeslot</source_model>
+                            <sort_order>310</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </timeslot_selection>
+                        <days_ahead translate="label">
+                            <label>Available Days Ahead</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>320</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                        </days_ahead>
+                        <return_enabled translate="label">
+                            <label>Return Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>330</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </return_enabled>
+                        <return_text translate="label comment tooltip">
+                            <label>Return Text</label>
+                            <comment>Checkbox text on checkout widget</comment>
+                            <tooltip>Can use {{formatted_price}} placeholder</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>340</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </return_text>
+                        <return_short_text translate="label comment">
+                            <label>Return Short Text</label>
+                            <comment>Added to shipping method in order view</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>350</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </return_short_text>
+                        <return_price translate="label">
+                            <label>Return Price</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>360</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                        </return_price>
+                        <refresh_options_timeout translate="label">
+                            <label>Refresh delivery options every, minutes</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>370</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                        </refresh_options_timeout>
+                        <leave_doorstep_text translate="label">
+                            <label>Leave at doorstep checkbox text</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>380</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </leave_doorstep_text>
+                        <comment_text translate="label">
+                            <label>Comment to courier text</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>390</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </comment_text>
+
+                        <heading_price_override translate="label">
+                            <label>Prices Override</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>400</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_price_override>
+                        <price_override_express translate="label">
+                            <label>Express delivery price override</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>410</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </price_override_express>
+                        <price_override_delivery translate="label">
+                            <label>Normal delivery price override</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>420</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </price_override_delivery>
+
+                        <heading_discount translate="label">
+                            <label>Shipping Discount</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>500</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_discount>
+                        <discount_type translate="label">
+                            <label>Discount Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_discountType</source_model>
+                            <sort_order>510</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </discount_type>
+                        <discount_subtotal translate="label">
+                            <label>Minimum Order Amount</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>520</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <discount_type separator=",">fixed,percent</discount_type>
+                            </depends>
+                        </discount_subtotal>
+                        <discount_amount translate="label">
+                            <label>Discount Amount</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>530</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><discount_type>fixed</discount_type></depends>
+                        </discount_amount>
+                        <discount_percent translate="label">
+                            <label>Discount Percent</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>540</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><discount_type>percent</discount_type></depends>
+                        </discount_percent>
+
+                        <heading_hours translate="label">
+                            <label>Open Hours</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>600</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_hours>
+                        <porterbuddy_until translate="label">
+                            <label>Porterbuddy available until, minutes before closing time</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>610</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </porterbuddy_until>
+                        <hours_mon translate="label">
+                            <label>Monday</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_hours</source_model>
+                            <frontend_model>convert_porterbuddy/adminhtml_frontend_hours</frontend_model>
+                            <sort_order>620</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </hours_mon>
+                        <hours_tue translate="label">
+                            <label>Tuesday</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_hours</source_model>
+                            <frontend_model>convert_porterbuddy/adminhtml_frontend_hours</frontend_model>
+                            <sort_order>630</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </hours_tue>
+                        <hours_wed translate="label">
+                            <label>Wednesday</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_hours</source_model>
+                            <frontend_model>convert_porterbuddy/adminhtml_frontend_hours</frontend_model>
+                            <sort_order>640</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </hours_wed>
+                        <hours_thu translate="label">
+                            <label>Thursday</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_hours</source_model>
+                            <frontend_model>convert_porterbuddy/adminhtml_frontend_hours</frontend_model>
+                            <sort_order>650</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </hours_thu>
+                        <hours_fri translate="label">
+                            <label>Friday</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_hours</source_model>
+                            <frontend_model>convert_porterbuddy/adminhtml_frontend_hours</frontend_model>
+                            <sort_order>660</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </hours_fri>
+                        <hours_sat translate="label">
+                            <label>Saturday</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_hours</source_model>
+                            <frontend_model>convert_porterbuddy/adminhtml_frontend_hours</frontend_model>
+                            <sort_order>670</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </hours_sat>
+                        <hours_sun translate="label">
+                            <label>Sunday</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_hours</source_model>
+                            <frontend_model>convert_porterbuddy/adminhtml_frontend_hours</frontend_model>
+                            <sort_order>680</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </hours_sun>
+
+                        <heading_shipment translate="label">
+                            <label>Creating Shipment</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>700</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_shipment>
+                        <auto_create_shipment translate="label">
+                            <label>Create shipment automatically</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>710</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </auto_create_shipment>
+                        <default_phone_code translate="label comment">
+                            <label>Default Phone Code</label>
+                            <comment>Added for phone numbers without phone code, e.g. "12 34 56 78" instead of "+47 12 34 56 78"</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>730</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </default_phone_code>
+                        <packager_mode translate="label">
+                            <label>Packager mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_packagermode</source_model>
+                            <sort_order>740</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </packager_mode>
+                        <packing_time translate="label">
+                            <label>Packing time, minutes</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>750</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </packing_time>
+
+                        <heading_default_verifications translate="label">
+                            <label>Verifications - default settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>800</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_default_verifications>
+                        <require_signature_default translate="label">
+                            <label>Require signature</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>810</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </require_signature_default>
+                        <min_age_check_default translate="label comment">
+                            <label>Minimum age check</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>82</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <comment>Optional</comment>
+                        </min_age_check_default>
+                        <id_check_default translate="label">
+                            <label>ID check</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>830</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </id_check_default>
+                        <only_to_recipient_default translate="label">
+                            <label>Only to recipient</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>840</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </only_to_recipient_default>
+
+                        <heading_verifications_product translate="label">
+                            <label>Verifications - per product</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>900</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_verifications_product>
+                        <require_signature_attr translate="label">
+                            <label>Require signature attribute</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_attribute</source_model>
+                            <sort_order>910</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </require_signature_attr>
+                        <min_age_check_attr translate="label">
+                            <label>Minimum age check attribute</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_attribute</source_model>
+                            <sort_order>920</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                        </min_age_check_attr>
+                        <id_check_attr translate="label">
+                            <label>ID check attribute</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_attribute</source_model>
+                            <sort_order>930</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </id_check_attr>
+                        <only_to_recipient_attr translate="label">
+                            <label>Only to recipient attribute</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_attribute</source_model>
+                            <sort_order>940</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </only_to_recipient_attr>
+
+                        <heading_packages translate="label">
+                            <label>Packages Settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>1000</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_packages>
+                        <weight_unit translate="label comment">
+                            <label>Weight Unit</label>
+                            <comment>Select Weight Unit for Products in Magento</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_weight</source_model>
+                            <sort_order>1010</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </weight_unit>
+                        <default_product_weight translate="label comment">
+                            <label>Default Product Weight</label>
+                            <comment>Will be used for Products with undefined Weight</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1020</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>required-entry validate-number validate-zero-or-greater</validate>
+                        </default_product_weight>
+                        <dimension_unit translate="label comment">
+                            <label>Dimension Unit</label>
+                            <comment>Select Dimension Unit for Products in Magento</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_dimension</source_model>
+                            <sort_order>1030</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </dimension_unit>
+                        <height_attribute translate="label">
+                            <label>Height attribute</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_attribute</source_model>
+                            <sort_order>1040</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </height_attribute>
+                        <width_attribute translate="label">
+                            <label>Width attribute</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_attribute</source_model>
+                            <sort_order>1050</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </width_attribute>
+                        <length_attribute translate="label">
+                            <label>Length attribute</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>convert_porterbuddy/config_source_attribute</source_model>
+                            <sort_order>1060</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </length_attribute>
+                        <default_product_height translate="label comment">
+                            <label>Default Product Height</label>
+                            <comment>Will be used for Products with undefined Height</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1070</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>required-entry validate-number validate-zero-or-greater</validate>
+                        </default_product_height>
+                        <default_product_width translate="label comment">
+                            <label>Default Product Width</label>
+                            <comment>Will be used for Products with undefined Width</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1080</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>required-entry validate-number validate-zero-or-greater</validate>
+                        </default_product_width>
+                        <default_product_length translate="label comment">
+                            <label>Default Product Length</label>
+                            <comment>Will be used for Products with undefined Length</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1090</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>required-entry validate-number validate-zero-or-greater</validate>
+                        </default_product_length>
+
+                        <heading_error_notification translate="label">
+                            <label>API Error Notification</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>1100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_error_notification>
+                        <error_email_enabled translate="label">
+                            <label>Email Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_enabled>
+                        <error_email_identity translate="label">
+                            <label>Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>1120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_identity>
+                        <error_email_template translate="label">
+                            <label>Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>1130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_email_template>
+                        <error_email_recipients translate="label comment">
+                            <label>Email Recipients - All Errors - Magento and Porterbuddy API</label>
+                            <comment>Both Magento errors - misconfiguration, bad products etc - and Porterbuddy API failures</comment>
+                            <frontend_model>convert_porterbuddy/adminhtml_frontend_emailrecipients</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>1140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </error_email_recipients>
+                        <error_email_recipients_porterbuddy translate="label">
+                            <label>Email Recipients - inform Porterbuddy of API errors</label>
+                            <comment>Only errors on Porterbuddy API side</comment>
+                            <frontend_model>convert_porterbuddy/adminhtml_frontend_emailrecipients</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>1150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </error_email_recipients_porterbuddy>
+
+                        <heading_availability translate="label">
+                            <label>Geo-based availability widget</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>1200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_availability>
+                        <maps_api_key translate="label">
+                            <label>Google Maps API Key</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>1210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </maps_api_key>
+                        <geoip_status translate="label">
+                            <label>GeoIP Database Downloaded</label>
+                            <frontend_type>label</frontend_type>
+                            <frontend_model>convert_porterbuddy/adminhtml_frontend_geoip_status</frontend_model>
+                            <sort_order>1220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </geoip_status>
+                        <geoip_synchronize translate="label comment">
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>convert_porterbuddy/adminhtml_frontend_geoip_synchronize</frontend_model>
+                            <sort_order>1230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>If you synchronize GeoIP database too often you may be banned for several hours.</comment>
+                        </geoip_synchronize>
+                    </fields>
+                </cnvporterbuddy>
+            </groups>
+        </carriers>
+    </sections>
+</config>

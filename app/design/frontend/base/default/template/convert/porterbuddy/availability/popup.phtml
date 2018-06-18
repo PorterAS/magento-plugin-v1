@@ -1,0 +1,25 @@
+<?php
+/** @var Convert_Porterbuddy_Block_Availability $this */
+?>
+<div id="porterbuddy-popup" class="porterbuddy-popup" style="display: none;">
+    <div class="porterbuddy-popup__header">
+        <div class="porterbuddy-widget-logo-wrapper">
+            <img src="<?php echo $this->getSkinUrl('images/logo_porterbuddy.svg') ?>" class="image image-logo" width="118" height="24" alt="Porterbuddy" />
+        </div>
+
+        <h2 class="porterbuddy-popup__header__title"><?php echo $this->getChoosePopupTitle() ?></h2>
+        <p class="porterbuddy-popup__header__description"><?php echo $this->getChoosePopupDescription() ?></p>
+        <div id="porterbuddy-message" class="porterbuddy-message alert" style="display: none;"></div>
+    </div>
+    <div class="porterbuddy-popup__content">
+        <div class="porterbuddy-popup__content__address">
+            <span><?php echo $this->__('Enter post code') ?>:</span>
+            <input type="text" id="porterbuddy-popup-postcode" class="porterbuddy-popup-postcode input-text validate-zip-international required-entry" value="" />
+        </div>
+    </div>
+    <div class="porterbuddy-popup__footer">
+        <button type="button" class="button porterbuddy-popup-save" id="porterbuddy-popup-save">
+            <?php echo $this->__('Save') ?>
+        </button>
+    </div>
+</div>

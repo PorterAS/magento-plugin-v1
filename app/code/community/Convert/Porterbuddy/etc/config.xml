@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+/**
+ * @author Convert Team
+ * @copyright Copyright (c) 2017 Convert (http://www.convert.no/)
+ */
+-->
+<config>
+    <modules>
+        <Convert_Porterbuddy>
+            <version>2.0.0</version>
+        </Convert_Porterbuddy>
+    </modules>
+    <global>
+        <models>
+            <convert_porterbuddy>
+                <class>Convert_Porterbuddy_Model</class>
+            </convert_porterbuddy>
+        </models>
+        <resources>
+            <convert_porterbuddy>
+                <setup>
+                    <module>Convert_Porterbuddy</module>
+                    <class>customer/entity_setup</class>
+                </setup>
+            </convert_porterbuddy>
+        </resources>
+        <helpers>
+            <convert_porterbuddy>
+                <class>Convert_Porterbuddy_Helper</class>
+            </convert_porterbuddy>
+        </helpers>
+        <blocks>
+            <convert_porterbuddy>
+                <class>Convert_Porterbuddy_Block</class>
+            </convert_porterbuddy>
+        </blocks>
+        <events>
+            <sales_convert_quote_address_to_order>
+                <observers>
+                    <convert_porterbuddy>
+                        <type>singleton</type>
+                        <class>convert_porterbuddy/observer</class>
+                        <method>orderCreateChangeShippingDescription</method>
+                    </convert_porterbuddy>
+                </observers>
+            </sales_convert_quote_address_to_order>
+            <sales_order_shipment_save_before>
+                <observers>
+                    <convert_porterbuddy>
+                        <type>singleton</type>
+                        <class>convert_porterbuddy/observer</class>
+                        <method>shipmentSaveBeforeSendShipment</method>
+                    </convert_porterbuddy>
+                </observers>
+            </sales_order_shipment_save_before>
+        </events>
+        <fieldsets>
+            <sales_convert_quote>
+                <pb_leave_doorstep>
+                    <to_order>*</to_order>
+                </pb_leave_doorstep>
+                <pb_comment>
+                    <to_order>*</to_order>
+                </pb_comment>
+                <pb_timeslot_selection>
+                    <to_order>*</to_order>
+                </pb_timeslot_selection>
+            </sales_convert_quote>
+        </fieldsets>
+        <template>
+            <email>
+                <carriers_cnvporterbuddy_error_email_template translate="label" module="convert_porterbuddy">
+                    <label>Porterbuddy API error notification</label>
+                    <file>porterbuddy_error.html</file>
+                    <type>html</type>
+                </carriers_cnvporterbuddy_error_email_template>
+            </email>
+        </template>
+        <convert_porterbuddy>
+            <packagers>
+                <per_item>
+                    <model>convert_porterbuddy/packager_peritem</model>
+                    <label>Send each product as individual parcel</label>
+                </per_item>
+            </packagers>
+            <error_notifiers>
+                <email>
+                    <model>convert_porterbuddy/error_emailnotifier</model>
+                    <label>Email error notifier</label>
+                </email>
+            </error_notifiers>
+        </convert_porterbuddy>
+    </global>
+    <frontend>
+        <routers>
+            <convert_porterbuddy>
+                <use>standard</use>
+                <args>
+                    <module>Convert_Porterbuddy</module>
+                    <frontName>porterbuddy</frontName>
+                </args>
+            </convert_porterbuddy>
+        </routers>
+        <layout>
+            <updates>
+                <convert_porterbuddy module="Convert_Porterbuddy">
+                    <file>convert/porterbuddy.xml</file>
+                </convert_porterbuddy>
+                <convert_porterbuddy_popup_assets module="Convert_Porterbuddy">
+                    <!-- for easier override of whole popup assets -->
+                    <file>convert/porterbuddy_popup_assets.xml</file>
+                </convert_porterbuddy_popup_assets>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Convert_Porterbuddy>
+                    <files>
+                        <default>Convert_Porterbuddy.csv</default>
+                    </files>
+                </Convert_Porterbuddy>
+            </modules>
+        </translate>
+        <events>
+            <core_block_abstract_to_html_after>
+                <observers>
+                    <convert_porterbuddy>
+                        <type>singleton</type>
+                        <class>convert_porterbuddy/observer</class>
+                        <method>shippingMethodsAvailableToHtmlAddWidget</method>
+                    </convert_porterbuddy>
+                </observers>
+            </core_block_abstract_to_html_after>
+            <sales_order_payment_place_end>
+                <observers>
+                    <convert_porterbuddy>
+                        <type>singleton</type>
+                        <class>convert_porterbuddy/observer</class>
+                        <method>paymentPlaceAfterCheckPaid</method>
+                    </convert_porterbuddy>
+                </observers>
+            </sales_order_payment_place_end>
+            <sales_order_save_before>
+                <observers>
+                    <convert_porterbuddy>
+                        <type>singleton</type>
+                        <class>convert_porterbuddy/observer</class>
+                        <method>orderSaveBeforeCheckPaid</method>
+                    </convert_porterbuddy>
+                </observers>
+            </sales_order_save_before>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <convert_porterbuddy>
+                        <type>singleton</type>
+                        <class>convert_porterbuddy/observer</class>
+                        <method>checkoutSuccessCreateShipment</method>
+                    </convert_porterbuddy>
+                </observers>
+            </checkout_onepage_controller_success_action>
+            <checkout_cart_save_before>
+                <observers>
+                    <convert_porterbuddy>
+                        <type>singleton</type>
+                        <class>convert_porterbuddy/observer</class>
+                        <method>addToCartSetPostcode</method>
+                    </convert_porterbuddy>
+                </observers>
+            </checkout_cart_save_before>
+        </events>
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Convert_Porterbuddy before="Mage_Adminhtml">Convert_Porterbuddy_Adminhtml</Convert_Porterbuddy>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Convert_Porterbuddy>
+                    <files>
+                        <default>Convert_Porterbuddy.csv</default>
+                    </files>
+                </Convert_Porterbuddy>
+            </modules>
+        </translate>
+        <events>
+            <core_block_abstract_to_html_after>
+                <observers>
+                    <convert_porterbuddy>
+                        <type>singleton</type>
+                        <class>convert_porterbuddy/observer</class>
+                        <method>adminOrderTabInfoToHtmlAddDetails</method>
+                    </convert_porterbuddy>
+                </observers>
+            </core_block_abstract_to_html_after>
+        </events>
+    </adminhtml>
+    <crontab>
+        <jobs>
+            <convert_porterbuddy_send_shipments>
+                <schedule>
+                    <cron_expr>* * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>convert_porterbuddy/cron::sendShipments</model>
+                </run>
+            </convert_porterbuddy_send_shipments>
+        </jobs>
+    </crontab>
+    <default>
+        <carriers>
+            <cnvporterbuddy>
+                <active>0</active>
+                <model>convert_porterbuddy/carrier</model>
+                <title>Express Shipping With Porterbuddy</title>
+                <description>Simple and flexible. You decide when and where delivery will take place, at home, at work or elsewhere.</description>
+                <asap_name>Express shipping</asap_name>
+                <choose_later_name>I will select specific time later</choose_later_name>
+                <show_availability>only_available</show_availability>
+                <location_discovery>browser,ip</location_discovery>
+                <availability_text_click_to_see><![CDATA[<a>Click here to see if you are eligible for same day delivery</a>]]></availability_text_click_to_see>
+                <location_link_template><![CDATA[Deliver to {{location}}. <a class="button">Change</a>]]></location_link_template>
+                <availability_text_fetching>Fetching delivery options...</availability_text_fetching>
+                <availability_template>Want it {{date}}? Order in the next {{countdown}}</availability_template>
+                <availability_text_postcode_error>Sorry, same day delivery is not currently available to {{postcode}}</availability_text_postcode_error>
+                <availability_text_delivery_out_of_stock>Sorry, product is out of stock</availability_text_delivery_out_of_stock>
+                <availability_text_delivery_no_date>Sorry, same day delivery is not currently available</availability_text_delivery_no_date>
+                <availability_choose_popup_title>Choose your delivery location</availability_choose_popup_title>
+                <availability_choose_popup_description>Delivery options and delivery speeds may vary for different locations</availability_choose_popup_description>
+                <availability_auto_update_composite>1</availability_auto_update_composite>
+                <days_ahead>1</days_ahead>
+                <timeslot_selection>checkout</timeslot_selection>
+                <pickup_windows_extra>3</pickup_windows_extra>
+                <timeslot_cutoff>1</timeslot_cutoff>
+                <timeslot_window>2</timeslot_window>
+                <asap_cutoff>1</asap_cutoff>
+                <porterbuddy_until>30</porterbuddy_until>
+                <hours_mon>00:00,24:00</hours_mon>
+                <hours_tue>00:00,24:00</hours_tue>
+                <hours_wed>00:00,24:00</hours_wed>
+                <hours_thu>00:00,24:00</hours_thu>
+                <hours_fri>00:00,24:00</hours_fri>
+                <hours_sat>00:00,24:00</hours_sat>
+                <hours_sun>00:00,24:00</hours_sun>
+                <require_signature_default>0</require_signature_default>
+                <id_check_default>0</id_check_default>
+                <only_to_recipient_default>0</only_to_recipient_default>
+                <return_enabled>1</return_enabled>
+                <return_text>I would like to return items that do not match me</return_text>
+                <return_short_text>+ included return</return_short_text>
+                <return_price>79</return_price>
+                <refresh_options_timeout>5</refresh_options_timeout>
+                <leave_doorstep_text>Allow the courier to leave the package outside the door</leave_doorstep_text>
+                <comment_text>Optional message to the courier</comment_text>
+                <discount_type>none</discount_type>
+                <auto_create_shipment>1</auto_create_shipment>
+                <api_mode>development</api_mode>
+                <development_api_key backend_model="adminhtml/system_config_backend_encrypted"/>
+                <testing_api_key backend_model="adminhtml/system_config_backend_encrypted"/>
+                <production_api_key backend_model="adminhtml/system_config_backend_encrypted"/>
+                <inbound_token backend_model="adminhtml/system_config_backend_encrypted"/>
+                <maps_api_key backend_model="adminhtml/system_config_backend_encrypted"/>
+                <default_phone_code>+47</default_phone_code>
+                <packager_mode>per_item</packager_mode>
+                <packing_time>15</packing_time>
+                <weight_unit>KILOGRAM</weight_unit>
+                <dimension_unit>CENTIMETER</dimension_unit>
+                <error_email_enabled>1</error_email_enabled>
+                <error_email_template>carriers_cnvporterbuddy_error_email_template</error_email_template>
+                <error_email_recipients backend_model="adminhtml/system_config_backend_serialized_array"/>
+                <error_email_recipients_porterbuddy backend_model="adminhtml/system_config_backend_serialized_array"/>
+                <!-- internal constants -->
+                <development_api_url>https://api.porterbuddy-staging.com</development_api_url>
+                <testing_api_url>https://api.porterbuddy-test.com</testing_api_url>
+                <production_api_url>https://api.porterbuddy.com</production_api_url>
+            </cnvporterbuddy>
+        </carriers>
+    </default>
+</config>

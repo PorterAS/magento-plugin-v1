@@ -1,0 +1,50 @@
+<!--@subject Porterbuddy shipment error for order #{{var order.increment_id}} @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"var logo_alt":"Email Logo Image Alt",
+"htmlescape var=$packages_json": "Packages",
+"var order.increment_id": "Order ID",
+"var message": "Error Message",
+"var apiUrl": "API URL",
+"var apiKey": "API Key",
+"htmlescape var=$parameters_json": "Request Parameters",
+"var status": "Response Status",
+"htmlescape var=$response": "Response"
+}
+@-->
+
+<!--@styles
+@-->
+
+{{template config_path="design/email/header"}}
+{{inlinecss file="email-inline.css"}}
+
+<table cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <td>
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td class="action-content">
+                        <h1>Something went wrong booking Porterbuddy delivery for order #{{var order.increment_id}}</h1>
+
+                        <h2>{{var message}}</h2>
+
+                        {{depend parameters}}
+                            <h2>Data sent in the request to the Porterbuddy:</h2>
+                            <pre><code>{{htmlescape var=$parameters_json}}</code></pre>
+                        {{/depend}}
+
+                        {{depend response}}
+                            <h2>Response received:</h2>
+                            <p>Status - <code>{{var status}}</code></p>
+                            <p><code>{{htmlescape var=$response}}</code></p>
+                        {{/depend}}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer"}}

@@ -1,0 +1,86 @@
+<?php
+/**
+ * @var Sandfox_GeoIP_Block_System_Config_Synchronize $this
+ */
+?>
+
+<?php echo $this->getButtonHtml() ?>
+<span class="sync-indicator no-display" id="sync_span">
+    <img alt="Synchronize" style="margin:0 5px" src="<?php echo $this->getSkinUrl('images/process_spinner.gif') ?>"/>
+    <span id="sync_message_span"></span>
+</span>
+<span class="no-display error" id="sync_span_error"></span>
+<script type="text/javascript">
+//<![CDATA[
+(function() {
+    var statusUpdater;
+
+    function enableSyncButton() {
+        Form.Element.enable('synchronize_button');
+        $('synchronize_button').removeClassName('disabled');
+    }
+
+    function disableSyncButton() {
+        Form.Element.disable('synchronize_button');
+        $('synchronize_button').addClassName('disabled');
+    }
+
+    function checkStatus() {
+        statusUpdater = new Ajax.PeriodicalUpdater('', '<?php echo $this->getAjaxStatusUpdateUrl() ?>', {
+            method:     'get',
+            frequency:  1,
+            loaderArea: false,
+
+            onSuccess: function(transport) {
+                try {
+                    var percent = parseInt(transport.responseText);
+                    if (percent == 100) {
+                        statusUpdater.stop();
+                        $('sync_span').addClassName('no-display');
+                        enableSyncButton();
+                    } else {
+                        $('sync_message_span').update(percent + '%');
+                    }
+                } catch (e) { }
+            }
+        });
+    }
+
+    function synchronize() {
+        disableSyncButton();
+        $('sync_span_error').addClassName('no-display');
+        $('sync_span').removeClassName('no-display');
+        $('sync_message_span').update('0%');
+        var finished = false;
+        new Ajax.Request('<?php echo $this->getAjaxSyncUrl() ?>', {
+            loaderArea:     false,
+            asynchronous:   true,
+
+            onSuccess: function(transport) {
+                var response = eval('(' + transport.responseText + ')');
+                if (response.status == 'success') {
+                    $('sync_update_date').update(response.date);
+                } else {
+                    $('sync_span').addClassName('no-display');
+                    $('sync_span_error').removeClassName('no-display').update(response.message);
+                }
+            },
+            onComplete: function() {
+                enableSyncButton();
+                finished = true;
+                if (statusUpdater) {
+                    statusUpdater.stop();
+                }
+            }
+        });
+        window.setTimeout(function() {
+            if (!finished) {
+                checkStatus();
+            }
+        }, 1000);
+    }
+
+    $('synchronize_button').observe('click', synchronize);
+})();
+//]]>
+</script>

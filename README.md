@@ -1,41 +1,75 @@
 Convert Porterbuddy
 ===================
+
 Porterbuddy is a delivery provider, and the module is a shipping method for the checkout process.
 
-## Detect receiving payment - set date in order.pb_paid_at
-- paymentPlaceAfterCheckPaid - for orders that authorize money immediately without redirects
-- orderSaveBeforeCheckPaid - detect status change for orders updating after returning from external systems
+## Location discovery
 
-## Order shipment via API
-- shipmentSaveBeforeSubmitShipment - detect only new shipments, create shipment order in Porterbuddy
+- browser-based geo location - works only when the site runs on HTTPS
+- location based on customer IP - requires Composer geoip2/geoip2 package
 
-## Delivery coordinates geocoding
-- required store coordinates in _Sales > Shipping Settings > Origin_
+## Install Geoip2 using Composer
 
-## Auto create shipment flows
-- best case - order is paid, user selects location.
-  shipment created in controller when saving location:
+In order to use IP-based location discovery, geoip2/geoip2 package must be installed via Composer.
+To include Composer autoloader, require package
+[Magento Composer Installer](https://github.com/Cotya/magento-composer-installer) that will automatically
+patch app/Mage.php for you.
 
-  ```paid_at=non-empty```
+Sample composer.json:
 
-- deferred payment - user comes to success page and selects location, payment comes later.
-  shipment created in cron immediately:
+```
+{
+    "require": {
+        "magento-hackathon/magento-composer-installer": "3.1.*",
+        "geoip2/geoip2": "~2.0"
+    },
+    "extra":{
+        "magento-root-dir": "./"
+    }
+}
+```
 
-  ```paid_at=non-empty, user_edited=1, location=filled```
+Remember to add vendor/ dir to .gitignore and close it from web server requests.
 
-- location timeout case - order is paid, non-standard checkout or user is slowpoke
-  shipment created in cron with for orders paid more than X minutes ago:
+## Install Porterbuddy using Composer
 
-  ```paid_at=(X minutes ago), user_edited=0, location=empty/filled from address book.```
+[Magento Composer Installer](https://github.com/Cotya/magento-composer-installer) can automatically
+install Porterbuddy module via symlinks or by copying files. It will also take care of future
+module updates.
 
+Sample composer.json:
 
-## Timeslot generation
-2-step process:
-- aligns to shop working hours, adds cutoff timeslot
-- generates timeslots every 2 hours (configurable)
-- if last timeslot if not full, overlaps its starting time with previous timeslot.
-  E.g. for closing time 18:00, last timeslots can looks like - 15:00-17:00, 16:00-18:00
+```
+{
+    "require": {
+        "magento-hackathon/magento-composer-installer": "3.1.*",
+        "convert/porterbuddy": "~2.0",
+        "geoip2/geoip2": "~2.0"
+    },
+    "repositories": {
+        "porterbuddy": {
+            "type": "vcs",
+            "url": "git@bitbucket.org:convertteam/convert-porterbuddy.git"
+        }
+    },
+    "extra":{
+        "magento-root-dir": "./"
+    }
+}
+```
+## Running unit tests
 
-## Package calculation
-- base units - kg and cm
-- store products can have other units, e.g. gram and/or millimeters, they are converted to base units 
+- install dev composer dependencies
+
+    Sample composer.json:
+    ```
+    {
+        "require": {
+            "phpunit/phpunit": "5.7.*",
+            "phpunit/php-invoker": "1.1.x-dev",
+            "phpunit/dbunit": "2.*"
+        }
+    }
+    ```
+
+- `vendor/bin/phpunit vendor/convert/porterbuddy/app/code/community/Convert/Porterbuddy/Test/Unit/`

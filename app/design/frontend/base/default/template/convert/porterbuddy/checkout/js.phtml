@@ -1,0 +1,18 @@
+<?php
+/**
+ * @author Convert Team
+ * @copyright Copyright (c) 2017 Convert (http://www.convert.no/)
+ */
+/** @var Convert_Porterbuddy_Block_Checkout $this */
+?>
+<script type="text/javascript">
+    window.porterbuddyWidget = new PorterbuddyWidget({
+        formKey: '<?php echo $this->getFormKey() ?>',
+        refreshUrl: '<?php echo $this->getUrl('convert_porterbuddy/delivery/refresh') ?>',
+        refreshOptionsTimeout: <?php echo json_encode($this->getRefreshOptionsTimeout()) ?>,
+        optionsSaveUrl: '<?php echo $this->getUrl('convert_porterbuddy/delivery/options') ?>',
+        showTimeslots: <?php echo json_encode($this->showTimeslots()) ?>,
+        dates: <?php echo json_encode($this->getDates()) ?>,
+        widgetHtml: <?php echo json_encode($this->getChildHtml()) ?>
+    });
+</script>
