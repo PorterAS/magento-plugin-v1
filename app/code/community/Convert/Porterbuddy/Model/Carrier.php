@@ -176,7 +176,8 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
 
         $timeslotSelection = $this->helper->getTimeslotSelection();
         /** @var Mage_Sales_Model_Quote_Item $item */
-        $item = reset($request->getallItems());
+        $getAllItemsResponse = $request->getallItems();
+        $item = reset($getAllItemsResponse);
         $quote = $item->getQuote();
         $quote->setPbTimeslotSelection($timeslotSelection);
 
