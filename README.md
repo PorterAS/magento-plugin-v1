@@ -49,7 +49,7 @@ Sample composer.json:
     "repositories": {
         "porterbuddy": {
             "type": "vcs",
-            "url": "git@bitbucket.org:convertteam/convert-porterbuddy.git"
+            "url": "git@github.com:PorterAS/magento-plugin-v1.git"
         }
     },
     "extra":{
