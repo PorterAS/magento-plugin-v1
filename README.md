@@ -53,7 +53,8 @@ Sample composer.json:
         }
     },
     "extra":{
-        "magento-root-dir": "./"
+        "magento-root-dir": "./",
+        "magento-deploystrategy":"copy"
     }
 }
 ```
