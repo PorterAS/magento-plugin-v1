@@ -83,24 +83,12 @@ class Convert_Porterbuddy_Model_Observer
         $timezone = new DateTimeZone($configTimezone);
         $start = new DateTime($methodInfo['start']);
         $start->setTimezone($timezone);
-        $end = new DateTime($methodInfo['end']);
-        $end->setTimezone($timezone);
 
         /** @var Mage_Core_Helper_DAta $coreHelper */
         $coreHelper = Mage::helper('core');
-        $start = $coreHelper->formatDate(
-            $start->format('r'),
-            Mage_Core_Model_Locale::FORMAT_TYPE_SHORT
-        ) . ' ' . $coreHelper->formatTime(
-            $start->format('r'),
-            Mage_Core_Model_Locale::FORMAT_TYPE_SHORT
-        );
-        $end = $coreHelper->formatTime(
-            $end->format('r'),
-            Mage_Core_Model_Locale::FORMAT_TYPE_SHORT
-        );
+        $date = $coreHelper->formatDate($start->format('r'), Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
 
-        $order->setShippingDescription($order->getShippingDescription() . " ($start - $end)");
+        $order->setShippingDescription($order->getShippingDescription() . " ($date)");
     }
 
     /**
@@ -428,28 +416,55 @@ class Convert_Porterbuddy_Model_Observer
     }
 
     /**
-     * Preselect shipping address postcode from Porterbuddy location
+     * Preselect shipping address city and postcode from Porterbuddy location
      *
      * @param Varien_Event_Observer $observer
      */
-    public function addToCartSetPostcode(Varien_Event_Observer $observer)
+    public function addToCartSetLocation(Varien_Event_Observer $observer)
     {
         /** @var Mage_Checkout_Model_Cart $cart */
         $cart = $observer->getCart();
         $shippingAddress = $cart->getQuote()->getShippingAddress();
 
-        if (strlen($shippingAddress->getPostcode())) {
+        $location = Mage::app()->getRequest()->getCookie(Convert_Porterbuddy_Model_Carrier::COOKIE);
+        if (!$location) {
             return;
         }
 
-        $porterbuddyPostcode = null;
-        $location = Mage::app()->getRequest()->getCookie(Convert_Porterbuddy_Model_Carrier::COOKIE);
-        if ($location) {
-            $location = json_decode($location, true);
-            if (isset($location['postcode'])) {
-                $porterbuddyPostcode = $location['postcode'];
-                $shippingAddress->setPostcode($porterbuddyPostcode);
-            }
+        $location = @json_decode($location, true);
+
+        if (!$location || !$this->shouldSetLocation($location)) {
+            return;
         }
+
+        if (!$shippingAddress->getCity() && !empty($location['city'])) {
+            $shippingAddress->setCity($location['city']);
+        }
+        if (!$shippingAddress->getPostcode() && !empty($location['postcode'])) {
+            $shippingAddress->setPostcode($location['postcode']);
+        }
+    }
+
+
+    /**
+     * @param mixed $location
+     * @return bool
+     */
+    protected function shouldSetLocation($location)
+    {
+        if (!empty($location['source'])) {
+            $result = Convert_Porterbuddy_Model_Carrier::SOURCE_IP !== $location['source'];
+        } else {
+            $result = true;
+        }
+
+        $transport = new Varien_Object(array('result' => $result));
+        Mage::dispatchEvent('convert_porterbuddy_should_set_shipping_location', array(
+            'location' => $location,
+            'transport' => $transport,
+        ));
+        $result = $transport->getData('result');
+
+        return $result;
     }
 }

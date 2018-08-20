@@ -97,16 +97,6 @@
                             <show_in_store>0</show_in_store>
                             <depends><api_mode>production</api_mode></depends>
                         </production_api_key>
-                        <inbound_token translate="label">
-                            <label>Access token for requests from Porterbuddy</label>
-                            <frontend_type>text</frontend_type>
-                            <frontend_model>convert_porterbuddy/adminhtml_frontend_token</frontend_model>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-                            <sort_order>100</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </inbound_token>
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
@@ -152,15 +142,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </location_discovery>
-                        <postcodes translate="label comment">
+                        <postcodes_update translate="label">
                             <label>Allowed Postcodes</label>
-                            <comment>Each on a separate line, leave empty to allow any</comment>
-                            <frontend_type>textarea</frontend_type>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>convert_porterbuddy/adminhtml_frontend_postcodes</frontend_model>
                             <sort_order>160</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </postcodes>
+                        </postcodes_update>
                         <availability_text_click_to_see translate="label tooltip">
                             <label>Click to see text</label>
                             <tooltip><![CDATA[Can use &lt;a&gt;link&lt;/a&gt;, &lt;a class="button"&gt;link&lt;/a&gt; for clickable link]]></tooltip>
@@ -426,15 +416,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </heading_hours>
-                        <porterbuddy_until translate="label">
-                            <label>Porterbuddy available until, minutes before closing time</label>
-                            <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
-                            <sort_order>610</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </porterbuddy_until>
                         <hours_mon translate="label">
                             <label>Monday</label>
                             <frontend_type>select</frontend_type>
@@ -506,10 +487,91 @@
                             <show_in_store>0</show_in_store>
                         </hours_sun>
 
+                        <heading_price_override translate="label">
+                            <label>Porterbuddy available until, minutes before closing time</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>700</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_price_override>
+                        <porterbuddy_until translate="label">
+                            <label>Default</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>required-entry validate-number validate-zero-or-greater</validate>
+                            <sort_order>710</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </porterbuddy_until>
+                        <porterbuddy_until_mon translate="label">
+                            <label>Monday</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>720</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </porterbuddy_until_mon>
+                        <porterbuddy_until_tue translate="label">
+                            <label>Tuesday</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>730</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </porterbuddy_until_tue>
+                        <porterbuddy_until_wed translate="label">
+                            <label>Wednesday</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>740</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </porterbuddy_until_wed>
+                        <porterbuddy_until_thu translate="label">
+                            <label>Thursday</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>750</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </porterbuddy_until_thu>
+                        <porterbuddy_until_fri translate="label">
+                            <label>Friday</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>760</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </porterbuddy_until_fri>
+                        <porterbuddy_until_sat translate="label">
+                            <label>Saturday</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>770</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </porterbuddy_until_sat>
+                        <porterbuddy_until_sun translate="label">
+                            <label>Sunday</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>780</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </porterbuddy_until_sun>
+
                         <heading_shipment translate="label">
                             <label>Creating Shipment</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
-                            <sort_order>700</sort_order>
+                            <sort_order>800</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -518,7 +580,7 @@
                             <label>Create shipment automatically</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>710</sort_order>
+                            <sort_order>810</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -527,7 +589,7 @@
                             <label>Default Phone Code</label>
                             <comment>Added for phone numbers without phone code, e.g. "12 34 56 78" instead of "+47 12 34 56 78"</comment>
                             <frontend_type>text</frontend_type>
-                            <sort_order>730</sort_order>
+                            <sort_order>830</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -536,7 +598,7 @@
                             <label>Packager mode</label>
                             <frontend_type>select</frontend_type>
                             <source_model>convert_porterbuddy/config_source_packagermode</source_model>
-                            <sort_order>740</sort_order>
+                            <sort_order>840</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -544,7 +606,7 @@
                         <packing_time translate="label">
                             <label>Packing time, minutes</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>750</sort_order>
+                            <sort_order>850</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -553,7 +615,7 @@
                         <heading_default_verifications translate="label">
                             <label>Verifications - default settings</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
-                            <sort_order>800</sort_order>
+                            <sort_order>900</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -562,7 +624,7 @@
                             <label>Require signature</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>810</sort_order>
+                            <sort_order>910</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -570,7 +632,7 @@
                         <min_age_check_default translate="label comment">
                             <label>Minimum age check</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>82</sort_order>
+                            <sort_order>920</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -581,7 +643,7 @@
                             <label>ID check</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>830</sort_order>
+                            <sort_order>930</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -590,7 +652,7 @@
                             <label>Only to recipient</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>840</sort_order>
+                            <sort_order>940</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -599,7 +661,7 @@
                         <heading_verifications_product translate="label">
                             <label>Verifications - per product</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
-                            <sort_order>900</sort_order>
+                            <sort_order>1000</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -608,7 +670,7 @@
                             <label>Require signature attribute</label>
                             <frontend_type>select</frontend_type>
                             <source_model>convert_porterbuddy/config_source_attribute</source_model>
-                            <sort_order>910</sort_order>
+                            <sort_order>1010</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -617,7 +679,7 @@
                             <label>Minimum age check attribute</label>
                             <frontend_type>select</frontend_type>
                             <source_model>convert_porterbuddy/config_source_attribute</source_model>
-                            <sort_order>920</sort_order>
+                            <sort_order>1020</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -627,7 +689,7 @@
                             <label>ID check attribute</label>
                             <frontend_type>select</frontend_type>
                             <source_model>convert_porterbuddy/config_source_attribute</source_model>
-                            <sort_order>930</sort_order>
+                            <sort_order>1030</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -636,7 +698,7 @@
                             <label>Only to recipient attribute</label>
                             <frontend_type>select</frontend_type>
                             <source_model>convert_porterbuddy/config_source_attribute</source_model>
-                            <sort_order>940</sort_order>
+                            <sort_order>1040</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -645,7 +707,7 @@
                         <heading_packages translate="label">
                             <label>Packages Settings</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
-                            <sort_order>1000</sort_order>
+                            <sort_order>1100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -655,7 +717,7 @@
                             <comment>Select Weight Unit for Products in Magento</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>convert_porterbuddy/config_source_weight</source_model>
-                            <sort_order>1010</sort_order>
+                            <sort_order>1110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -664,7 +726,7 @@
                             <label>Default Product Weight</label>
                             <comment>Will be used for Products with undefined Weight</comment>
                             <frontend_type>text</frontend_type>
-                            <sort_order>1020</sort_order>
+                            <sort_order>1120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -675,7 +737,7 @@
                             <comment>Select Dimension Unit for Products in Magento</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>convert_porterbuddy/config_source_dimension</source_model>
-                            <sort_order>1030</sort_order>
+                            <sort_order>1130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -684,7 +746,7 @@
                             <label>Height attribute</label>
                             <frontend_type>select</frontend_type>
                             <source_model>convert_porterbuddy/config_source_attribute</source_model>
-                            <sort_order>1040</sort_order>
+                            <sort_order>1140</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -693,7 +755,7 @@
                             <label>Width attribute</label>
                             <frontend_type>select</frontend_type>
                             <source_model>convert_porterbuddy/config_source_attribute</source_model>
-                            <sort_order>1050</sort_order>
+                            <sort_order>1150</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -702,7 +764,7 @@
                             <label>Length attribute</label>
                             <frontend_type>select</frontend_type>
                             <source_model>convert_porterbuddy/config_source_attribute</source_model>
-                            <sort_order>1060</sort_order>
+                            <sort_order>1160</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -711,7 +773,7 @@
                             <label>Default Product Height</label>
                             <comment>Will be used for Products with undefined Height</comment>
                             <frontend_type>text</frontend_type>
-                            <sort_order>1070</sort_order>
+                            <sort_order>1170</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -721,7 +783,7 @@
                             <label>Default Product Width</label>
                             <comment>Will be used for Products with undefined Width</comment>
                             <frontend_type>text</frontend_type>
-                            <sort_order>1080</sort_order>
+                            <sort_order>1180</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -731,7 +793,7 @@
                             <label>Default Product Length</label>
                             <comment>Will be used for Products with undefined Length</comment>
                             <frontend_type>text</frontend_type>
-                            <sort_order>1090</sort_order>
+                            <sort_order>1190</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -741,7 +803,7 @@
                         <heading_error_notification translate="label">
                             <label>API Error Notification</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
-                            <sort_order>1100</sort_order>
+                            <sort_order>1200</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -750,7 +812,7 @@
                             <label>Email Enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>1110</sort_order>
+                            <sort_order>1210</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -759,7 +821,7 @@
                             <label>Email Sender</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_email_identity</source_model>
-                            <sort_order>1120</sort_order>
+                            <sort_order>1220</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -768,7 +830,7 @@
                             <label>Email Template</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_email_template</source_model>
-                            <sort_order>1130</sort_order>
+                            <sort_order>1230</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -778,7 +840,7 @@
                             <comment>Both Magento errors - misconfiguration, bad products etc - and Porterbuddy API failures</comment>
                             <frontend_model>convert_porterbuddy/adminhtml_frontend_emailrecipients</frontend_model>
                             <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
-                            <sort_order>1140</sort_order>
+                            <sort_order>1240</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -788,7 +850,7 @@
                             <comment>Only errors on Porterbuddy API side</comment>
                             <frontend_model>convert_porterbuddy/adminhtml_frontend_emailrecipients</frontend_model>
                             <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
-                            <sort_order>1150</sort_order>
+                            <sort_order>1250</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>

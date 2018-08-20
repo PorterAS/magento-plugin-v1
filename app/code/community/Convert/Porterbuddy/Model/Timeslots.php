@@ -218,9 +218,14 @@ class Convert_Porterbuddy_Model_Timeslots
         // add packing time to first window
         $addTime = $this->helper->getPackingTime() + $this->helper->getRefreshOptionsTimeout();
         /** @var DateTime[] $window */
-        $window = reset($windows);
-        if ($window) {
+        foreach ($windows as $i => $window) {
+            // if window can't fit packing time (shop is about to close), remove it and find next
             $window['start']->modify("+$addTime minutes");
+            if ($window['start'] > $window['end']) {
+                unset($windows[$i]);
+                continue;
+            }
+            break;
         }
 
         // convert to API formst
@@ -231,7 +236,7 @@ class Convert_Porterbuddy_Model_Timeslots
             );
         }, $windows);
 
-        return $windows;
+        return array_values($windows);
     }
 
     /**
@@ -287,12 +292,17 @@ class Convert_Porterbuddy_Model_Timeslots
         // add packing time to first window
         $packingTime = $this->helper->getPackingTime();
         /** @var DateTime[] $window */
-        $window = reset($windows);
-        if ($window) {
+        foreach ($windows as $i => $window) {
+            // if window can't fit packing time (shop is about to close), remove it and find next
             $window['start']->modify("+$packingTime minutes");
+            if ($window['start'] > $window['end']) {
+                unset($windows[$i]);
+                continue;
+            }
+            break;
         }
 
-        // convert to API formst
+        // convert to API format
         $windows = array_map(function($window) {
             return array(
                 'start' => $this->helper->formatApiDateTime($window['start']),
@@ -300,42 +310,7 @@ class Convert_Porterbuddy_Model_Timeslots
             );
         }, $windows);
 
-        return $windows;
-    }
-
-    /**
-     * Returns date for formula "Want it {date}? Order in the next {N} hours"
-     *
-     * @return DateTime|false in *local* timezone for convenience
-     */
-    public function getAvailableUntil()
-    {
-        $date = $this->helper->getCurrentTime();
-
-        // protect against misconfiguration
-        for ($i = 0; $i < 10; $i++) {
-            $openHours = $this->getOpenHours($date);
-
-            if ($openHours) {
-                // Porterbuddy works until is set in local timezone
-                $porterbuddyWorksUntil = clone $openHours['close'];
-                $porterbuddyWorksUntil->modify('-' . $this->helper->getPorterbuddyUntil() . ' minutes');
-
-                if ($date < $porterbuddyWorksUntil) {
-                    /** @var DateTime $result */
-                    $result = $porterbuddyWorksUntil;
-                    $result->setTimezone($this->helper->getTimezone());
-                    return $result;
-                }
-            }
-
-            // for future days, we don't need specific opening hour, just make sure it's before closing hour
-            $date
-                ->modify('+1 day')
-                ->setTime(0, 0, 0);
-        }
-
-        return false;
+        return array_values($windows);
     }
 
     /**
@@ -343,14 +318,14 @@ class Convert_Porterbuddy_Model_Timeslots
      *
      * @param DateTime $startTime
      * @param DateTime $endTime
-     * @param bool $includeDay
+     * @param bool $moreInfo
      * @return string
      */
-    public function formatTimeslot(DateTime $startTime, DateTime $endTime, $includeDay = true)
+    public function formatTimeslot(DateTime $startTime, DateTime $endTime, $moreInfo = true)
     {
-        $result = '';
+        $parts = [];
 
-        if ($includeDay) {
+        if ($moreInfo) {
             $today = $this->helper->getCurrentTime();
             $tomorrow = clone $today;
             $tomorrow->modify('+1 day');
@@ -363,7 +338,7 @@ class Convert_Porterbuddy_Model_Timeslots
                 $dayOfWeek = $this->helper->__($startTime->format('l'));
             }
 
-            $result = $dayOfWeek . ' ';
+            $parts[] = $dayOfWeek;
         }
 
         // local time - shift timezone
@@ -373,8 +348,8 @@ class Convert_Porterbuddy_Model_Timeslots
         $endTime = clone $endTime;
         $endTime->setTimezone($timezone);
 
-        $result .= $startTime->format('H:i') . '&ndash;' . $endTime->format('H:i');
+        $parts[] = $startTime->format('H:i') . '–' . $endTime->format('H:i');
 
-        return $result;
+        return implode(' ', $parts);
     }
 }

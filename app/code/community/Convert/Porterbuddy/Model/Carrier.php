@@ -37,6 +37,10 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
 
     const COOKIE = 'porterbuddy_location';
 
+    const SOURCE_BROWSER = 'browser';
+    const SOURCE_IP = 'ip';
+    const SOURCE_USER = 'user';
+
     protected $_code = self::CODE;
 
     /**
@@ -489,7 +493,8 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
 
         try {
             $parameters = $this->prepareCreateOrderData($request);
-            $orderDetails = $this->api->createOrder($parameters);
+            $idempotencyKey = $this->getShipmentIdempotencyKey($request);
+            $orderDetails = $this->api->createOrder($parameters, $idempotencyKey);
         } catch (Convert_Porterbuddy_Exception $e) {
             $this->errorNotifier->notify($e, $shipment, $request);
             $shipment->setPorterbuddyErrorNotified(true);
@@ -547,6 +552,19 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         ), Zend_Log::NOTICE);
 
         return $result;
+    }
+
+    /**
+     * @param Mage_Shipping_Model_Shipment_Request $request
+     * @return string|null
+     */
+    public function getShipmentIdempotencyKey(Mage_Shipping_Model_Shipment_Request $request)
+    {
+        $shipment = $request->getOrderShipment();
+        $order = $shipment->getOrder();
+
+        // TODO: for part shipping, include items
+        return $order->getIncrementId();
     }
 
     /**
@@ -691,7 +709,8 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         $currentTime = $this->helper->getCurrentTime();
         if ($currentTime > $scheduledDate) {
             $this->helper->log("Delivery timeslot `{$methodInfo['start']}` expired.", $methodInfo, Zend_Log::ERR);
-            throw new Convert_Porterbuddy_Exception($this->helper->__('Delivery timeslot %s expired', $methodInfo['start']));
+            // FIXME
+            // throw new Convert_Porterbuddy_Exception($this->helper->__('Delivery timeslot %s expired', $methodInfo['start']));
         }
         return $methodInfo;
     }

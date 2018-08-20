@@ -159,6 +159,25 @@ class Convert_Porterbuddy_Test_Unit_Model_TimeslotsTest extends PHPUnit_Framewor
     {
         return array(
             array(
+                'About to close',
+                // now
+                '2018-08-15T17:53:00+02:00',
+                // method info
+                array(
+                    'type' => 'delivery',
+                    'start' => '2018-08-17T16:00:00+02:00',
+                    'end' => '2018-08-17T18:00:00+02:00',
+                    'return' => false,
+                ),
+                // expected
+                array(
+                    array ('start' => '2018-08-16T09:15:00+02:00', 'end' => '2018-08-16T18:00:00+02:00'),
+                    array ('start' => '2018-08-17T09:00:00+02:00', 'end' => '2018-08-17T18:00:00+02:00'),
+                    array ('start' => '2018-08-18T10:00:00+02:00', 'end' => '2018-08-18T16:00:00+02:00'),
+                    array ('start' => '2018-08-20T09:00:00+02:00', 'end' => '2018-08-20T18:00:00+02:00'),
+                ),
+            ),
+            array(
                 'Espresso in the morning',
                 // now Wed 10:22 CET - 2 minutes after availability request (before options refresh)
                 '2018-06-06T08:22:00+00:00',
@@ -309,75 +328,6 @@ class Convert_Porterbuddy_Test_Unit_Model_TimeslotsTest extends PHPUnit_Framewor
                     array('start' => '2018-05-10T09:00:00+02:00', 'end' => '2018-05-10T18:00:00+02:00'),
                     array('start' => '2018-05-11T09:00:00+02:00', 'end' => '2018-05-11T18:00:00+02:00'),
                 ),
-            ),
-        );
-    }
-
-    /**
-     * @dataProvider getAvailableUntilDataProvider
-     */
-    public function testGetAvailableUntil($message, $now, $openHours, $porterbudyUntil, $expected)
-    {
-        $this->helper
-            ->method('getCurrentTime')
-            ->willReturn(new DateTime($now));
-        $this->helper
-            ->method('getPorterbuddyUntil')
-            ->willReturn($porterbudyUntil);
-        $this->helper
-            ->method('getOpenHours')
-            ->willReturnCallback(function($dayOfWeek) use ($openHours) {
-                return $openHours[$dayOfWeek];
-            });
-        $expected = new DateTime($expected);
-
-
-        $result = $this->timeslots->getAvailableUntil();
-        $this->assertEquals($expected, $result, $message);
-    }
-
-    public function getAvailableUntilDataProvider()
-    {
-        return array(
-            array(
-                'Can be delivered today until 17:30',
-                // now Tuesday 5 am CET
-                '2018-05-24T03:00:00+00:00',
-                $this->openHours,
-                // porterbuddy until
-                30,
-                // expected
-                '2018-05-24T17:30:00+02:00'
-            ),
-            array(
-                'Can be delivered tomorrow until 17:30',
-                // now Tuesday 18:00 CET
-                '2018-05-24T16:00:00+00:00',
-                $this->openHours,
-                // porterbuddy until
-                30,
-                // expected
-                '2018-05-25T17:30:00+02:00'
-            ),
-            array(
-                'Can be delivered on Saturday until 15:30',
-                // now Friday 22:00 CET
-                '2018-05-25T20:00:00+00:00',
-                $this->openHours,
-                // porterbuddy until
-                30,
-                // expected
-                '2018-05-26T15:30:00+02:00'
-            ),
-            array(
-                'Non-working day is skipped, delivery on Monday until 17:30',
-                // now Saturday 17:00 CET
-                '2018-05-26T15:00:00+00:00',
-                $this->openHours,
-                // porterbuddy until
-                30,
-                // expected
-                '2018-05-28T17:30:00+02:00'
             ),
         );
     }

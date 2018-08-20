@@ -164,7 +164,7 @@
                     <convert_porterbuddy>
                         <type>singleton</type>
                         <class>convert_porterbuddy/observer</class>
-                        <method>addToCartSetPostcode</method>
+                        <method>addToCartSetLocation</method>
                     </convert_porterbuddy>
                 </observers>
             </checkout_cart_save_before>
@@ -213,6 +213,14 @@
                     <model>convert_porterbuddy/cron::sendShipments</model>
                 </run>
             </convert_porterbuddy_send_shipments>
+            <convert_porterbuddy_update_postcodes>
+                <schedule>
+                    <cron_expr>0 4 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>convert_porterbuddy/cron::updatePostcodes</model>
+                </run>
+            </convert_porterbuddy_update_postcodes>
         </jobs>
     </crontab>
     <default>
@@ -239,9 +247,6 @@
                 <days_ahead>1</days_ahead>
                 <timeslot_selection>checkout</timeslot_selection>
                 <pickup_windows_extra>3</pickup_windows_extra>
-                <timeslot_cutoff>1</timeslot_cutoff>
-                <timeslot_window>2</timeslot_window>
-                <asap_cutoff>1</asap_cutoff>
                 <porterbuddy_until>30</porterbuddy_until>
                 <hours_mon>00:00,24:00</hours_mon>
                 <hours_tue>00:00,24:00</hours_tue>
@@ -253,10 +258,9 @@
                 <require_signature_default>0</require_signature_default>
                 <id_check_default>0</id_check_default>
                 <only_to_recipient_default>0</only_to_recipient_default>
-                <return_enabled>1</return_enabled>
+                <return_enabled>0</return_enabled>
                 <return_text>I would like to return items that do not match me</return_text>
                 <return_short_text>+ included return</return_short_text>
-                <return_price>79</return_price>
                 <refresh_options_timeout>5</refresh_options_timeout>
                 <leave_doorstep_text>Allow the courier to leave the package outside the door</leave_doorstep_text>
                 <comment_text>Optional message to the courier</comment_text>
@@ -266,7 +270,6 @@
                 <development_api_key backend_model="adminhtml/system_config_backend_encrypted"/>
                 <testing_api_key backend_model="adminhtml/system_config_backend_encrypted"/>
                 <production_api_key backend_model="adminhtml/system_config_backend_encrypted"/>
-                <inbound_token backend_model="adminhtml/system_config_backend_encrypted"/>
                 <maps_api_key backend_model="adminhtml/system_config_backend_encrypted"/>
                 <default_phone_code>+47</default_phone_code>
                 <packager_mode>per_item</packager_mode>
@@ -278,6 +281,8 @@
                 <error_email_recipients backend_model="adminhtml/system_config_backend_serialized_array"/>
                 <error_email_recipients_porterbuddy backend_model="adminhtml/system_config_backend_serialized_array"/>
                 <!-- internal constants -->
+                <error_email_porterbuddy>dev@porterbuddy.com</error_email_porterbuddy>
+                <api_timeout>30</api_timeout>
                 <development_api_url>https://api.porterbuddy-staging.com</development_api_url>
                 <testing_api_url>https://api.porterbuddy-test.com</testing_api_url>
                 <production_api_url>https://api.porterbuddy.com</production_api_url>

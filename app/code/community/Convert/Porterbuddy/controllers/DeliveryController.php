@@ -6,6 +6,11 @@
 class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Action
 {
     /**
+     * @var Convert_Porterbuddy_Model_Availability
+     */
+    protected $availability;
+
+    /**
      * @var Mage_Checkout_Model_Session
      */
     protected $checkoutSession;
@@ -32,11 +37,13 @@ class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Ac
 
     protected function _construct(
         array $data = null,
+        Convert_Porterbuddy_Model_Availability $availability = null,
         Convert_Porterbuddy_Helper_Data $helper = null,
         Convert_Porterbuddy_Model_Geoip $geoip = null,
         Convert_Porterbuddy_Model_Shipment $shipment = null,
         Convert_Porterbuddy_Model_Timeslots $timeslots = null
     ) {
+        $this->availability = $availability ?: Mage::getSingleton('convert_porterbuddy/availability');
         $this->helper = $helper ?: Mage::helper('convert_porterbuddy');
         $this->geoip = $geoip ?: Mage::getSingleton('convert_porterbuddy/geoip');
         $this->shipment = $shipment ?: Mage::getSingleton('convert_porterbuddy/shipment');
@@ -185,7 +192,7 @@ class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Ac
             return $this->jsonError($this->helper->__('Product ID is required'));
         }
 
-        if (!$this->helper->isPostcodeSupported($postcode)) {
+        if (!$this->availability->isPostcodeSupported($postcode)) {
             return $this->jsonError(
                 $this->helper->processPlaceholders(
                     $this->helper->getAvailabilityTextPostcodeError()
@@ -213,7 +220,7 @@ class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Ac
         }
 
         // check store working hours + Porterbuddy hours
-        $date = $this->timeslots->getAvailableUntil();
+        $date = $this->availability->getAvailableUntil();
         if (!$date) {
             return $this->jsonError(
                 $this->helper->processPlaceholders(

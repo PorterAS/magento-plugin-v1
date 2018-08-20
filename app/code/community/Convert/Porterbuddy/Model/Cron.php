@@ -6,6 +6,11 @@
 class Convert_Porterbuddy_Model_Cron
 {
     /**
+     * @var Convert_Porterbuddy_Model_Availability
+     */
+    protected $availability;
+
+    /**
      * @var Convert_Porterbuddy_Helper_Data
      */
     protected $helper;
@@ -17,9 +22,11 @@ class Convert_Porterbuddy_Model_Cron
 
     public function __construct(
         array $data = null, // for getModel to work
+        Convert_Porterbuddy_Model_Availability $availability = null,
         Convert_Porterbuddy_Helper_Data $helper = null,
         Convert_Porterbuddy_Model_Shipment $shipment = null
     ) {
+        $this->availability = $availability?: Mage::getSingleton('convert_porterbuddy/availability');
         $this->helper = $helper ?: Mage::helper('convert_porterbuddy');
         $this->shipment = $shipment ?: Mage::getSingleton('convert_porterbuddy/shipment');
     }
@@ -88,5 +95,40 @@ class Convert_Porterbuddy_Model_Cron
         $collection->load();
 
         return $collection->getFirstItem();
+    }
+
+    /**
+     * Pulls in postcodes from API
+     */
+    public function updatePostcodes()
+    {
+        if (!$this->isActiveInAnyWebsite()) {
+            return;
+        }
+
+        $this->helper->log('Start updating postcodes by cron', null, Zend_Log::INFO);
+
+        try {
+            $this->availability->updatePostcodes();
+            $this->helper->log('Postcodes have been successfully updated by cron', null, Zend_Log::INFO);
+        } catch (\Exception $e) {
+            $this->helper->log('Postcodes update by cron failed - ' . $e->getMessage(), null, Zend_Log::INFO);
+            // stack trace logged
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isActiveInAnyWebsite()
+    {
+        /** @var Mage_Core_Model_Website $website */
+        foreach (Mage::app()->getWebsites() as $website) {
+            if ($this->helper->getActive($website->getDefaultStore())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

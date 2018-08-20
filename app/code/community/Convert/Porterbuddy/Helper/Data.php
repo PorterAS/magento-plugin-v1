@@ -14,13 +14,13 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_CHOOSE_LATER_NAME = 'carriers/cnvporterbuddy/choose_later_name';
     const XML_PATH_AUTO_CREATE_SHIPMENT = 'carriers/cnvporterbuddy/auto_create_shipment';
     const XML_PATH_API_MODE = 'carriers/cnvporterbuddy/api_mode';
+    const XML_PATH_API_TIMEOUT = 'carriers/cnvporterbuddy/api_timeout';
     const XML_PATH_DEVELOPMENT_API_URL = 'carriers/cnvporterbuddy/development_api_url';
     const XML_PATH_DEVELOPMENT_API_KEY = 'carriers/cnvporterbuddy/development_api_key';
     const XML_PATH_TESTING_API_URL = 'carriers/cnvporterbuddy/testing_api_url';
     const XML_PATH_TESTING_API_KEY = 'carriers/cnvporterbuddy/testing_api_key';
     const XML_PATH_PRODUCTION_API_URL = 'carriers/cnvporterbuddy/production_api_url';
     const XML_PATH_PRODUCTION_API_KEY = 'carriers/cnvporterbuddy/production_api_key';
-    const XML_PATH_INBOUND_TOKEN = 'carriers/cnvporterbuddy/inbound_token';
 
     const XML_PATH_POSTCODES = 'carriers/cnvporterbuddy/postcodes';
     const XML_PATH_SHOW_AVAILABILITY = 'carriers/cnvporterbuddy/show_availability';
@@ -53,7 +53,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_DISCOUNT_AMOUNT = 'carriers/cnvporterbuddy/discount_amount';
     const XML_PATH_DISCOUNT_PERCENT = 'carriers/cnvporterbuddy/discount_percent';
 
-    const XML_PATH_PORTERBUDDY_UNTIL = 'carriers/cnvporterbuddy/porterbuddy_until';
     const XML_PATH_HOURS_MON = 'carriers/cnvporterbuddy/hours_mon';
     const XML_PATH_HOURS_TUE = 'carriers/cnvporterbuddy/hours_tue';
     const XML_PATH_HOURS_WED = 'carriers/cnvporterbuddy/hours_wed';
@@ -61,6 +60,15 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_HOURS_FRI = 'carriers/cnvporterbuddy/hours_fri';
     const XML_PATH_HOURS_SAT = 'carriers/cnvporterbuddy/hours_sat';
     const XML_PATH_HOURS_SUN = 'carriers/cnvporterbuddy/hours_sun';
+
+    const XML_PATH_PORTERBUDDY_UNTIL = 'carriers/cnvporterbuddy/porterbuddy_until';
+    const XML_PATH_PORTERBUDDY_UNTIL_MON = 'carriers/cnvporterbuddy/porterbuddy_until_mon';
+    const XML_PATH_PORTERBUDDY_UNTIL_TUE = 'carriers/cnvporterbuddy/porterbuddy_until_tue';
+    const XML_PATH_PORTERBUDDY_UNTIL_WED = 'carriers/cnvporterbuddy/porterbuddy_until_wed';
+    const XML_PATH_PORTERBUDDY_UNTIL_THU = 'carriers/cnvporterbuddy/porterbuddy_until_thu';
+    const XML_PATH_PORTERBUDDY_UNTIL_FRI = 'carriers/cnvporterbuddy/porterbuddy_until_fri';
+    const XML_PATH_PORTERBUDDY_UNTIL_SAT = 'carriers/cnvporterbuddy/porterbuddy_until_sat';
+    const XML_PATH_PORTERBUDDY_UNTIL_SUN = 'carriers/cnvporterbuddy/porterbuddy_until_sun';
 
     const XML_PATH_REQUIRE_SIGNATURE_DEFAULT = 'carriers/cnvporterbuddy/require_signature_default';
     const XML_PATH_MIN_AGE_CHECK_DEFAULT = 'carriers/cnvporterbuddy/min_age_check_default';
@@ -93,6 +101,7 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_ERROR_EMAIL_TEMPLATE = 'carriers/cnvporterbuddy/error_email_template';
     const XML_PATH_ERROR_EMAIL_RECIPIENTS = 'carriers/cnvporterbuddy/error_email_recipients';
     const XML_PATH_ERROR_EMAIL_RECIPIENTS_PORTERBUDDY = 'carriers/cnvporterbuddy/error_email_recipients_porterbuddy';
+    const XML_PATH_ERROR_EMAIL_PORTERBUDDY = 'carriers/cnvporterbuddy/error_email_porterbuddy';
 
     const XML_PATH_MAPS_API_KEY = 'carriers/cnvporterbuddy/maps_api_key';
     const XML_PATH_DEBUG = 'carriers/cnvporterbuddy/debug';
@@ -111,11 +120,12 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * @param mixed $store
      * @return bool
      */
-    public function getActive()
+    public function getActive($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ACTIVE);
+        return Mage::getStoreConfigFlag(self::XML_PATH_ACTIVE, $store);
     }
 
     /**
@@ -164,6 +174,14 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     public function getApiMode()
     {
         return Mage::getStoreConfig(self::XML_PATH_API_MODE);
+    }
+
+    /**
+     * @return int
+     */
+    public function getApiTimeout()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_API_TIMEOUT);
     }
 
     /**
@@ -231,16 +249,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Inbound access token for requests from Porterbuddy
-     *
-     * @return string
-     */
-    public function getInboundToken()
-    {
-        return Mage::getStoreConfig(self::XML_PATH_INBOUND_TOKEN);
-    }
-
-    /**
      * @return string
      */
     public function showAvailability()
@@ -266,43 +274,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     public function ipDiscoveryEnabled()
     {
         return in_array('ip', $this->getLocationDiscovery());
-    }
-
-    /**
-     * @return array
-     */
-    public function getPostcodes()
-    {
-        $postcodes = Mage::getStoreConfig(self::XML_PATH_POSTCODES);
-        $postcodes = preg_split('/(\r\n|\n)/', $postcodes);
-        $postcodes = array_map(function($row) {
-            // normalize format, remove leading 0, e.g. 0563 = 563
-            $row = trim($row);
-            $row = ltrim($row, '0');
-            return strlen($row) ? $row : false;
-        }, $postcodes);
-        $postcodes = array_filter($postcodes);
-
-        return $postcodes;
-    }
-
-    /**
-     * @param string $postcode
-     * @return bool
-     */
-    public function isPostcodeSupported($postcode)
-    {
-        $postcodes = $this->getPostcodes();
-        if (!$postcodes) {
-            // no restrictions
-            return true;
-        }
-
-        // normalize format, remove leading 0, e.g. 0563 = 563
-        $postcode = trim($postcode);
-        $postcode = ltrim($postcode, '0');
-
-        return in_array($postcode, $postcodes);
     }
 
     /**
@@ -429,11 +400,36 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * @param string $dayOfWeek optional
      * @return int
+     * @throws Convert_Porterbuddy_Exception
      */
-    public function getPorterbuddyUntil()
+    public function getPorterbuddyUntil($dayOfWeek = null)
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_PORTERBUDDY_UNTIL);
+        $default = Mage::getStoreConfig(self::XML_PATH_PORTERBUDDY_UNTIL);
+        if (!$dayOfWeek) {
+            return (int)$default;
+        }
+
+        $map = array(
+            'mon' => self::XML_PATH_PORTERBUDDY_UNTIL_MON,
+            'tue' => self::XML_PATH_PORTERBUDDY_UNTIL_TUE,
+            'wed' => self::XML_PATH_PORTERBUDDY_UNTIL_WED,
+            'thu' => self::XML_PATH_PORTERBUDDY_UNTIL_THU,
+            'fri' => self::XML_PATH_PORTERBUDDY_UNTIL_FRI,
+            'sat' => self::XML_PATH_PORTERBUDDY_UNTIL_SAT,
+            'sun' => self::XML_PATH_PORTERBUDDY_UNTIL_SUN,
+        );
+        if (!isset($map[$dayOfWeek])) {
+            throw new Convert_Porterbuddy_Exception($this->__('Incorrect day of week `%s`.', $dayOfWeek));
+        }
+
+        $value = Mage::getStoreConfig($map[$dayOfWeek]);
+        if (strlen($value)) {
+            return (int)$value;
+        }
+
+        return (int)$default;
     }
 
     /**
@@ -842,6 +838,16 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Porterbuddy email that is always in the email list
+     *
+     * @return string
+     */
+    public function getErrorEmailPorterbuddy()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_ERROR_EMAIL_PORTERBUDDY);
+    }
+
+    /**
      * Maps API Key
      *
      * @return string
@@ -932,26 +938,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Formats human label from path like field_one.field_two -> Field One - Field Two, translates each part
-     *
-     * @param $path
-     * @return string
-     */
-    public function formatLabel($path)
-    {
-        // make label, translate each part
-        $parts = explode('.', $path);
-        $label = implode(' - ', array_map(function($label) {
-            $label = str_replace('_', ' ', $label);
-            $label = str_replace('.', ' - ', $label);
-            $label = ucfirst($label);
-            return $this->__($label);
-        }, $parts));
-
-        return $label;
-    }
-
-    /**
      * Separates out phone code from number
      *
      * @param string $phone
@@ -983,6 +969,8 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function parseMethod($methodCode)
     {
+        // TODO: methodInfo object
+
         $result = array(
             'type' => null,
             'start' => null,

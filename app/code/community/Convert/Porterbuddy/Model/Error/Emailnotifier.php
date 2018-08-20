@@ -33,8 +33,12 @@ class Convert_Porterbuddy_Model_Error_Emailnotifier implements Convert_Porterbud
         $emails = $this->helper->getErrorEmailRecipients();
 
         if ($exception instanceof Convert_Porterbuddy_ApiException) {
+            // fixed email that is always on the email list
+            $emails[] = $this->helper->getErrorEmailPorterbuddy();
             $emails = array_merge($emails, $this->helper->getErrorEmailRecipientsPorterbuddy());
         }
+
+        $emails = array_unique($emails);
 
         $storeId = $shipment->getStoreId();
         $sender = $this->helper->getErrorEmailIdentify($storeId);

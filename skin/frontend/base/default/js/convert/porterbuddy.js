@@ -8,6 +8,9 @@ Porterbuddy.CARRIER_CODE = 'cnvporterbuddy';
 Porterbuddy.METHOD_EXPRESS = 'express';
 Porterbuddy.METHOD_DELIVERY = 'delivery';
 Porterbuddy.COOKIE = 'porterbuddy_location';
+Porterbuddy.SOURCE_BROWSER = 'browser';
+Porterbuddy.SOURCE_IP = 'ip';
+Porterbuddy.SOURCE_USER = 'user';
 
 Porterbuddy.utilities = {
     debounce: function (callback, timeout) {
@@ -41,7 +44,7 @@ Porterbuddy.utilities = {
         var d = new Date();
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
         var expires = "expires="+d.toUTCString();
-        document.cookie = cname + "=" + cvalue + "; " + expires;
+        document.cookie = cname + "=" + cvalue + "; " + expires + ";path=/";
     }
 };
 
@@ -97,10 +100,17 @@ window.PorterbudyAvailability = Class.create({
         this.$form = jQuery('#product_addtocart_form');
         this.$qty = this.$form.find('#qty');
 
+        var productId = this.options.productId;
+        if (!productId && this.$form.attr('action')) {
+            var match = this.$form.attr('action').match(/product\/(\d+)/);
+            if (match) {
+                productId = match[1];
+            }
+        }
+
         // productId, qty, anything else
-        var match = this.$form.attr('action').match(/product\/(\d+)/);
         this.params = {
-            productId: options.productId || (match && match[1]),
+            productId: productId,
             qty: this.$qty.val()
         };
 
@@ -414,6 +424,9 @@ window.PorterbudyAvailability = Class.create({
             .done(function (result) {
                 if (result.postcode) {
                     // postcode, city, country
+                    delete result.error;
+                    delete result.message;
+                    result.source = Porterbuddy.SOURCE_IP;
                     dfd.resolve(result);
                 } else {
                     dfd.reject(result.message);
@@ -436,6 +449,7 @@ window.PorterbudyAvailability = Class.create({
             .done(function (latlng) {
                 this.geocodeLocation({'location': latlng})
                     .done(function (location) {
+                        location.source = Porterbuddy.SOURCE_BROWSER;
                         dfd.resolve(location);
                     })
                     .fail(function (reason) {
@@ -461,6 +475,7 @@ window.PorterbudyAvailability = Class.create({
             delete this.geocodeDfd[key];
         }.bind(this));
 
+        // TODO: move this check to loadMaps to run only once
         // detect maps auth failure (bad API key) and reject
         var origAuthFailure = window.gm_authFailure;
         window.gm_authFailure = function () {
@@ -583,7 +598,8 @@ window.PorterbudyAvailability = Class.create({
                 var location = {
                     postcode: postcode,
                     city: '',
-                    country: this.defaultCountry
+                    country: this.defaultCountry,
+                    source: Porterbuddy.SOURCE_USER
                 };
                 this.rememberLocation(location);
                 this.setCurrentLocation(location);
