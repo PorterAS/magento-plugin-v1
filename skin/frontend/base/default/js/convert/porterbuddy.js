@@ -703,7 +703,8 @@ window.PorterbudyAvailability = Class.create({
  */
 window.PorterbuddyWidget = Class.create({
     initialize: function (data) {
-        this.$element = jQuery('input[name=shipping_method]').closest('form');
+        this.$element = jQuery('input[name=shipping_method]').closest('form')[0] ||
+            jQuery('input[name=shipping_method]').closest('div')[0];
 
         this.initOptions(data);
         this.initRates();
