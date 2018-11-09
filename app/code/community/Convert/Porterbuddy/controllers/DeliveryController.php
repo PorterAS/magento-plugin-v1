@@ -240,7 +240,7 @@ class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Ac
         } elseif ($now->modify('+1 day')->format('Y-m-d') == $date->format('Y-m-d')) {
             $humanDate = mb_convert_case($this->helper->__('Tomorrow'), MB_CASE_LOWER);
         } else {
-            $humanDate = $this->helper->__($date->format('D'));
+            $humanDate = $this->helper->__($date->format('l'));
         }
 
         $result = new Varien_Object(array(
