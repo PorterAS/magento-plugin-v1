@@ -136,6 +136,8 @@ window.PorterbudyAvailability = Class.create({
         this.listenQtyChange();
         if (typeof window.spConfig !== 'undefined') {
             this.listenConfigurableChange(window.spConfig);
+        }else{
+            this.update();
         }
     },
 
