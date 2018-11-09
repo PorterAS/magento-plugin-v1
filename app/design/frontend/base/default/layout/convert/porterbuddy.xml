@@ -7,6 +7,10 @@
 -->
 <layout>
     <!-- timeslots widget -->
+    <trollweb_kco_index_postal>
+        <update handle="convert_porterbuddy_checkout_methods" />
+    </trollweb_kco_index_postal>
+
     <checkout_onepage_index>
         <update handle="convert_porterbuddy_checkout_methods" />
     </checkout_onepage_index>
@@ -18,9 +22,11 @@
     <convert_porterbuddy_checkout_methods>
         <update handle="convert_porterbuddy_assets" />
         <!-- rendered in observer for onepage -->
-        <block type="convert_porterbuddy/checkout" name="porterbuddy_widget" template="convert/porterbuddy/checkout/js.phtml">
-            <block type="convert_porterbuddy/checkout" name="porterbuddy_widget_content" as="content" template="convert/porterbuddy/checkout/widget.phtml" />
-        </block>
+        <reference name="kco.available">
+          <block type="convert_porterbuddy/checkout" name="porterbuddy_widget" template="convert/porterbuddy/checkout/js.phtml">
+              <block type="convert_porterbuddy/checkout" name="porterbuddy_widget_content" as="content" template="convert/porterbuddy/checkout/widget.phtml" />
+          </block>
+        </reference
     </convert_porterbuddy_checkout_methods>
 
     <checkout_onepage_success>
