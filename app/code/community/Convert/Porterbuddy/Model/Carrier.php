@@ -384,7 +384,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
 
             $returnMethod = clone $method;
 
-            $returnMethod->setMethod($method->getMethod() . '_return');
+            $returnMethod->setMethod($method->getMethod() . '-with-return');
             $returnMethod->setMethodTitle($method->getMethodTitle() . ' ' . $this->helper->getReturnShortText());
 
             $price = $method->getPrice() + $returnPrice;
