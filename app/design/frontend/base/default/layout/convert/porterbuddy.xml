@@ -14,6 +14,10 @@
     <checkout_onepage_shippingmethod>
         <update handle="convert_porterbuddy_checkout_methods" />
     </checkout_onepage_shippingmethod>
+    
+     <trollweb_kco_index_postal>
+        <update handle="convert_porterbuddy_kco_checkout_methods" />
+    </trollweb_kco_index_postal>
 
     <convert_porterbuddy_checkout_methods>
         <update handle="convert_porterbuddy_assets" />
@@ -22,6 +26,16 @@
             <block type="convert_porterbuddy/checkout" name="porterbuddy_widget_content" as="content" template="convert/porterbuddy/checkout/widget.phtml" />
         </block>
     </convert_porterbuddy_checkout_methods>
+    
+    <convert_porterbuddy_kco_checkout_methods>
+        <update handle="convert_porterbuddy_assets" />
+        <!-- rendered in observer for onepage -->
+        <reference name="kco.available">
+          <block type="convert_porterbuddy/checkout" name="porterbuddy_widget" template="convert/porterbuddy/checkout/js.phtml">
+              <block type="convert_porterbuddy/checkout" name="porterbuddy_widget_content" as="content" template="convert/porterbuddy/checkout/widget.phtml" />
+          </block>
+        </reference>
+    </convert_porterbuddy_kco_checkout_methods>
 
     <checkout_onepage_success>
         <!--<update handle="convert_porterbuddy_location_popup" />-->
