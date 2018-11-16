@@ -322,11 +322,11 @@ class Convert_Porterbuddy_Model_Observer
             return;
         }
 
-        $timeslotSelection = $order->getPbTimeslotSelection();
-        if (Convert_Porterbuddy_Model_Carrier::TIMESLOT_CONFIRMATION != $timeslotSelection) {
-            $this->helper->log("Checkout confirmation - not creating shipment for order `$orderId` with timeslot selection `$timeslotSelection`");
-            return;
-        }
+        //$timeslotSelection = $order->getPbTimeslotSelection();
+        //if (Convert_Porterbuddy_Model_Carrier::TIMESLOT_CONFIRMATION != $timeslotSelection) {
+        //    $this->helper->log("Checkout confirmation - not creating shipment for order `$orderId` with timeslot selection `$timeslotSelection`");
+        //    return;
+        //}
 
         try {
             $this->helper->lockShipmentCreation(
