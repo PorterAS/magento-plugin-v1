@@ -332,7 +332,7 @@ class Convert_Porterbuddy_Model_Observer
             $this->helper->lockShipmentCreation(
                 $order,
                 Convert_Porterbuddy_Helper_Data::SHIPMENT_CREATOR_CONFIRMATION,
-                function($order) {
+                function ($order) {
                     $this->helper->log(
                         'Creating shipment on checkout confirmation',
                         array('order_id' => $order->getId()),

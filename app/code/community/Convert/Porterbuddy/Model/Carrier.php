@@ -384,7 +384,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
 
             $returnMethod = clone $method;
 
-            $returnMethod->setMethod($method->getMethod() . '-with-return');
+            $returnMethod->setMethod($method->getMethod() . '_return');
             $returnMethod->setMethodTitle($method->getMethodTitle() . ' ' . $this->helper->getReturnShortText());
 
             $price = $method->getPrice() + $returnPrice;
@@ -681,7 +681,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
                 'verifications' => $this->getVerifications($shipment),
             ],
             'parcels' => $parcels,
-            'product' => $methodInfo['type'],
+            'product' => $methodInfo['type'] . ($methodInfo['return'] ? '-with-return' : ''),
             'orderReference' => $order->getIncrementId(),
             'courierInstructions' => $order->getPbComment() ?: '',
         );
