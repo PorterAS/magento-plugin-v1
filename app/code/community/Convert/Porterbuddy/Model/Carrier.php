@@ -178,13 +178,6 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
             return $result;
         }
 
-        $timeslotSelection = $this->helper->getTimeslotSelection();
-        /** @var Mage_Sales_Model_Quote_Item $item */
-        $getAllItemsResponse = $request->getallItems();
-        $item = reset($getAllItemsResponse);
-        $quote = $item->getQuote();
-        $quote->setPbTimeslotSelection($timeslotSelection);
-
         try {
             $parameters = $this->prepareAvailabilityData($request);
             $options = $this->api->getAvailability($parameters);
@@ -212,17 +205,10 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
             $result = $this->addRateResult($request, $expressOption, $result);
         }
 
-        if (Convert_Porterbuddy_Model_Carrier::TIMESLOT_CHECKOUT == $timeslotSelection) {
-            foreach ($scheduledOptions as $option) {
-                $result = $this->addRateResult($request, $option, $result);
-            }
-        } else {
-            // first scheduled option to get price
-            $option = reset($scheduledOptions);
-            if ($option) {
-                $result = $this->addDeliveryOnConfirmationResult($request, $option, $result);
-            }
+        foreach ($scheduledOptions as $option) {
+            $result = $this->addRateResult($request, $option, $result);
         }
+
 
         $result = $this->addReturnMethods($request, $result);
         $result = $this->applyDiscounts($request, $result);
