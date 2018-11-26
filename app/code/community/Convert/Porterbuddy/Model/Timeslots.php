@@ -53,7 +53,6 @@ class Convert_Porterbuddy_Model_Timeslots
         $quote = $address->getQuote();
         $rates = $this->getShippingRates($address);
 
-        $showTimeslots = Convert_Porterbuddy_Model_Carrier::TIMESLOT_CHECKOUT == $this->helper->getTimeslotSelection();
 
         if (isset($rates[Convert_Porterbuddy_Model_Carrier::CODE])) {
             $timezone = $this->helper->getTimezone();
@@ -67,25 +66,17 @@ class Convert_Porterbuddy_Model_Timeslots
                 $endTime = new DateTime($methodInfo['end']);
                 $endTime->setTimezone($timezone); // shift to local time
 
-                $dateKey = $showTimeslots ? $startTime->format('Y-m-d') : 'delivery-type';
+                $dateKey = $startTime->format('Y-m-d');
 
                 if (!isset($result[$dateKey])) {
-                    if ($showTimeslots) {
-                        $dateLabel = $this->coreHelper->formatDate($startTime->format('r'), Mage_Core_Model_Locale::FORMAT_TYPE_FULL);
-                        $dateLabel = preg_replace('/\s+\d+$/', '', $dateLabel); // remove year
-                        $dateLabel = rtrim($dateLabel, ', ');
-                        $result[$dateKey] = array(
-                            'label' => $dateLabel,
-                            'datetime' => $startTime->format(DateTime::ATOM), // allow client-side formatting
-                            'timeslots' => array(),
-                        );
-                    } else {
-                        $result[$dateKey] = array(
-                            'label' => $this->helper->__('Select later'),
-                            'datetime' => null,
-                            'timeslots' => array(),
-                        );
-                    }
+                    $dateLabel = $this->coreHelper->formatDate($startTime->format('r'), Mage_Core_Model_Locale::FORMAT_TYPE_FULL);
+                    $dateLabel = preg_replace('/\s+\d+$/', '', $dateLabel); // remove year
+                    $dateLabel = rtrim($dateLabel, ', ');
+                    $result[$dateKey] = array(
+                      'label' => $dateLabel,
+                      'datetime' => $startTime->format(DateTime::ATOM), // allow client-side formatting
+                      'timeslots' => array(),
+                  );
                 }
 
                 if (Convert_Porterbuddy_Model_Carrier::METHOD_EXPRESS == $methodInfo['type']) {
@@ -99,29 +90,17 @@ class Convert_Porterbuddy_Model_Timeslots
                         'class' => 'porterbuddy-timeslot-asap' . ($methodInfo['return'] ? ' porterbuddy-timeslot-return' : ''),
                     );
                 } elseif (Convert_Porterbuddy_Model_Carrier::METHOD_DELIVERY == $methodInfo['type']) {
-                    if ($showTimeslots) {
-                        // specific time slot
-                        $result[$dateKey]['timeslots'][$rate->getCode()] = array(
-                            'label' => $this->formatTimeslot($startTime, $endTime, $includeDay),
-                            'value' => $rate->getCode(),
-                            'start' => $startTime->format(DateTime::ATOM), // allow client-side formatting
-                            'end' => $endTime->format(DateTime::ATOM),
-                            'price' => $this->helper->formatPrice($quote, $rate->getPrice()),
-                            'return' => $methodInfo['return'],
-                            'class' => 'porterbuddy-timeslot-scheduled' . ($methodInfo['return'] ? ' porterbuddy-timeslot-return' : ''),
-                        );
-                    } else {
-                        // generic delivery option, select time slot later
-                        $result[$dateKey]['timeslots'][$rate->getCode()] = array(
-                            'label' => $this->helper->getChooseLaterName(),
-                            'value' => $rate->getCode(),
-                            'start' => null,
-                            'end' => null,
-                            'price' => $this->helper->formatPrice($quote, $rate->getPrice()),
-                            'return' => $methodInfo['return'],
-                            'class' => 'porterbuddy-timeslot-delivery-select-later' . ($methodInfo['return'] ? ' porterbuddy-timeslot-return' : ''),
-                        );
-                    }
+
+                  // specific time slot
+                    $result[$dateKey]['timeslots'][$rate->getCode()] = array(
+                      'label' => $this->formatTimeslot($startTime, $endTime, $includeDay),
+                      'value' => $rate->getCode(),
+                      'start' => $startTime->format(DateTime::ATOM), // allow client-side formatting
+                      'end' => $endTime->format(DateTime::ATOM),
+                      'price' => $this->helper->formatPrice($quote, $rate->getPrice()),
+                      'return' => $methodInfo['return'],
+                      'class' => 'porterbuddy-timeslot-scheduled' . ($methodInfo['return'] ? ' porterbuddy-timeslot-return' : ''),
+                  );
                 }
             }
         }
@@ -229,7 +208,7 @@ class Convert_Porterbuddy_Model_Timeslots
         }
 
         // convert to API formst
-        $windows = array_map(function($window) {
+        $windows = array_map(function ($window) {
             return array(
                 'start' => $this->helper->formatApiDateTime($window['start']),
                 'end' => $this->helper->formatApiDateTime($window['end']),
@@ -303,7 +282,7 @@ class Convert_Porterbuddy_Model_Timeslots
         }
 
         // convert to API format
-        $windows = array_map(function($window) {
+        $windows = array_map(function ($window) {
             return array(
                 'start' => $this->helper->formatApiDateTime($window['start']),
                 'end' => $this->helper->formatApiDateTime($window['end']),
