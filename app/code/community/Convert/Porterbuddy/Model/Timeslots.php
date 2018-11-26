@@ -105,6 +105,10 @@ class Convert_Porterbuddy_Model_Timeslots
             }
         }
 
+        if (!isset($result)) {
+            $result = null;
+        }
+
         $transport = new Varien_Object(['result' => $result]);
         Mage::dispatchEvent('convert_porterbuddy_form_get_dates', array('transport' => $transport));
         $result = $transport->getResult();
