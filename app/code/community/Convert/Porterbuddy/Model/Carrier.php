@@ -3,8 +3,7 @@
  * @author Convert Team
  * @copyright Copyright (c) 2017 Convert (http://www.convert.no/)
  */
-class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abstract
-    implements Mage_Shipping_Model_Carrier_Interface
+class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abstract implements Mage_Shipping_Model_Carrier_Interface
 {
     const CODE = 'cnvporterbuddy';
 
@@ -400,7 +399,12 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         // known possible problem: $request->getBaseSubtotalInclTax can be empty in some cases, same problem with
         // free shipping. This is because shipping total collector is called before tax subtotal collector, and so
         // BaseSubtotalInclTax is not updated yet.
-        if ($request->getBaseSubtotalInclTax() < $discountSubtotal) {
+        $basketValue = $request->getBaseSubtotalInclTax();
+        if ($basketValue == 0 && $request->getPackageValueWithDiscount()>0) {
+            $basketValue = $request->getPackageValueWithDiscount() * 1.25;
+        }
+
+        if ($basketValue < $discountSubtotal) {
             // we need more gold
             return $result;
         }
