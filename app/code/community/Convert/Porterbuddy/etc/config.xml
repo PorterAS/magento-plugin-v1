@@ -228,21 +228,21 @@
             <cnvporterbuddy>
                 <active>0</active>
                 <model>convert_porterbuddy/carrier</model>
-                <title>Express Shipping With Porterbuddy</title>
-                <description>Simple and flexible. You decide when and where delivery will take place, at home, at work or elsewhere.</description>
-                <asap_name>Express shipping</asap_name>
+                <title>Ekspresslevering med Porterbuddy</title>
+                <description>Du bestemmer selv hvor og når leveransen skal skje; hjemme, på jobb eller annet sted. Les mer om tjenesten på <a href="http://www.porterbuddy.no/">www.porterbuddy.no</a></description>
+                <asap_name>Express levering</asap_name>
                 <choose_later_name>I will select specific time later</choose_later_name>
                 <show_availability>only_available</show_availability>
                 <location_discovery>browser,ip</location_discovery>
-                <availability_text_click_to_see><![CDATA[<a>Click here to see if you are eligible for same day delivery</a>]]></availability_text_click_to_see>
-                <location_link_template><![CDATA[Deliver to {{location}}. <a class="button">Change</a>]]></location_link_template>
-                <availability_text_fetching>Fetching delivery options...</availability_text_fetching>
-                <availability_template>Want it {{date}}? Order in the next {{countdown}}</availability_template>
-                <availability_text_postcode_error>Sorry, same day delivery is not currently available to {{postcode}}</availability_text_postcode_error>
-                <availability_text_delivery_out_of_stock>Sorry, product is out of stock</availability_text_delivery_out_of_stock>
-                <availability_text_delivery_no_date>Sorry, same day delivery is not currently available</availability_text_delivery_no_date>
-                <availability_choose_popup_title>Choose your delivery location</availability_choose_popup_title>
-                <availability_choose_popup_description>Delivery options and delivery speeds may vary for different locations</availability_choose_popup_description>
+                <availability_text_click_to_see><![CDATA[<a>Klikk her for å se om du kan få varen levert til deg i dag</a>]]></availability_text_click_to_see>
+                <location_link_template><![CDATA[Levering til deg ({{location}}) <a class="button primary">Endre</a>]]></location_link_template>
+                <availability_text_fetching>Henter leveransealternativer...</availability_text_fetching>
+                <availability_template>Få varen {{date}} om du bestiller innen {{countdown}} og velger leveranse med Porterbuddy </availability_template>
+                <availability_text_postcode_error>Beklager, levering samme dag er ikke mulig til postnummer {{postcode}}. Vi utvider stadig. Følg utviklingen på www.porterbuddy.com</availability_text_postcode_error>
+                <availability_text_delivery_out_of_stock>Beklager, dette produktet er utsolgt</availability_text_delivery_out_of_stock>
+                <availability_text_delivery_no_date>Beklager, levering samme dag er ikke mulig</availability_text_delivery_no_date>
+                <availability_choose_popup_title>Velg postnummer for leveranse</availability_choose_popup_title>
+                <availability_choose_popup_description>Leveransealternativer og tider kan variere med valg av leveranseområde</availability_choose_popup_description>
                 <availability_auto_update_composite>1</availability_auto_update_composite>
                 <days_ahead>1</days_ahead>
                 <timeslot_selection>checkout</timeslot_selection>
@@ -259,12 +259,12 @@
                 <id_check_default>0</id_check_default>
                 <only_to_recipient_default>0</only_to_recipient_default>
                 <return_enabled>0</return_enabled>
-                <return_text>I would like to return items that do not match me</return_text>
+                <return_text>Retur on-demand; Budet venter inntil 10 minutter og tar varer med seg varer i retur on ønskelig (pris {{formatted_price}})</return_text>
                 <return_short_text>+ included return</return_short_text>
                 <refresh_options_timeout>5</refresh_options_timeout>
-                <leave_doorstep_text>Allow the courier to leave the package outside the door</leave_doorstep_text>
-                <comment_text>Optional message to the courier</comment_text>
                 <discount_type>none</discount_type>
+                <leave_doorstep_text>Budet kan levere pakken utenfor døren på leveranse adressen</leave_doorstep_text>
+                <comment_text>Evt. beskjed til budet</comment_text>
                 <auto_create_shipment>1</auto_create_shipment>
                 <api_mode>development</api_mode>
                 <development_api_key backend_model="adminhtml/system_config_backend_encrypted"/>
