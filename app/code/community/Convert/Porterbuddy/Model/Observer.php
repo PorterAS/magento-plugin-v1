@@ -327,7 +327,14 @@ class Convert_Porterbuddy_Model_Observer
         //    $this->helper->log("Checkout confirmation - not creating shipment for order `$orderId` with timeslot selection `$timeslotSelection`");
         //    return;
         //}
-
+        if (!$order->getShippingCarrier() instanceof Convert_Porterbuddy_Model_Carrier) {
+            $this->helper->log(
+              'Trying to create order for not porterbuddy order, returning',
+              array('order_id' => $order->getId()),
+              Zend_Log::NOTICE
+          );
+            return false;
+        }
         try {
             $this->helper->lockShipmentCreation(
                 $order,
