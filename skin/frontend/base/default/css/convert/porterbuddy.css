@@ -34,7 +34,6 @@
 }
 
 .porterbuddy-widget .porterbuddy-widget-timeslots {
-	display: flex;
 	flex-wrap: wrap;
 	margin-left: -3px;
 	margin-right: -3px;
@@ -42,7 +41,7 @@
 
 .porterbuddy-widget .porterbuddy-widget-timeslot {
 	border: 1px solid #cdcdcd;
-	flex-basis: 130px;
+	flex-basis: 40%;
 	height: 63px;
 	text-align: center;
 	margin: 3px;
