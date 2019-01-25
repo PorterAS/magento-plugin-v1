@@ -84,6 +84,7 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_RETURN_SHORT_TEXT = 'carriers/cnvporterbuddy/return_short_text';
     const XML_PATH_RETURN_PRICE = 'carriers/cnvporterbuddy/return_price';
     const XML_PATH_REFRESH_OPTIONS_TIMEOUT = 'carriers/cnvporterbuddy/refresh_options_timeout';
+    const XML_PATH_ALLOW_LEAVE_AT_DOORSTEP = 'carriers/cnvporterbuddy/allow_leave_at_doorstep'
     const XML_PATH_LEAVE_DOORSTEP_TEXT = 'carriers/cnvporterbuddy/leave_doorstep_text';
     const XML_PATH_COMMENT_TEXT = 'carriers/cnvporterbuddy/comment_text';
     const XML_PATH_WEIGHT_UNIT = 'carriers/cnvporterbuddy/weight_unit';
@@ -166,6 +167,14 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAutoCreateShipment()
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_AUTO_CREATE_SHIPMENT);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAllowLeaveAtDoorstep()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_ALLOW_LEAVE_AT_DOORSTEP);
     }
 
     /**
@@ -553,15 +562,15 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @return string
      */
-    public function getWeightUnit() 
+    public function getWeightUnit()
     {
         return Mage::getStoreConfig(self::XML_PATH_WEIGHT_UNIT);
     }
-    
+
     /**
      * @return string
      */
-    public function getDimensionUnit() 
+    public function getDimensionUnit()
     {
         return Mage::getStoreConfig(self::XML_PATH_DIMENSION_UNIT);
     }
@@ -577,15 +586,15 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @return float
      */
-    public function getDefaultProductHeight() 
+    public function getDefaultProductHeight()
     {
         return (float)trim(Mage::getStoreConfig(self::XML_PATH_DEFAULT_PRODUCT_HEIGHT));
     }
-    
+
     /**
      * @return float
      */
-    public function getDefaultProductWidth() 
+    public function getDefaultProductWidth()
     {
         return (float)trim(Mage::getStoreConfig(self::XML_PATH_DEFAULT_PRODUCT_WIDTH));
     }
@@ -593,7 +602,7 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @return float
      */
-    public function getDefaultProductLength() 
+    public function getDefaultProductLength()
     {
         return (float)trim(Mage::getStoreConfig(self::XML_PATH_DEFAULT_PRODUCT_LENGTH));
     }
@@ -601,23 +610,23 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @return string
      */
-    public function getHeightAttribute() 
+    public function getHeightAttribute()
     {
         return Mage::getStoreConfig(self::XML_PATH_HEIGHT_ATTRIBUTE);
     }
-    
+
     /**
      * @return string
      */
-    public function getWidthAttribute() 
+    public function getWidthAttribute()
     {
         return Mage::getStoreConfig(self::XML_PATH_WIDTH_ATTRIBUTE);
     }
-    
+
     /**
      * @return string
      */
-    public function getLengthAttribute() 
+    public function getLengthAttribute()
     {
         return Mage::getStoreConfig(self::XML_PATH_LENGTH_ATTRIBUTE);
     }

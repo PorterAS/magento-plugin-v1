@@ -46,7 +46,7 @@
             </label>
         </div>
     <?php endif; ?>
-    <div class="porterbuddy-widget-leave-doorstep">
+    <div class="porterbuddy-widget-leave-doorstep" <?php if ($this->getAllowLeaveAtDoorstep()) echo ' style="display: none;"' ?> />
         <label>
             <input type="checkbox" value="1" id="porterbuddy_leave_doorstep"
                 <?php if ($this->getLeaveDoorstep()) echo ' checked="checked"' ?> />

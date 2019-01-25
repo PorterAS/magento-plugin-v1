@@ -263,6 +263,7 @@
                 <return_short_text>+ included return</return_short_text>
                 <refresh_options_timeout>5</refresh_options_timeout>
                 <discount_type>none</discount_type>
+                <allow_leave_at_doorstep>1</allow_leave_at_doorstep>
                 <leave_doorstep_text>Budet kan levere pakken utenfor døren på leveranse adressen</leave_doorstep_text>
                 <comment_text>Evt. beskjed til budet</comment_text>
                 <auto_create_shipment>1</auto_create_shipment>

@@ -307,6 +307,10 @@ class Convert_Porterbuddy_Model_Observer
      */
     public function checkoutSuccessCreateShipment(Varien_Event_Observer $observer)
     {
+
+        if (!$this->helper->getAutoCreateShipment()) {
+            return;
+        }
         $orderIds = $observer->getOrderIds();
         if (!$orderIds) {
             $this->helper->log('Checkout confirmation - last order ID is empty', null, Zend_Log::WARN);
