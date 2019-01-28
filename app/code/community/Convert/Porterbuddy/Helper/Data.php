@@ -84,7 +84,7 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_RETURN_SHORT_TEXT = 'carriers/cnvporterbuddy/return_short_text';
     const XML_PATH_RETURN_PRICE = 'carriers/cnvporterbuddy/return_price';
     const XML_PATH_REFRESH_OPTIONS_TIMEOUT = 'carriers/cnvporterbuddy/refresh_options_timeout';
-    const XML_PATH_ALLOW_LEAVE_AT_DOORSTEP = 'carriers/cnvporterbuddy/allow_leave_at_doorstep'
+    const XML_PATH_ALLOW_LEAVE_AT_DOORSTEP = 'carriers/cnvporterbuddy/allow_leave_at_doorstep';
     const XML_PATH_LEAVE_DOORSTEP_TEXT = 'carriers/cnvporterbuddy/leave_doorstep_text';
     const XML_PATH_COMMENT_TEXT = 'carriers/cnvporterbuddy/comment_text';
     const XML_PATH_WEIGHT_UNIT = 'carriers/cnvporterbuddy/weight_unit';
