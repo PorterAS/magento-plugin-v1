@@ -228,7 +228,7 @@ window.PorterbudyAvailability = Class.create({
     },
 
     rememberLocation: function (location) {
-        Porterbuddy.utilities.setCookie(Porterbuddy.COOKIE, JSON.stringify(location), 30);
+        Porterbuddy.utilities.setCookie(Porterbuddy.COOKIE, JSON.stringify(location), 90);
     },
 
     prepareAvailabilityData: function (postcode) {
@@ -724,6 +724,8 @@ window.PorterbuddyWidget = Class.create({
         this.optionsSaveUrl = options.optionsSaveUrl;
         this.refreshUrl = options.refreshUrl;
         this.refreshOptionsTimeout = options.refreshOptionsTimeout;
+        this.defaultCountry = options.defaultCountry;
+        this.setCheckoutCookie(options.postcode);
 
         this.$widget = jQuery(this.widgetHtml);
         this.$selectedDate = this.$widget.find('.selected-date');
@@ -764,6 +766,19 @@ window.PorterbuddyWidget = Class.create({
         }
     },
 
+    setCheckoutCookie: function(postcode){
+      if(null != postcode){
+        var location = {
+            postcode: postcode,
+            city: '',
+            country: this.defaultCountry,
+            source: Porterbuddy.SOURCE_USER
+        };
+        Porterbuddy.utilities.setCookie(Porterbuddy.COOKIE, JSON.stringify(location), 90);
+
+      }
+
+    },
     /**
      * @api
      */

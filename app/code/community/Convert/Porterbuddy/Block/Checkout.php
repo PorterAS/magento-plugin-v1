@@ -158,4 +158,12 @@ class Convert_Porterbuddy_Block_Checkout extends Mage_Checkout_Block_Onepage_Shi
     {
         return $this->helper->getRefreshOptionsTimeout();
     }
+
+    /**
+     * @return string|null
+     */
+    public function getPostcode()
+    {
+        return $this->getAddress()->getPostcode();
+    }
 }

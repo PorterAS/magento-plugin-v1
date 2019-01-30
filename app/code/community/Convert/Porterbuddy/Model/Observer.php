@@ -448,9 +448,10 @@ class Convert_Porterbuddy_Model_Observer
             return;
         }
 
-        if (!$shippingAddress->getCity() && !empty($location['city'])) {
-            $shippingAddress->setCity($location['city']);
-        }
+//        if (!$shippingAddress->getCity() && !empty($location['city'])) {
+//            $shippingAddress->setCity($location['city']);
+//        }
+
         if (!$shippingAddress->getPostcode() && !empty($location['postcode'])) {
             $shippingAddress->setPostcode($location['postcode']);
         }
