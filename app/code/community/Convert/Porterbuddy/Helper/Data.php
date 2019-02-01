@@ -9,6 +9,7 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
 
     const XML_PATH_ACTIVE = 'carriers/cnvporterbuddy/active';
     const XML_PATH_TITLE = 'carriers/cnvporterbuddy/title';
+    const XML_PATH_SUB_TITLE = 'carriers/cnvporterbuddy/sub_title';
     const XML_PATH_DESCRIPTION = 'carriers/cnvporterbuddy/description';
     const XML_PATH_ASAP_NAME = 'carriers/cnvporterbuddy/asap_name';
     const XML_PATH_CHOOSE_LATER_NAME = 'carriers/cnvporterbuddy/choose_later_name';
@@ -127,6 +128,14 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     public function getActive($store = null)
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_ACTIVE, $store);
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubTitle()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_SUB_TITLE);
     }
 
     /**

@@ -228,6 +228,7 @@
             <cnvporterbuddy>
                 <active>0</active>
                 <model>convert_porterbuddy/carrier</model>
+                <sub_title>Levering hjem når du ønsker det</sub_title>
                 <title>Ekspresslevering med Porterbuddy</title>
                 <description>Du bestemmer selv hvor og når leveransen skal skje; hjemme, på jobb eller annet sted. Les mer om tjenesten på <a href="http://www.porterbuddy.no/">www.porterbuddy.no</a></description>
                 <asap_name>Express levering</asap_name>
@@ -237,7 +238,7 @@
                 <availability_text_click_to_see><![CDATA[<a>Klikk her for å se om du kan få varen levert til deg i dag</a>]]></availability_text_click_to_see>
                 <location_link_template><![CDATA[Levering til deg ({{location}}) <a class="button primary">Endre</a>]]></location_link_template>
                 <availability_text_fetching>Henter leveransealternativer...</availability_text_fetching>
-                <availability_template>Få varen {{date}} om du bestiller innen {{countdown}} og velger leveranse med Porterbuddy </availability_template>
+                <availability_template><b>Hjem</b> {{date}} med Porterbuddy for <b>149,-</b> (bestill innen {{countdown}})</availability_template>
                 <availability_text_postcode_error>Beklager, levering samme dag er ikke mulig til postnummer {{postcode}}. Vi utvider stadig. Følg utviklingen på www.porterbuddy.com</availability_text_postcode_error>
                 <availability_text_delivery_out_of_stock>Beklager, dette produktet er utsolgt</availability_text_delivery_out_of_stock>
                 <availability_text_delivery_no_date>Beklager, levering samme dag er ikke mulig</availability_text_delivery_no_date>

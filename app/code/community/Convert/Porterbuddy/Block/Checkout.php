@@ -31,7 +31,7 @@ class Convert_Porterbuddy_Block_Checkout extends Mage_Checkout_Block_Onepage_Shi
      */
     public function getTitle()
     {
-        return $this->helper->getTitle();
+        return $this->helper->getSubTitle();
     }
 
     /**
