@@ -1123,14 +1123,14 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
         $this->log('Shipment creation ended. Order: ' . $order->getId(), null, Zend_Log::NOTICE);
     }
 
-    public function formatPrice(Mage_Sales_Model_Quote $quote, $price)
+    public function formatPrice(Mage_Sales_Model_Quote $quote, $price, $format=true)
     {
         $shippingPrice = $this->taxHelper->getShippingPrice(
             $price,
             $this->taxHelper->displayShippingPriceIncludingTax(),
             $quote->getShippingAddress()
         );
-        $convertedPrice = $quote->getStore()->convertPrice($shippingPrice, true);
+        $convertedPrice = $quote->getStore()->convertPrice($shippingPrice, $format);
         return $convertedPrice;
     }
 

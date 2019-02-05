@@ -31,7 +31,13 @@ class Convert_Porterbuddy_Block_Checkout extends Mage_Checkout_Block_Onepage_Shi
      */
     public function getTitle()
     {
-        return $this->helper->getSubTitle();
+        $text = $this->helper->getSubTitle();
+
+        return $this->helper->processPlaceholders(
+              $text,
+              '<span class="porterbuddy-widget-{{name}}">{{value}}</span>'
+        );
+
     }
 
     /**

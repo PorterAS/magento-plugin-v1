@@ -300,6 +300,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         $method->setMethod($methodCode);
         $method->setMethodTitle($methodTitle); // $this->helper->getScheduledName()
         //$method->setMethodDescription($this->helper->getScheduledDescription());
+        $method->setMethodDescription($option['expiresAt']);
 
         if ($request->getFreeShipping() === true) {
             $shippingPrice = '0.00';

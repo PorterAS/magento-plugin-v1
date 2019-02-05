@@ -57,6 +57,11 @@ class Convert_Porterbuddy_Model_Timeslots
         if (isset($rates[Convert_Porterbuddy_Model_Carrier::CODE])) {
             $timezone = $this->helper->getTimezone();
 
+            $lowestPrice = -1;
+            $lowestFormattedPrice = -1;
+            $onlyPrice = true;
+            $expiryTime = -1;
+            $earliestTime = -1;
             /** @var Mage_Sales_Model_Quote_Address_Rate $rate */
             foreach ($rates[Convert_Porterbuddy_Model_Carrier::CODE] as $rate) {
                 $methodInfo = $this->helper->parseMethod($rate->getMethod());
@@ -66,8 +71,16 @@ class Convert_Porterbuddy_Model_Timeslots
                 $endTime = new DateTime($methodInfo['end']);
                 $endTime->setTimezone($timezone); // shift to local time
 
+                if($earliestTime == -1 || $earliestTime > $endTime){
+                  $earliestTime = $endTime;
+                }
                 $dateKey = $startTime->format('Y-m-d');
 
+                $rateExpiryTime = new DateTime($rate->getMethodDescription());
+                $rateExpiryTime->setTimezone($timezone);
+                if($expiryTime == -1 || $rateExpiryTime < $expiryTime){
+                  $expiryTime = $rateExpiryTime;
+                }
                 if (!isset($result[$dateKey])) {
                     $dateLabel = $this->coreHelper->formatDate($startTime->format('r'), Mage_Core_Model_Locale::FORMAT_TYPE_FULL);
                     $dateLabel = preg_replace('/\s+\d+$/', '', $dateLabel); // remove year
@@ -78,8 +91,22 @@ class Convert_Porterbuddy_Model_Timeslots
                       'timeslots' => array(),
                   );
                 }
-
+                $tmpPrice = $this->helper->formatPrice($quote, $rate->getPrice(),false);
+                $tmpFormattedPrice = $this->helper->formatPrice($quote, $rate->getPrice());
+                if ($tmpPrice != $lowestPrice){
+                  if($lowestPrice == -1){
+                    $lowestPrice = $tmpPrice;
+                    $lowestFormattedPrice = $tmpFormattedPrice;
+                  }else{
+                    $onlyPrice = false;
+                    if ($lowestPrice > $tmpPrice){
+                      $lowestPrice = $tmpPrice;
+                      $lowestFormattedPrice = $tmpFormattedPrice;
+                    }
+                  }
+                }
                 if (Convert_Porterbuddy_Model_Carrier::METHOD_EXPRESS == $methodInfo['type']) {
+
                     $result[$dateKey]['timeslots'][$rate->getCode()] = array(
                         'label' => $this->helper->getAsapName(),
                         'value' => $rate->getCode(),
@@ -102,6 +129,30 @@ class Convert_Porterbuddy_Model_Timeslots
                       'class' => 'porterbuddy-timeslot-scheduled' . ($methodInfo['return'] ? ' porterbuddy-timeslot-return' : ''),
                   );
                 }
+            }
+            if(isset($result)){
+              $result['lowestPrice'] = $lowestFormattedPrice;
+              $result['onlyPrice'] = $onlyPrice;
+
+              $now = $this->helper->getCurrentTime();
+              // server-based countdown in case browser's clocks lie
+              $timeRemaining = floor(($expiryTime->getTimestamp() - $now->getTimestamp())/60); // minutes
+
+              // today, tomorrow, Monday, May 28
+              $now = $this->helper->getCurrentTime();
+              if ($now->format('Y-m-d') == $earliestTime->format('Y-m-d')) {
+                  $humanDate = mb_convert_case($this->helper->__('Today'), MB_CASE_LOWER);
+              } elseif ($now->modify('+1 day')->format('Y-m-d') == $earliestTime->format('Y-m-d')) {
+                  $humanDate = mb_convert_case($this->helper->__('Tomorrow'), MB_CASE_LOWER);
+              } else {
+                  $humanDate = $this->helper->__($earliestTime->format('l'));
+              }
+
+              $result['availability'] = array(
+                  'date' => $expiryTime->format(DateTime::ATOM),
+                  'humanDate' => $humanDate,
+                  'timeRemaining' => $timeRemaining,
+              );
             }
         }
 

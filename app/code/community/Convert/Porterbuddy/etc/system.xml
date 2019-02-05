@@ -28,6 +28,7 @@
                         </active>
                         <sub_title translate="label">
                             <label>Subtitle</label>
+                            <comment>Can use {{price}}, {{date}}, {{countdown}} placeholders</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>21</sort_order>
                             <show_in_default>1</show_in_default>

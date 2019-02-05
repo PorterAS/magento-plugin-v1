@@ -45,6 +45,34 @@ Porterbuddy.utilities = {
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
         var expires = "expires="+d.toUTCString();
         document.cookie = cname + "=" + cvalue + "; " + expires + ";path=/";
+    },
+    getCounterText: function (date, remainingMinutes) {
+        if (typeof window.moment !== 'undefined') {
+            return moment().to(date, true);
+        }
+
+        var days = Math.floor(remainingMinutes / (60*24));
+        var hours = Math.floor(remainingMinutes / 60) % 24;
+        var minutes = remainingMinutes % 60;
+
+        var parts = [];
+        if (days) {
+            parts.push(
+                Translator.translate(1 === days ? '%s day' : '%s days').replace('%s', days)
+            );
+        }
+        if (hours) {
+            parts.push(
+                Translator.translate(1 === hours ? '%s hour' : '%s hours').replace('%s', hours)
+            );
+        }
+        if (minutes) {
+            parts.push(
+                Translator.translate(1 === minutes ? '%s minute' : '%s minutes').replace('%s', minutes)
+            );
+        }
+
+        return parts.join(' ');
     }
 };
 
@@ -718,6 +746,9 @@ window.PorterbuddyWidget = Class.create({
     initOptions: function (options) {
         this.formKey = options.formKey;
         this.showTimeslots = options.showTimeslots;
+        this.price = options.dates.lowestPrice;
+        this.onlyPrice = options.dates.onlyPrice;
+        this.availability = options.dates.availability;
         this.setDates(options.dates);
         this.widgetHtml = options.widgetHtml;
         this.optionsDelay = options.optionsDelay || 100;
@@ -732,6 +763,10 @@ window.PorterbuddyWidget = Class.create({
         this.$timeslots = this.$widget.find('.porterbuddy-widget-timeslots');
         this.timeslotTemplate = new Template(this.$timeslots.html());
         this.$timeslots.html(''); // clear template
+
+        this.$titleText = this.$widget.find('.porterbuddy-widget-title');
+        this.titleTemplate = new Template(this.$titleText.html());
+        this.$titleText.html(''); // clear template
 
         this.$groupRate = this.$widget.find('#s_method_porterbuddy');
         this.$return = this.$widget.find('#porterbuddy_return');
@@ -787,6 +822,8 @@ window.PorterbuddyWidget = Class.create({
         jQuery.ajax(this.refreshUrl, {dataType: 'json'})
             .done(function (dates) {
                 var oldTimeslotsByValue = jQuery.extend({}, this.timeslotsByValue);
+                this.price = dates.lowestPrice;
+                this.onlyPrice = dates.onlyPrice;
                 this.setDates(dates);
 
                 // delete old rate fields, add new rate fields
@@ -971,11 +1008,36 @@ window.PorterbuddyWidget = Class.create({
     },
 
     render: function () {
+        this.renderTitle();
         this.renderDate();
         this.renderTimeslots();
         this.renderClasses();
 
         return this;
+    },
+
+    getFormattedPrice: function(){
+
+      return (this.selectedTimeslot?this.selectedTimeslot.price:(this.onlyPrice?this.price:Translator.translate('from') + ' ' + this.price));
+    },
+
+    renderTitle: function() {
+      var formattedPrice = this.getFormattedPrice();
+      var params = {
+          price: formattedPrice,
+          date: this.availability.humanDate,
+          countdown: Porterbuddy.utilities.getCounterText(this.availability.date, this.availability.timeRemaining)
+      };
+      this.$titleText.html(this.titleTemplate.evaluate(params));
+
+      if (this.availability.timeRemaining-- > 0) {
+          // prevent multiple timers
+          clearTimeout(this.availabilityTimer);
+          // revisit in a minute
+          this.availabilityTimer = setTimeout(this.renderTitle.bind(this), 60*1000);
+      } else {
+          this.refresh();
+      }
     },
 
     renderDate: function () {
@@ -1143,6 +1205,7 @@ window.PorterbuddyWidget = Class.create({
         this.$porterbuddyRates.filter('[value="' + code + '"]').trigger('click', true); // internal, don't call selectRate
         this.renderTimeslots();
         this.renderClasses();
+        this.renderTitle();
 
         return this;
     },
