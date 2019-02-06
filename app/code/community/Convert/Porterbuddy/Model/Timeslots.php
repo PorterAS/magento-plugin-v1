@@ -81,11 +81,11 @@ class Convert_Porterbuddy_Model_Timeslots
                 if($expiryTime == -1 || $rateExpiryTime < $expiryTime){
                   $expiryTime = $rateExpiryTime;
                 }
-                if (!isset($result[$dateKey])) {
+                if (!isset($result['dates'][$dateKey])) {
                     $dateLabel = $this->coreHelper->formatDate($startTime->format('r'), Mage_Core_Model_Locale::FORMAT_TYPE_FULL);
                     $dateLabel = preg_replace('/\s+\d+$/', '', $dateLabel); // remove year
                     $dateLabel = rtrim($dateLabel, ', ');
-                    $result[$dateKey] = array(
+                    $result['dates'][$dateKey] = array(
                       'label' => $dateLabel,
                       'datetime' => $startTime->format(DateTime::ATOM), // allow client-side formatting
                       'timeslots' => array(),
@@ -107,7 +107,7 @@ class Convert_Porterbuddy_Model_Timeslots
                 }
                 if (Convert_Porterbuddy_Model_Carrier::METHOD_EXPRESS == $methodInfo['type']) {
 
-                    $result[$dateKey]['timeslots'][$rate->getCode()] = array(
+                    $result['dates'][$dateKey]['timeslots'][$rate->getCode()] = array(
                         'label' => $this->helper->getAsapName(),
                         'value' => $rate->getCode(),
                         'start' => $startTime->format(DateTime::ATOM), // allow client-side formatting
@@ -119,7 +119,7 @@ class Convert_Porterbuddy_Model_Timeslots
                 } elseif (Convert_Porterbuddy_Model_Carrier::METHOD_DELIVERY == $methodInfo['type']) {
 
                   // specific time slot
-                    $result[$dateKey]['timeslots'][$rate->getCode()] = array(
+                    $result['dates'][$dateKey]['timeslots'][$rate->getCode()] = array(
                       'label' => $this->formatTimeslot($startTime, $endTime, $includeDay),
                       'value' => $rate->getCode(),
                       'start' => $startTime->format(DateTime::ATOM), // allow client-side formatting

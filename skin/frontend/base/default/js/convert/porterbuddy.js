@@ -749,7 +749,7 @@ window.PorterbuddyWidget = Class.create({
         this.price = options.dates.lowestPrice;
         this.onlyPrice = options.dates.onlyPrice;
         this.availability = options.dates.availability;
-        this.setDates(options.dates);
+        this.setDates(options.dates.dates);
         this.widgetHtml = options.widgetHtml;
         this.optionsDelay = options.optionsDelay || 100;
         this.optionsSaveUrl = options.optionsSaveUrl;
@@ -824,7 +824,7 @@ window.PorterbuddyWidget = Class.create({
                 var oldTimeslotsByValue = jQuery.extend({}, this.timeslotsByValue);
                 this.price = dates.lowestPrice;
                 this.onlyPrice = dates.onlyPrice;
-                this.setDates(dates);
+                this.setDates(dates.dates);
 
                 // delete old rate fields, add new rate fields
                 var diffTimeslots = this.diffTimeslots(oldTimeslotsByValue, this.timeslotsByValue);
