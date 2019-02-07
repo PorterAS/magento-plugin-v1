@@ -749,6 +749,8 @@ window.PorterbuddyWidget = Class.create({
         this.price = options.dates.lowestPrice;
         this.onlyPrice = options.dates.onlyPrice;
         this.availability = options.dates.availability;
+        this.expiryTime = (new Date()).getTime() + (options.dates.availability.timeRemaining *60*1000)
+
         this.setDates(options.dates.dates);
         this.widgetHtml = options.widgetHtml;
         this.optionsDelay = options.optionsDelay || 100;
@@ -1028,9 +1030,11 @@ window.PorterbuddyWidget = Class.create({
           date: this.availability.humanDate,
           countdown: Porterbuddy.utilities.getCounterText(this.availability.date, this.availability.timeRemaining)
       };
+      this.availability.timeRemaining = (this.expiryTime - (new Date()).getTime())/60000;
+
       this.$titleText.html(this.titleTemplate.evaluate(params));
 
-      if (this.availability.timeRemaining-- > 0) {
+      if (this.availability.timeRemaining > 0) {
           // prevent multiple timers
           clearTimeout(this.availabilityTimer);
           // revisit in a minute
