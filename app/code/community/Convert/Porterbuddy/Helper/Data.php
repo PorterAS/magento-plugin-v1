@@ -108,6 +108,13 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_MAPS_API_KEY = 'carriers/cnvporterbuddy/maps_api_key';
     const XML_PATH_DEBUG = 'carriers/cnvporterbuddy/debug';
 
+    const XML_PATH_CARGONIZER_ENABLED = 'carriers/cnvporterbuddy/cargonizer_enabled';
+    const XML_PATH_CARGONIZER_SANDBOX = 'carriers/cnvporterbuddy/cargonizer_sandbox';
+    const XML_PATH_CARGONIZER_SENDER = 'carriers/cnvporterbuddy/cargonizer_sender';
+    const XML_PATH_CARGONIZER_KEY = 'carriers/cnvporterbuddy/cargonizer_key';
+    const XML_PATH_CARGONIZER_PRINTER = 'carriers/cnvporterbuddy/cargonizer_printer';
+    const XML_PATH_CARGONIZER_PRINTERS = 'carriers/cnvporterbuddy/cargonizer_printers';
+
     const SHIPMENT_CREATOR_CRON = 'CRON';
     const SHIPMENT_CREATOR_CONFIRMATION = 'CONFIRMATION';
 
@@ -873,6 +880,77 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     public function getMapsApiKey()
     {
         return Mage::getStoreConfig(self::XML_PATH_MAPS_API_KEY);
+    }
+
+    /**
+    * Enable Cargonizer
+    *
+    * @return string
+    */
+    public function getCargonizerEnabled()
+    {
+      return Mage::getStoreConfig(self::XML_PATH_CARGONIZER_ENABLED);
+    }
+
+    /**
+    * Cargonizer Sandbox Mode
+    *
+    * @return string
+    */
+    public function getCargonizerSandbox()
+    {
+      return Mage::getStoreConfig(self::XML_PATH_CARGONIZER_SANDBOX);
+    }
+
+    /**
+    * Cargonizer Sender ID
+    *
+    * @return string
+    */
+    public function getCargonizerSender()
+    {
+      return Mage::getStoreConfig(self::XML_PATH_CARGONIZER_SENDER);
+    }
+
+    /**
+    * Cargonizer Key
+    *
+    * @return string
+    */
+    public function getCargonizerKey()
+    {
+      return Mage::getStoreConfig(self::XML_PATH_CARGONIZER_KEY);
+    }
+
+    /**
+    * Cargonier Printers
+    *
+    * @return string
+    */
+    public function getCargonizerPrinter()
+    {
+      return Mage::getStoreConfig(self::XML_PATH_CARGONIZER_PRINTER);
+    }
+
+    /**
+    * Cargonier Printers
+    *
+    * @return string
+    */
+    public function getCargonizerPrinters()
+    {
+      return Mage::getStoreConfig(self::XML_PATH_CARGONIZER_PRINTERS);
+    }
+
+    /**
+    * Cargonier Printers
+    *
+    * @return string
+    */
+    public function saveCargonizerPrinters($value)
+    {
+
+      Mage::getConfig()->saveConfig(self::XML_PATH_CARGONIZER_PRINTERS, $value);
     }
 
     /**

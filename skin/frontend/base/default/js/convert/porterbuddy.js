@@ -1030,7 +1030,7 @@ window.PorterbuddyWidget = Class.create({
           date: this.availability.humanDate,
           countdown: Porterbuddy.utilities.getCounterText(this.availability.date, this.availability.timeRemaining)
       };
-      this.availability.timeRemaining = (this.expiryTime - (new Date()).getTime())/60000;
+      this.availability.timeRemaining = Math.floor((this.expiryTime - (new Date()).getTime())/60000);
 
       this.$titleText.html(this.titleTemplate.evaluate(params));
 

@@ -541,9 +541,18 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         $this->helper->log('requestToShipment - success.', array(
             'shipment_id' => $shipment->getId(),
         ), Zend_Log::NOTICE);
+                if($this->helper->getCargonizerEnabled()){
+                  if($this->helper->getCargonizerPrinter() != null){
+                    $publicURL = $this->api->getShippingLabelPublicURL($orderDetails['_links']['labelInfo']['href']);
+                    $this->api->printToCargonizer($publicURL);
+                  }else{
+                    $this->helper->log('Cargonizer printer not set');
+                  }
+                }
 
         return $result;
     }
+
 
     /**
      * @param Mage_Shipping_Model_Shipment_Request $request
