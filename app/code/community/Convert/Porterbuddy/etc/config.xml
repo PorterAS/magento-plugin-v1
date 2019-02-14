@@ -288,6 +288,7 @@
                 <development_api_url>https://api.porterbuddy-staging.com</development_api_url>
                 <testing_api_url>https://api.porterbuddy-test.com</testing_api_url>
                 <production_api_url>https://api.porterbuddy.com</production_api_url>
+                <cargonizer_enabled>0</cargonizer_enabled>
             </cnvporterbuddy>
         </carriers>
     </default>
