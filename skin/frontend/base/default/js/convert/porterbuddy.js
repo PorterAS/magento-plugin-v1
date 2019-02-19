@@ -848,6 +848,7 @@ window.PorterbuddyWidget = Class.create({
                 if (this.isPorterbuddyRate($selectedRate) && !timeslotExists) {
                     this.selectTimeslot(null);
                 }
+                this.expiryTime = (new Date()).getTime() + (options.dates.availability.timeRemaining *60*1000);
 
                 this.render();
             }.bind(this));
