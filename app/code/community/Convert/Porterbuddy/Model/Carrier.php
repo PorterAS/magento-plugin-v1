@@ -644,6 +644,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         $defaultPhoneCode = $this->helper->getDefaultPhoneCode();
         $pickupPhone = $this->helper->splitPhoneCodeNumber($request->getShipperContactPhoneNumber());
         $deliveryPhone = $this->helper->splitPhoneCodeNumber($request->getRecipientContactPhoneNumber());
+        $senderEmail = Mage::getStoreConfig('trans_email/ident_'.$this->helper->getSenderEmailIdentify($shipment->getStoreId()).'/email');
 
         $deliveryTimeslotIsKnown = ($methodInfo['start'] && $methodInfo['end']);
         $parameters = array(
@@ -656,7 +657,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
                     'city' => $request->getShipperAddressCity(),
                     'country' => $request->getShipperAddressCountryCode(),
                 ],
-                'email' => Mage::getStoreConfig('trans_email/ident_general/email', $shipment->getStoreId()),
+                'email' => $senderEmail,
                 'phoneCountryCode' => $pickupPhone[0] ?: $defaultPhoneCode,
                 'phoneNumber' => $pickupPhone[1],
                 'pickupWindows' => $this->timeslots->getPickupWindows($methodInfo),

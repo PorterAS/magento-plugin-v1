@@ -37,6 +37,7 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_AVAILABILITY_TEXT_NO_DATE = 'carriers/cnvporterbuddy/availability_text_delivery_no_date';
     const XML_PATH_AVAILABILITY_AUTO_UPDATE_COMPOSITE = 'carriers/cnvporterbuddy/availability_auto_update_composite';
 
+    const XML_PATH_SENDER_EMAIL_IDENTITY = 'carriers/cnvporterbuddy/sender_email_identity';
     const XML_PATH_DEFAULT_PHONE_CODE = 'carriers/cnvporterbuddy/default_phone_code';
     const XML_PATH_PACKAGER_MODE = 'carriers/cnvporterbuddy/packager_mode';
     const XML_PATH_PACKING_TIME = 'carriers/cnvporterbuddy/packing_time';
@@ -251,6 +252,14 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     public function getDefaultPhoneCode()
     {
         return Mage::getStoreConfig(self::XML_PATH_DEFAULT_PHONE_CODE);
+    }
+
+    /**
+     * @return string
+     */
+    public function getSenderEmailIdentify($storeId = null)
+    {
+        return Mage::getStoreConfig(self::XML_PATH_SENDER_EMAIL_IDENTITY, $storeId);
     }
 
     /**
