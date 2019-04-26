@@ -3,7 +3,7 @@
  * @author Convert Team
  * @copyright Copyright (c) 2018 Convert (http://www.convert.no/)
  */
-class Convert_Porterbuddy_Block_Adminhtml_Frontend_CargonizerPrinterRefresh extends Mage_Adminhtml_Block_System_Config_Form_Field
+class Convert_Porterbuddy_Block_Adminhtml_Frontend_Cargonizerprinterrefresh extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
     /**
      * @var Convert_Porterbuddy_Model_Availability
