@@ -153,6 +153,8 @@ class Convert_Porterbuddy_Model_Timeslots
                   'humanDate' => $humanDate,
                   'timeRemaining' => $timeRemaining,
               );
+
+              $result['deliveryWindows'] = Mage::getSingleton('checkout/session')->getPbWindows($options);
             }
         }
 

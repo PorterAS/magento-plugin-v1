@@ -6,6 +6,7 @@
 /** @var Convert_Porterbuddy_Block_Checkout $this */
 $coreHelper = $this->helper('core');
 ?>
+
 <script type="text/javascript">
     window.porterbuddyWidget = new PorterbuddyWidget({
         formKey: '<?php echo $this->getFormKey() ?>',
@@ -18,4 +19,22 @@ $coreHelper = $this->helper('core');
         defaultCountry: <?php echo json_encode($coreHelper->getDefaultCountry()) ?>,
         postcode: <?php echo json_encode($this->getPostcode()) ?>
     });
+</script>
+<script>
+window.porterbuddy = {
+      token: 'y3wt37LqBsiLo62Jkx284XEdi4LzdX6pihZFwqYX',
+      view: 'checkout',
+      deliveryWindows: <?php echo json_encode(Mage::getSingleton('checkout/session')->getPbWindows($options)) ?>
+    };
+    (function() {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = 'https://widget.porterbuddy-test.com/porterbuddy-widget.css';
+      document.head.appendChild(link);
+      var scriptEl = document.createElement('script');
+      scriptEl.async = true;
+      scriptEl.src = 'https://widget.porterbuddy-test.com/porterbuddy-widget.js';
+      document.head.appendChild(scriptEl);
+    })();
 </script>

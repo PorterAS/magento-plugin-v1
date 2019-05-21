@@ -1,22 +1,4 @@
 <?php
 /** @var Convert_Porterbuddy_Block_Availability $this */
 ?>
-<div id="porterbuddy-availability" class="porterbuddy-availability" style="display: none">
-    <div class="porterbuddy-widget-logo-wrapper">
-        <img src="<?php echo $this->getSkinUrl('images/logo_porterbuddy.svg') ?>"
-             class="image porterbuddy-widget-logo"
-            width="118"
-            height="24"
-            alt="Porterbuddy" />
-    </div>
-    <span class="porterbuddy-availability-location-link" data-open="porterbuddy-popup">
-        <?php echo $this->helper->processPlaceholders(
-            $this->helper->getLocationLinkTemplate()
-        ) ?>
-    </span>
-    <div class="porterbuddy-availability-text">
-        <?php echo $this->helper->processPlaceholders(
-            $this->helper->getAvailabilityTemplate()
-        ) ?>
-    </div>
-</div>
+<div id="porterbuddy-widget"></div>

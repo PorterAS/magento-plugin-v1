@@ -738,43 +738,44 @@ window.PorterbuddyWidget = Class.create({
 
         this.initOptions(data);
         this.initRates();
-        this.initExtensions();
+        // this.initExtensions();
         this.initWidget();
-        this.initRefresh();
+        // this.initRefresh();
     },
 
     initOptions: function (options) {
-        this.formKey = options.formKey;
-        this.showTimeslots = options.showTimeslots;
-        this.price = options.dates.lowestPrice;
-        this.onlyPrice = options.dates.onlyPrice;
-        this.availability = options.dates.availability;
-        this.expiryTime = (new Date()).getTime() + (options.dates.availability.timeRemaining *60*1000)
+        //this.formKey = options.formKey;
+        //this.showTimeslots = options.showTimeslots;
+        //this.price = options.dates.lowestPrice;
+        //this.onlyPrice = options.dates.onlyPrice;
+        //this.availability = options.dates.availability;
+        //this.expiryTime = (new Date()).getTime() + (options.dates.availability.timeRemaining *60*1000)
 
-        this.setDates(options.dates.dates);
+        //this.setDates(options.dates.dates);
         this.widgetHtml = options.widgetHtml;
-        this.optionsDelay = options.optionsDelay || 100;
-        this.optionsSaveUrl = options.optionsSaveUrl;
-        this.refreshUrl = options.refreshUrl;
-        this.refreshOptionsTimeout = options.refreshOptionsTimeout;
-        this.defaultCountry = options.defaultCountry;
-        this.setCheckoutCookie(options.postcode);
-
         this.$widget = jQuery(this.widgetHtml);
-        this.$selectedDate = this.$widget.find('.selected-date');
-        this.$timeslots = this.$widget.find('.porterbuddy-widget-timeslots');
-        this.timeslotTemplate = new Template(this.$timeslots.html());
-        this.$timeslots.html(''); // clear template
 
-        this.$titleText = this.$widget.find('.porterbuddy-widget-title');
-        this.titleTemplate = new Template(this.$titleText.html());
-        this.$titleText.html(''); // clear template
+        // this.optionsDelay = options.optionsDelay || 100;
+        // this.optionsSaveUrl = options.optionsSaveUrl;
+        // this.refreshUrl = options.refreshUrl;
+        // this.refreshOptionsTimeout = options.refreshOptionsTimeout;
+        // this.defaultCountry = options.defaultCountry;
+        // this.setCheckoutCookie(options.postcode);
 
-        this.$groupRate = this.$widget.find('#s_method_porterbuddy');
-        this.$return = this.$widget.find('#porterbuddy_return');
-        this.returnAvailable = this.$return.length > 0;
-        this.$leaveDoorstep = this.$widget.find('#porterbuddy_leave_doorstep');
-        this.$comment = this.$widget.find('#porterbuddy_comment');
+        //this.$selectedDate = this.$widget.find('.selected-date');
+        //this.$timeslots = this.$widget.find('.porterbuddy-widget-timeslots');
+        //this.timeslotTemplate = new Template(this.$timeslots.html());
+        //this.$timeslots.html(''); // clear template
+
+        //this.$titleText = this.$widget.find('.porterbuddy-widget-title');
+        //this.titleTemplate = new Template(this.$titleText.html());
+        //this.$titleText.html(''); // clear template
+
+        // this.$groupRate = this.$widget.find('#s_method_porterbuddy');
+        // this.$return = this.$widget.find('#porterbuddy_return');
+        // this.returnAvailable = this.$return.length > 0;
+        // this.$leaveDoorstep = this.$widget.find('#porterbuddy_leave_doorstep');
+        // this.$comment = this.$widget.find('#porterbuddy_comment');
     },
 
     initRates: function () {
@@ -785,78 +786,78 @@ window.PorterbuddyWidget = Class.create({
     /**
      * @override
      */
-    initExtensions: function () {
-        // extension point
-    },
+    // initExtensions: function () {
+    //     // extension point
+    // },
 
-    initRefresh: function () {
-        if (this.refreshOptionsTimeout > 0) {
-            // clear on re-init
-            if (window.PorterbuddyWidget.refreshIntervalId) {
-                clearInterval(window.PorterbuddyWidget.refreshIntervalId);
-            }
+    // initRefresh: function () {
+    //     if (this.refreshOptionsTimeout > 0) {
+    //         // clear on re-init
+    //         if (window.PorterbuddyWidget.refreshIntervalId) {
+    //             clearInterval(window.PorterbuddyWidget.refreshIntervalId);
+    //         }
+    //
+    //         window.PorterbuddyWidget.refreshIntervalId = setInterval(function () {
+    //             // TODO: clear interval when not applicable
+    //             this.refresh();
+    //         }.bind(this), this.refreshOptionsTimeout*60*1000);
+    //     }
+    // },
 
-            window.PorterbuddyWidget.refreshIntervalId = setInterval(function () {
-                // TODO: clear interval when not applicable
-                this.refresh();
-            }.bind(this), this.refreshOptionsTimeout*60*1000);
-        }
-    },
-
-    setCheckoutCookie: function(postcode){
-      if(null != postcode){
-        var location = {
-            postcode: postcode,
-            city: '',
-            country: this.defaultCountry,
-            source: Porterbuddy.SOURCE_USER
-        };
-        Porterbuddy.utilities.setCookie(Porterbuddy.COOKIE, JSON.stringify(location), 90);
-
-      }
-
-    },
+    // setCheckoutCookie: function(postcode){
+    //   if(null != postcode){
+    //     var location = {
+    //         postcode: postcode,
+    //         city: '',
+    //         country: this.defaultCountry,
+    //         source: Porterbuddy.SOURCE_USER
+    //     };
+    //     Porterbuddy.utilities.setCookie(Porterbuddy.COOKIE, JSON.stringify(location), 90);
+    //
+    //   }
+    //
+    // },
     /**
      * @api
      */
-    refresh: function () {
-        // request new Porterbuddy rates
-        jQuery.ajax(this.refreshUrl, {dataType: 'json'})
-            .done(function (dates) {
-                var oldTimeslotsByValue = jQuery.extend({}, this.timeslotsByValue);
-                this.price = dates.lowestPrice;
-                this.onlyPrice = dates.onlyPrice;
-                this.setDates(dates.dates);
-
-                // delete old rate fields, add new rate fields
-                var diffTimeslots = this.diffTimeslots(oldTimeslotsByValue, this.timeslotsByValue);
-                jQuery.each(diffTimeslots.added, function (index, timeslotInfo) {
-                    this.addNewRate(timeslotInfo);
-                }.bind(this));
-                jQuery.each(diffTimeslots.deleted, function (index, timeslotInfo) {
-                    this.deleteOldRate(timeslotInfo);
-                }.bind(this));
-
-                // check if selected date is missing, selectDate(firstDate)
-                if (!(this.selectedDateCode in this.dates)) {
-                    this.selectDate(null);
-                }
-
-                // select first available if Porterbuddy was selected and became unavailable
-                var $selectedRate = this.$allRates.filter(':checked');
-                var timeslotExists = $selectedRate.val() in this.timeslotsByValue;
-                if (this.isPorterbuddyRate($selectedRate) && !timeslotExists) {
-                    this.selectTimeslot(null);
-                }
-                this.availability = dates.availability;
-                this.expiryTime = (new Date()).getTime() + (dates.availability.timeRemaining *60*1000);
-
-                this.render();
-            }.bind(this));
-
-        // filter Porterbuddy
-        // compare with current list, add/delete, render
-    },
+    // refresh: function () {
+    //     // request new Porterbuddy rates
+    //     jQuery.ajax(this.refreshUrl, {dataType: 'json'})
+    //         .done(function (dates) {
+    //             var oldTimeslotsByValue = jQuery.extend({}, this.timeslotsByValue);
+    //             this.price = dates.lowestPrice;
+    //             this.onlyPrice = dates.onlyPrice;
+    //             this.setDates(dates.dates);
+    //
+    //             // delete old rate fields, add new rate fields
+    //             var diffTimeslots = this.diffTimeslots(oldTimeslotsByValue, this.timeslotsByValue);
+    //             jQuery.each(diffTimeslots.added, function (index, timeslotInfo) {
+    //                 this.addNewRate(timeslotInfo);
+    //             }.bind(this));
+    //             jQuery.each(diffTimeslots.deleted, function (index, timeslotInfo) {
+    //                 this.deleteOldRate(timeslotInfo);
+    //             }.bind(this));
+    //
+    //             // check if selected date is missing, selectDate(firstDate)
+    //             if (!(this.selectedDateCode in this.dates)) {
+    //                 this.selectDate(null);
+    //             }
+    //
+    //             // select first available if Porterbuddy was selected and became unavailable
+    //             var $selectedRate = this.$allRates.filter(':checked');
+    //             var timeslotExists = $selectedRate.val() in this.timeslotsByValue;
+    //             if (this.isPorterbuddyRate($selectedRate) && !timeslotExists) {
+    //                 this.selectTimeslot(null);
+    //             }
+    //             this.availability = dates.availability;
+    //             this.expiryTime = (new Date()).getTime() + (dates.availability.timeRemaining *60*1000);
+    //
+    //             this.render();
+    //         }.bind(this));
+    //
+    //     // filter Porterbuddy
+    //     // compare with current list, add/delete, render
+    // },
 
     diffTimeslots: function (before, after) {
         var deleted = {};
@@ -897,78 +898,78 @@ window.PorterbuddyWidget = Class.create({
         this.initRates();
     },
 
-    setDates: function (dates) {
-        this.dates = dates;
-
-        this.timeslotsByValue = {};
-        jQuery.each(this.dates, function (dateCode, date) {
-            jQuery.each(date.timeslots, function (timeslotIndex, timeslot) {
-                this.timeslotsByValue[timeslot.value] = {
-                    timeslot: timeslot,
-                    date: dateCode
-                };
-            }.bind(this));
-        }.bind(this));
-    },
+    // setDates: function (dates) {
+    //     this.dates = dates;
+    //
+    //     this.timeslotsByValue = {};
+    //     jQuery.each(this.dates, function (dateCode, date) {
+    //         jQuery.each(date.timeslots, function (timeslotIndex, timeslot) {
+    //             this.timeslotsByValue[timeslot.value] = {
+    //                 timeslot: timeslot,
+    //                 date: dateCode
+    //             };
+    //         }.bind(this));
+    //     }.bind(this));
+    // },
 
     initWidget: function () {
-        var that = this;
-        var $selectedRate = this.$allRates.filter(':checked');
+        //var that = this;
+        //var $selectedRate = this.$allRates.filter(':checked');
 
         // bind widget events - date prev-next, timeslot click
-        this.$widget.find('.prev-date').click(this.setPrevDate.bind(this));
-        this.$widget.find('.next-date').click(this.setNextDate.bind(this));
-        this.$timeslots.on('click', '.porterbuddy-widget-timeslot', function () {
-            that.selectTimeslot(jQuery(this).data('value'));
-        });
-        this.$allRates.click(function (e, internal) {
-            var $rate = jQuery(this);
-            if (!internal) {
-                that.selectRate($rate);
-            }
-            that.$groupRate.prop('checked', that.isPorterbuddyRate($rate));
-        });
+        // this.$widget.find('.prev-date').click(this.setPrevDate.bind(this));
+        // this.$widget.find('.next-date').click(this.setNextDate.bind(this));
+        // this.$timeslots.on('click', '.porterbuddy-widget-timeslot', function () {
+        //     that.selectTimeslot(jQuery(this).data('value'));
+        // });
+        // this.$allRates.click(function (e, internal) {
+        //     var $rate = jQuery(this);
+        //     if (!internal) {
+        //         that.selectRate($rate);
+        //     }
+        //     that.$groupRate.prop('checked', that.isPorterbuddyRate($rate));
+        // });
+        //
+        // // group checkbox
+        // if (this.isPorterbuddyRate($selectedRate)) {
+        //     that.$groupRate.prop('checked', true);
+        // }
+        // this.$groupRate.click(function () {
+        //     // if selected rate is not porterbuddy, select first timeslot
+        //     if (-1 === that.$porterbuddyRates.index(this)) {
+        //         that.selectTimeslot(null);
+        //     }
+        // });
 
-        // group checkbox
-        if (this.isPorterbuddyRate($selectedRate)) {
-            that.$groupRate.prop('checked', true);
-        }
-        this.$groupRate.click(function () {
-            // if selected rate is not porterbuddy, select first timeslot
-            if (-1 === that.$porterbuddyRates.index(this)) {
-                that.selectTimeslot(null);
-            }
-        });
-
-        // return checkbox
-        if (this.isPorterbuddyRate($selectedRate) && $selectedRate.val().match(/_return$/)) {
-            this.$return.prop('checked', true);
-        }
-        this.$return.change(function () {
-            if (that.selectedTimeslot) {
-                var baseCode = that.selectedTimeslot.value.replace(/_return$/, '');
-                if (that.$return.is(':checked')) {
-                    that.selectTimeslot(baseCode + '_return');
-                } else {
-                    that.selectTimeslot(baseCode);
-                }
-            } else {
-                // first
-                that.selectTimeslot(null);
-            }
-        });
+        // // return checkbox
+        // if (this.isPorterbuddyRate($selectedRate) && $selectedRate.val().match(/_return$/)) {
+        //     this.$return.prop('checked', true);
+        // }
+        // this.$return.change(function () {
+        //     if (that.selectedTimeslot) {
+        //         var baseCode = that.selectedTimeslot.value.replace(/_return$/, '');
+        //         if (that.$return.is(':checked')) {
+        //             that.selectTimeslot(baseCode + '_return');
+        //         } else {
+        //             that.selectTimeslot(baseCode);
+        //         }
+        //     } else {
+        //         // first
+        //         that.selectTimeslot(null);
+        //     }
+        // });
 
         // leave at doorstep checkbox, courier comment
-        var delayedOptionsSave = Porterbuddy.utilities.debounce(this.onOptionsChange.bind(this), this.optionsDelay);
-        this.$leaveDoorstep.change(delayedOptionsSave);
-        this.$comment.on('propertychange keyup change input paste blur', delayedOptionsSave);
+        // var delayedOptionsSave = Porterbuddy.utilities.debounce(this.onOptionsChange.bind(this), this.optionsDelay);
+        // this.$leaveDoorstep.change(delayedOptionsSave);
+        // this.$comment.on('propertychange keyup change input paste blur', delayedOptionsSave);
 
         // initial selection
-        this.selectDate(null);
-
-        if ($selectedRate.length) {
-            this.selectRate($selectedRate);
-        }
+        // this.selectDate(null);
+        //
+        // if ($selectedRate.length) {
+        //     this.selectRate($selectedRate);
+        // }
 
         // show widget
         this.$porterbuddyRates.closest('li').hide();
@@ -981,30 +982,30 @@ window.PorterbuddyWidget = Class.create({
         return this;
     },
 
-    onOptionsChange: function () {
-        var dfd = jQuery.Deferred();
-
-        // send, check response.error
-        jQuery.ajax(this.optionsSaveUrl, {
-            type: 'post',
-            dataType: 'json',
-            data: {
-                form_key: this.formKey,
-                leave_doorstep: Number(this.$leaveDoorstep.is(':checked')),
-                comment: this.$comment.val()
-            }
-        }).done(function (data) {
-            if (data.error) {
-                dfd.reject(data.message);
-            } else {
-                dfd.resolve();
-            }
-        }).fail(function () {
-            dfd.reject();
-        });
-
-        return dfd.promise();
-    },
+    // onOptionsChange: function () {
+    //     var dfd = jQuery.Deferred();
+    //
+    //     // send, check response.error
+    //     jQuery.ajax(this.optionsSaveUrl, {
+    //         type: 'post',
+    //         dataType: 'json',
+    //         data: {
+    //             form_key: this.formKey,
+    //             leave_doorstep: Number(this.$leaveDoorstep.is(':checked')),
+    //             comment: this.$comment.val()
+    //         }
+    //     }).done(function (data) {
+    //         if (data.error) {
+    //             dfd.reject(data.message);
+    //         } else {
+    //             dfd.resolve();
+    //         }
+    //     }).fail(function () {
+    //         dfd.reject();
+    //     });
+    //
+    //     return dfd.promise();
+    // },
 
     isPorterbuddyRate: function ($rate) {
         var exp = new RegExp('^' + Porterbuddy.CARRIER_CODE + '_');
@@ -1012,18 +1013,18 @@ window.PorterbuddyWidget = Class.create({
     },
 
     render: function () {
-        this.renderTitle();
-        this.renderDate();
-        this.renderTimeslots();
-        this.renderClasses();
+        //this.renderTitle();
+        //this.renderDate();
+        //this.renderTimeslots();
+        //this.renderClasses();
 
         return this;
     },
 
-    getFormattedPrice: function(){
-
-      return (this.selectedTimeslot?this.selectedTimeslot.price:(this.onlyPrice?this.price:Translator.translate('from') + ' ' + this.price));
-    },
+    // getFormattedPrice: function(){
+    //
+    //   return (this.selectedTimeslot?this.selectedTimeslot.price:(this.onlyPrice?this.price:Translator.translate('from') + ' ' + this.price));
+    // },
 
     renderTitle: function() {
       var formattedPrice = this.getFormattedPrice();
@@ -1091,173 +1092,173 @@ window.PorterbuddyWidget = Class.create({
         return this;
     },
 
-    /**
-     * @api
-     */
-    setPrevDate: function () {
-        var dateCode = this.getPrevDateCode();
-        if (false !== dateCode) {
-            this.selectDate(dateCode);
-            this.selectTimeslot(null);
-        }
+    // /**
+    //  * @api
+    //  */
+    // setPrevDate: function () {
+    //     var dateCode = this.getPrevDateCode();
+    //     if (false !== dateCode) {
+    //         this.selectDate(dateCode);
+    //         this.selectTimeslot(null);
+    //     }
+    //
+    //     return this;
+    // },
+    //
+    // /**
+    //  * @api
+    //  */
+    // setNextDate: function () {
+    //     var dateCode = this.getNextDateCode();
+    //     if (false !== dateCode) {
+    //         this.selectDate(dateCode);
+    //         this.selectTimeslot(null);
+    //     }
+    //
+    //     return this;
+    // },
 
-        return this;
-    },
-
-    /**
-     * @api
-     */
-    setNextDate: function () {
-        var dateCode = this.getNextDateCode();
-        if (false !== dateCode) {
-            this.selectDate(dateCode);
-            this.selectTimeslot(null);
-        }
-
-        return this;
-    },
-
-    /**
-     * @api
-     * @returns {boolean}
-     */
-    prevDateAvailable: function () {
-        return false !== this.getPrevDateCode();
-    },
-
-    /**
-     * @api
-     * @returns {boolean}
-     */
-    nextDateAvailable: function () {
-        return false !== this.getNextDateCode();
-    },
-
-    getPrevDateCode: function () {
-        var keys = jQuery.map(this.dates, function (element, index) {
-            return index;
-        });
-        var pos = keys.indexOf(this.selectedDateCode);
-
-        if (pos > 0) {
-            return keys[pos-1];
-        } else {
-            return false;
-        }
-    },
-
-    getNextDateCode: function () {
-        var keys = jQuery.map(this.dates, function (element, index) {
-            return index;
-        });
-        var pos = keys.indexOf(this.selectedDateCode);
-        if (-1 !== pos && pos < keys.length-1) {
-            return keys[pos+1];
-        } else {
-            return false;
-        }
-    },
-
-    /**
-     * @api
-     * @param dateCode
-     * @returns {Window.PorterbuddyWidget}
-     */
-    selectDate: function (dateCode) {
-        if (null === dateCode) {
-            // find first
-            for (dateCode in this.dates) {
-                if (this.dates.hasOwnProperty(dateCode)) {
-                    break;
-                }
-            }
-        }
-
-        if (!(dateCode in this.dates)) {
-            throw new Error('Invalid date index ' + dateCode);
-        }
-        if (this.selectedDateCode !== dateCode) {
-            this.selectedDateCode = dateCode;
-            this.selectedDate = this.dates[this.selectedDateCode];
-            this.render();
-        }
-
-        return this;
-    },
-
-    /**
-     * @api
-     * @param code
-     * @returns {Window.PorterbuddyWidget}
-     */
-    selectTimeslot: function (code) {
-        var timeslots = this.getVisibleTimeslots();
-
-        if (null === code) {
-            // find first
-            for (code in timeslots) {
-                if (timeslots.hasOwnProperty(code)) {
-                    break;
-                }
-            }
-        }
-
-        // TODO: check/uncheck return checkbox if needed
-        if (!(code in timeslots)) {
-            throw new Error('Invalid timeslot ' + timeslotIndex);
-        }
-
-        this.selectedTimeslot = timeslots[code];
-        this.$porterbuddyRates.filter('[value="' + code + '"]').trigger('click', true); // internal, don't call selectRate
-        this.renderTimeslots();
-        this.renderClasses();
-        this.renderTitle();
-
-        return this;
-    },
-
-    getVisibleTimeslots: function () {
-        if (!this.returnAvailable) {
-            return this.selectedDate.timeslots;
-        }
-
-        // only timeslots with return if selected, or only timeslots without return otherwise
-        var returnSelected = this.$return.is(':checked');
-        var timeslots = {};
-        jQuery.each(this.selectedDate.timeslots, function (code, timeslot) {
-            if (timeslot.return === returnSelected) {
-                timeslots[code] = timeslot;
-            }
-        });
-        return timeslots;
-    },
-
-    /**
-     * Native shipping rate updated -> select according widget date and timeslot
-     * @api
-     */
-    selectRate: function ($rate) {
-        if (!this.isPorterbuddyRate($rate)) {
-            // not a scheduled rate
-            this.selectedTimeslot = null;
-            this.renderClasses();
-            return;
-        }
-
-        var value = $rate.val();
-        if (value in this.timeslotsByValue) {
-            var newRate = this.timeslotsByValue[value];
-
-            if (newRate.date !== this.selectedDateCode) {
-                this.selectDate(newRate.date);
-            }
-            if (newRate.timeslot !== this.selectedTimeslot) {
-                this.selectTimeslot(value);
-            }
-        }
-
-        return this;
-    },
+    // /**
+    //  * @api
+    //  * @returns {boolean}
+    //  */
+    // prevDateAvailable: function () {
+    //     return false !== this.getPrevDateCode();
+    // },
+    //
+    // /**
+    //  * @api
+    //  * @returns {boolean}
+    //  */
+    // nextDateAvailable: function () {
+    //     return false !== this.getNextDateCode();
+    // },
+    //
+    // getPrevDateCode: function () {
+    //     var keys = jQuery.map(this.dates, function (element, index) {
+    //         return index;
+    //     });
+    //     var pos = keys.indexOf(this.selectedDateCode);
+    //
+    //     if (pos > 0) {
+    //         return keys[pos-1];
+    //     } else {
+    //         return false;
+    //     }
+    // },
+    //
+    // getNextDateCode: function () {
+    //     var keys = jQuery.map(this.dates, function (element, index) {
+    //         return index;
+    //     });
+    //     var pos = keys.indexOf(this.selectedDateCode);
+    //     if (-1 !== pos && pos < keys.length-1) {
+    //         return keys[pos+1];
+    //     } else {
+    //         return false;
+    //     }
+    // },
+    //
+    // /**
+    //  * @api
+    //  * @param dateCode
+    //  * @returns {Window.PorterbuddyWidget}
+    //  */
+    // selectDate: function (dateCode) {
+    //     if (null === dateCode) {
+    //         // find first
+    //         for (dateCode in this.dates) {
+    //             if (this.dates.hasOwnProperty(dateCode)) {
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //
+    //     if (!(dateCode in this.dates)) {
+    //         throw new Error('Invalid date index ' + dateCode);
+    //     }
+    //     if (this.selectedDateCode !== dateCode) {
+    //         this.selectedDateCode = dateCode;
+    //         this.selectedDate = this.dates[this.selectedDateCode];
+    //         this.render();
+    //     }
+    //
+    //     return this;
+    // },
+    //
+    // /**
+    //  * @api
+    //  * @param code
+    //  * @returns {Window.PorterbuddyWidget}
+    //  */
+    // selectTimeslot: function (code) {
+    //     var timeslots = this.getVisibleTimeslots();
+    //
+    //     if (null === code) {
+    //         // find first
+    //         for (code in timeslots) {
+    //             if (timeslots.hasOwnProperty(code)) {
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //
+    //     // TODO: check/uncheck return checkbox if needed
+    //     if (!(code in timeslots)) {
+    //         throw new Error('Invalid timeslot ' + timeslotIndex);
+    //     }
+    //
+    //     this.selectedTimeslot = timeslots[code];
+    //     this.$porterbuddyRates.filter('[value="' + code + '"]').trigger('click', true); // internal, don't call selectRate
+    //     this.renderTimeslots();
+    //     this.renderClasses();
+    //     this.renderTitle();
+    //
+    //     return this;
+    // },
+    //
+    // getVisibleTimeslots: function () {
+    //     if (!this.returnAvailable) {
+    //         return this.selectedDate.timeslots;
+    //     }
+    //
+    //     // only timeslots with return if selected, or only timeslots without return otherwise
+    //     var returnSelected = this.$return.is(':checked');
+    //     var timeslots = {};
+    //     jQuery.each(this.selectedDate.timeslots, function (code, timeslot) {
+    //         if (timeslot.return === returnSelected) {
+    //             timeslots[code] = timeslot;
+    //         }
+    //     });
+    //     return timeslots;
+    // },
+    //
+    // /**
+    //  * Native shipping rate updated -> select according widget date and timeslot
+    //  * @api
+    //  */
+    // selectRate: function ($rate) {
+    //     if (!this.isPorterbuddyRate($rate)) {
+    //         // not a scheduled rate
+    //         this.selectedTimeslot = null;
+    //         this.renderClasses();
+    //         return;
+    //     }
+    //
+    //     var value = $rate.val();
+    //     if (value in this.timeslotsByValue) {
+    //         var newRate = this.timeslotsByValue[value];
+    //
+    //         if (newRate.date !== this.selectedDateCode) {
+    //             this.selectDate(newRate.date);
+    //         }
+    //         if (newRate.timeslot !== this.selectedTimeslot) {
+    //             this.selectTimeslot(value);
+    //         }
+    //     }
+    //
+    //     return this;
+    // },
 
     destroy: function () {
         if (this.$widget) {

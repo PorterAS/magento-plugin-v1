@@ -180,6 +180,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         try {
             $parameters = $this->prepareAvailabilityData($request);
             $options = $this->api->getAvailability($parameters);
+            Mage::getSingleton('checkout/session')->setPbWindows($options);
         } catch (Convert_Porterbuddy_Exception $e) {
             // details logged
             return $result;
