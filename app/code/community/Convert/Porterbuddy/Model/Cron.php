@@ -98,26 +98,6 @@ class Convert_Porterbuddy_Model_Cron
     }
 
     /**
-     * Pulls in postcodes from API
-     */
-    public function updatePostcodes()
-    {
-        if (!$this->isActiveInAnyWebsite()) {
-            return;
-        }
-
-        $this->helper->log('Start updating postcodes by cron', null, Zend_Log::INFO);
-
-        try {
-            $this->availability->updatePostcodes();
-            $this->helper->log('Postcodes have been successfully updated by cron', null, Zend_Log::INFO);
-        } catch (\Exception $e) {
-            $this->helper->log('Postcodes update by cron failed - ' . $e->getMessage(), null, Zend_Log::INFO);
-            // stack trace logged
-        }
-    }
-
-    /**
      * @return bool
      */
     protected function isActiveInAnyWebsite()

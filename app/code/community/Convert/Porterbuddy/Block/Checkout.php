@@ -57,49 +57,6 @@ class Convert_Porterbuddy_Block_Checkout extends Mage_Checkout_Block_Onepage_Shi
     }
 
     /**
-     * @return bool
-     */
-    public function getReturnEnabled()
-    {
-        return $this->helper->getReturnEnabled() && $this->helper->getReturnPrice() > 0;
-    }
-
-    /**
-     * @return string
-     */
-    public function getReturnText()
-    {
-        $text = $this->helper->getReturnText();
-
-        $basePrice = $this->getReturnPrice();
-        $text = str_replace(
-            '{{formatted_price}}',
-            $this->helper->formatPrice($this->getQuote(), $basePrice),
-            $text
-        );
-
-        return $text;
-    }
-
-    /**
-     * Return price in base currency
-     *
-     * @return string
-     */
-    public function getReturnPrice()
-    {
-        $returnPrice = $this->helper->getReturnPrice();
-
-        $responseCurrencyCode = 'NOK';
-        $baseCurrencyRate = $this->baseCurrencyRate = Mage::getModel('directory/currency')
-            ->load($responseCurrencyCode)
-            ->getAnyRate($this->getQuote()->getStore()->getBaseCurrencyCode());
-        $returnPrice = (float)$returnPrice * $baseCurrencyRate;
-
-        return $returnPrice;
-    }
-
-    /**
      * @return string
      */
     public function getLeaveDoorstepText()
@@ -141,21 +98,7 @@ class Convert_Porterbuddy_Block_Checkout extends Mage_Checkout_Block_Onepage_Shi
         return Mage::getSingleton('core/session')->getFormKey();
     }
 
-    /**
-     * @return bool
-     */
-    public function showTimeslots()
-    {
-        return Convert_Porterbuddy_Model_Carrier::TIMESLOT_CHECKOUT == $this->helper->getTimeslotSelection();
-    }
 
-    /**
-     * @return array
-     */
-    public function getDates()
-    {
-        return $this->timeslots->getDatesTimeslots($this->getAddress(), false);
-    }
 
     /**
      * @return float|null

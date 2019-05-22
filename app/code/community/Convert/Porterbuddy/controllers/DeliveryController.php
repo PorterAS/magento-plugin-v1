@@ -122,53 +122,9 @@ class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Ac
         $address = $this->getCheckout()->getQuote()->getShippingAddress();
         $address->setCollectShippingRates(true);
 
-        $dates = $this->timeslots->getDatesTimeslots($address, false);
-
-        return $this->prepareDataJSON($dates);
+        return $this->prepareDataJSON(Mage::getSingleton('checkout/session')->getPbWindows($options));
     }
 
-    /**
-     * Detects current location based on IP
-     *
-     * @return Zend_Controller_Response_Abstract
-     */
-    public function locationAction()
-    {
-        if (!$this->helper->ipDiscoveryEnabled()) {
-            return $this->jsonError($this->helper->__('GeoIp lookup is disabled'));
-        }
-
-        $ip = $this->getRequest()->getClientIp();
-
-        // In case of chained IP addresses "34.242.90.202, 127.0.0.1, 127.0.0.1", use first
-        $pos = strpos($ip, ',');
-        if ($pos) {
-            $ip = substr($ip, 0, $pos);
-        }
-
-        try {
-            $info = $this->geoip->getInfo($ip);
-        } catch (\GeoIp2\Exception\AddressNotFoundException $e) {
-            // don't log IP not found errors
-            return $this->jsonError($this->helper->__('IP address not found in database'));
-        } catch (\Exception $e) {
-            $this->helper->log('Get postcode by IP error - ' . $e->getMessage(), array('ip' => $ip), Zend_Log::WARN);
-            $this->helper->log($e);
-            return $this->jsonError($this->helper->__('IP address lookup error'));
-        }
-
-        // while city may be found, postcode is crucial for availability
-        if (!$info->postal->code) {
-            // address found but no postcode
-            return $this->jsonError($this->helper->__('Postcode is unknown for IP address'));
-        } else {
-            return $this->prepareDataJSON([
-                'postcode' => $info->postal->code,
-                'city' => $info->city->name,
-                'country' => $info->country->name,
-            ]);
-        }
-    }
 
     /**
      * Checks postcode is available, product is in stock and calculates closest deadline

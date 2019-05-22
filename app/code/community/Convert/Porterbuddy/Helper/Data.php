@@ -12,7 +12,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_SUB_TITLE = 'carriers/cnvporterbuddy/sub_title';
     const XML_PATH_DESCRIPTION = 'carriers/cnvporterbuddy/description';
     const XML_PATH_ASAP_NAME = 'carriers/cnvporterbuddy/asap_name';
-    const XML_PATH_CHOOSE_LATER_NAME = 'carriers/cnvporterbuddy/choose_later_name';
     const XML_PATH_AUTO_CREATE_SHIPMENT = 'carriers/cnvporterbuddy/auto_create_shipment';
     const XML_PATH_API_MODE = 'carriers/cnvporterbuddy/api_mode';
     const XML_PATH_API_TIMEOUT = 'carriers/cnvporterbuddy/api_timeout';
@@ -28,8 +27,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_LOCATION_DISCOVERY = 'carriers/cnvporterbuddy/location_discovery';
     const XML_PATH_LOCATION_LINK_TEMPLATE = 'carriers/cnvporterbuddy/location_link_template';
     const XML_PATH_AVAILABILITY_TEMPLATE = 'carriers/cnvporterbuddy/availability_template';
-    const XML_PATH_AVAILABILITY_CHOOSE_POPUP_TITLE = 'carriers/cnvporterbuddy/availability_choose_popup_title';
-    const XML_PATH_AVAILABILITY_CHOOSE_POPUP_DESCRIPTION = 'carriers/cnvporterbuddy/availability_choose_popup_description';
     const XML_PATH_AVAILABILITY_TEXT_FETCHING = 'carriers/cnvporterbuddy/availability_text_fetching';
     const XML_PATH_AVAILABILITY_TEXT_CLICK_TO_SEE = 'carriers/cnvporterbuddy/availability_text_click_to_see';
     const XML_PATH_AVAILABILITY_TEXT_POSTCODE_ERROR = 'carriers/cnvporterbuddy/availability_text_postcode_error';
@@ -41,7 +38,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_DEFAULT_PHONE_CODE = 'carriers/cnvporterbuddy/default_phone_code';
     const XML_PATH_PACKAGER_MODE = 'carriers/cnvporterbuddy/packager_mode';
     const XML_PATH_PACKING_TIME = 'carriers/cnvporterbuddy/packing_time';
-    const XML_PATH_RETURN_ENABLED = 'carriers/cnvporterbuddy/return_enabled';
     const XML_PATH_TIMESLOT_SELECTION = 'carriers/cnvporterbuddy/timeslot_selection';
     const XML_PATH_DAYS_AHEAD = 'carriers/cnvporterbuddy/days_ahead';
     const XML_PATH_EXTRA_PICKUP_WINDOWS = 'carriers/cnvporterbuddy/pickup_windows_extra';
@@ -82,9 +78,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_ID_CHECK_ATTR = 'carriers/cnvporterbuddy/id_check_attr';
     const XML_PATH_ONLY_RECIPIENT_ATTR = 'carriers/cnvporterbuddy/only_to_recipient_attr';
 
-    const XML_PATH_RETURN_TEXT = 'carriers/cnvporterbuddy/return_text';
-    const XML_PATH_RETURN_SHORT_TEXT = 'carriers/cnvporterbuddy/return_short_text';
-    const XML_PATH_RETURN_PRICE = 'carriers/cnvporterbuddy/return_price';
     const XML_PATH_REFRESH_OPTIONS_TIMEOUT = 'carriers/cnvporterbuddy/refresh_options_timeout';
     const XML_PATH_ALLOW_LEAVE_AT_DOORSTEP = 'carriers/cnvporterbuddy/allow_leave_at_doorstep';
     const XML_PATH_LEAVE_DOORSTEP_TEXT = 'carriers/cnvporterbuddy/leave_doorstep_text';
@@ -106,7 +99,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_ERROR_EMAIL_RECIPIENTS_PORTERBUDDY = 'carriers/cnvporterbuddy/error_email_recipients_porterbuddy';
     const XML_PATH_ERROR_EMAIL_PORTERBUDDY = 'carriers/cnvporterbuddy/error_email_porterbuddy';
 
-    const XML_PATH_MAPS_API_KEY = 'carriers/cnvporterbuddy/maps_api_key';
     const XML_PATH_DEBUG = 'carriers/cnvporterbuddy/debug';
 
     const XML_PATH_CARGONIZER_ENABLED = 'carriers/cnvporterbuddy/cargonizer_enabled';
@@ -168,14 +160,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAsapName()
     {
         return Mage::getStoreConfig(self::XML_PATH_ASAP_NAME);
-    }
-
-    /**
-     * @return string
-     */
-    public function getChooseLaterName()
-    {
-        return Mage::getStoreConfig(self::XML_PATH_CHOOSE_LATER_NAME);
     }
 
     /**
@@ -368,26 +352,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAvailabilityTextNoDate()
     {
         return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_TEXT_NO_DATE);
-    }
-
-    /**
-     * Delivery availability change popup title
-     *
-     * @return string
-     */
-    public function getAvailabilityChoosePopupTitle()
-    {
-        return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_CHOOSE_POPUP_TITLE);
-    }
-
-    /**
-     * Delivery availability change popup description
-     *
-     * @return string
-     */
-    public function getAvailabilityChoosePopupDescription()
-    {
-        return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_CHOOSE_POPUP_DESCRIPTION);
     }
 
     /**
@@ -665,15 +629,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @return string Convert_Porterbuddy_Model_Carrier::TIMESLOT_CHECKOUT_* constant
-     */
-    public function getTimeslotSelection()
-    {
-        return Mage::getStoreConfig(self::XML_PATH_TIMESLOT_SELECTION);
-    }
-
-
-    /**
      * @return int
      */
     public function getExtraPickupWindows()
@@ -751,43 +706,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     public function getDiscountPercent()
     {
         return (int)Mage::getStoreConfig(self::XML_PATH_DISCOUNT_PERCENT);
-    }
-
-    /**
-     * @return string
-     */
-    public function getReturnEnabled()
-    {
-        return Mage::getStoreConfigFlag(self::XML_PATH_RETURN_ENABLED);
-    }
-
-    /**
-     * @return string
-     */
-    public function getReturnText()
-    {
-        return Mage::getStoreConfig(self::XML_PATH_RETURN_TEXT);
-    }
-
-    /**
-     * @return string
-     */
-    public function getReturnShortText()
-    {
-        return Mage::getStoreConfig(self::XML_PATH_RETURN_SHORT_TEXT);
-    }
-
-    /**
-     * @return float|null
-     */
-    public function getReturnPrice()
-    {
-        $value = Mage::getStoreConfig(self::XML_PATH_RETURN_PRICE);
-        if (!strlen($value)) {
-            return null;
-        }
-
-        return Mage::app()->getLocale()->getNumber($value);
     }
 
     /**
@@ -879,16 +797,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     public function getErrorEmailPorterbuddy()
     {
         return Mage::getStoreConfig(self::XML_PATH_ERROR_EMAIL_PORTERBUDDY);
-    }
-
-    /**
-     * Maps API Key
-     *
-     * @return string
-     */
-    public function getMapsApiKey()
-    {
-        return Mage::getStoreConfig(self::XML_PATH_MAPS_API_KEY);
     }
 
     /**

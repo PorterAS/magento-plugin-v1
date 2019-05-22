@@ -13,10 +13,7 @@ $coreHelper = $this->helper('core');
         refreshUrl: '<?php echo $this->getUrl('convert_porterbuddy/delivery/refresh') ?>',
         refreshOptionsTimeout: <?php echo json_encode($this->getRefreshOptionsTimeout()) ?>,
         optionsSaveUrl: '<?php echo $this->getUrl('convert_porterbuddy/delivery/options') ?>',
-        showTimeslots: <?php echo json_encode($this->showTimeslots()) ?>,
-        dates: <?php echo json_encode($this->getDates()) ?>,
         widgetHtml: <?php echo json_encode($this->getChildHtml()) ?>,
-        defaultCountry: <?php echo json_encode($coreHelper->getDefaultCountry()) ?>,
         postcode: <?php echo json_encode($this->getPostcode()) ?>
     });
 </script>
@@ -24,7 +21,20 @@ $coreHelper = $this->helper('core');
 window.porterbuddy = {
       token: 'y3wt37LqBsiLo62Jkx284XEdi4LzdX6pihZFwqYX',
       view: 'checkout',
-      deliveryWindows: <?php echo json_encode(Mage::getSingleton('checkout/session')->getPbWindows($options)) ?>
+      deliveryWindows: <?php echo json_encode(Mage::getSingleton('checkout/session')->getPbWindows($options))?>,
+      onSelectDeliveryWindow: function(selectedWindow){
+        let code = 'cnvporterbuddy_' + selectedWindow.product + '_' + selectedWindow.start + '_' + selectedWindow.end
+        let option = window.porterbuddyWidget.$porterbuddyRates.filter('[value="' + code + '"]').trigger('click', true);
+      },
+      onUpdateDeliveryWindows: function(callback) {
+
+        jQuery.ajax('<?php echo $this->getUrl('convert_porterbuddy/delivery/refresh') ?>', {
+            dataType: 'json'
+          })
+          .done(function(deliveryWindows) {
+            callback(deliveryWindows);
+          }
+        }
     };
     (function() {
       var link = document.createElement('link');

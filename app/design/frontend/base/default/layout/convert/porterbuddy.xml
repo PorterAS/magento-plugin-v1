@@ -58,16 +58,12 @@
 
     <catalog_product_view>
         <update handle="convert_porterbuddy_assets" />
-        <update handle="convert_porterbuddy_popup_assets" />
 
         <reference name="product.info.extrahint">
             <block type="core/text_list" name="porterbuddy.availability">
                 <block type="convert_porterbuddy/availability" name="porterbuddy.availability.widget" as="widget" template="convert/porterbuddy/availability/widget.phtml" />
                 <block type="convert_porterbuddy/availability" name="porterbuddy.availability.js" as="js" template="convert/porterbuddy/availability/js.phtml" />
             </block>
-        </reference>
-        <reference name="after_body_start">
-            <block type="convert_porterbuddy/availability" name="porterbuddy.availability.popup" template="convert/porterbuddy/availability/popup.phtml" />
         </reference>
     </catalog_product_view>
 </layout>

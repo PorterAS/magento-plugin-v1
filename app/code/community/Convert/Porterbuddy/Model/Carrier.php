@@ -24,8 +24,6 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
     const DISCOUNT_TYPE_FIXED = 'fixed';
     const DISCOUNT_TYPE_PERCENT = 'percent';
 
-    const TIMESLOT_CHECKOUT = 'checkout';
-    const TIMESLOT_CONFIRMATION = 'confirmation';
 
     const AVAILABILITY_HIDE = 'hide';
     const AVAILABILITY_ONLY_AVAILABLE = 'only_available';
@@ -209,8 +207,6 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
             $result = $this->addRateResult($request, $option, $result);
         }
 
-
-        $result = $this->addReturnMethods($request, $result);
         $result = $this->applyDiscounts($request, $result);
 
         // enable to construct new result object
@@ -220,48 +216,6 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
             'transport' => $transport,
         ));
         $result = $transport->getData('result');
-
-        return $result;
-    }
-
-    public function addDeliveryOnConfirmationResult(
-        Mage_Shipping_Model_Rate_Request $request,
-        array $option,
-        Convert_Porterbuddy_Model_Rate_Result $result
-    ) {
-        // Local timezone
-        /** @var Mage_Shipping_Model_Rate_Result_Method $method */
-        $method = Mage::getModel('shipping/rate_result_method');
-
-        $method->setCarrier(self::CODE);
-        $method->setCarrierTitle($this->helper->getTitle());
-
-        $method->setMethod($option['product']); // no start-end dates
-        $method->setMethodTitle($this->helper->__('Select specific time after checkout')); // $this->helper->getScheduledName()
-        //$method->setMethodDescription($this->helper->getScheduledDescription());
-
-        if ($request->getFreeShipping() === true) {
-            $shippingPrice = '0.00';
-        } else {
-            $shippingPrice = $this->helper->getPriceOverrideDelivery();
-
-            if (null === $shippingPrice
-                && isset($option['price']['fractionalDenomination'], $option['price']['currency'])
-            ) {
-                $apiPrice = Mage::app()->getLocale()->getNumber($option['price']['fractionalDenomination']) / 100;
-                $rate = $this->getBaseCurrencyRate($request, $option['price']['currency']);
-                $shippingPrice = $apiPrice * $rate;
-            }
-            if (null === $shippingPrice) {
-                $this->helper->log('Skip option with undefined price', array('option' => $option), Zend_Log::WARN);
-                return $result;
-            }
-        }
-
-        $method->setPrice($shippingPrice);
-        $method->setCost($shippingPrice);
-
-        $result->append($method);
 
         return $result;
     }
@@ -299,9 +253,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         $method->setCarrierTitle($this->helper->getTitle());
 
         $method->setMethod($methodCode);
-        $method->setMethodTitle($methodTitle); // $this->helper->getScheduledName()
-        //$method->setMethodDescription($this->helper->getScheduledDescription());
-        $method->setMethodDescription($option['expiresAt']);
+        $method->setMethodTitle($methodTitle);
 
         if ($request->getFreeShipping() === true) {
             $shippingPrice = '0.00';
@@ -343,45 +295,6 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
                 ->getAnyRate($request->getBaseCurrency()->getCode());
         }
         return $this->baseCurrencyRate;
-    }
-
-    /**
-     * Adds return timeslots with added price and title
-     *
-     * @param Mage_Shipping_Model_Rate_Request $request
-     * @param Convert_Porterbuddy_Model_Rate_Result $origResult
-     * @return Convert_Porterbuddy_Model_Rate_Result
-     */
-    public function addReturnMethods(
-        Mage_Shipping_Model_Rate_Request $request,
-        Convert_Porterbuddy_Model_Rate_Result $origResult
-    ) {
-        $returnPrice = $this->helper->getReturnPrice();
-
-        if (!$this->helper->getReturnEnabled() || !is_numeric($returnPrice) || !$returnPrice) {
-            return $origResult;
-        }
-
-        $returnPrice = (float)$returnPrice * $this->getBaseCurrencyRate($request);
-
-        /** @var Convert_Porterbuddy_Model_Rate_Result $result */
-        $result = Mage::getModel('convert_porterbuddy/rate_result');
-        foreach ($origResult->getAllRates() as $method) {
-            $result->append($method);
-
-            $returnMethod = clone $method;
-
-            $returnMethod->setMethod($method->getMethod() . '_return');
-            $returnMethod->setMethodTitle($method->getMethodTitle() . ' ' . $this->helper->getReturnShortText());
-
-            $price = $method->getPrice() + $returnPrice;
-            $returnMethod->setPrice($price);
-            $returnMethod->setCost($price);
-
-            $result->append($returnMethod);
-        }
-
-        return $result;
     }
 
     /**

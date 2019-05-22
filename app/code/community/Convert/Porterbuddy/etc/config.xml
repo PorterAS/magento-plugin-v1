@@ -213,14 +213,6 @@
                     <model>convert_porterbuddy/cron::sendShipments</model>
                 </run>
             </convert_porterbuddy_send_shipments>
-            <convert_porterbuddy_update_postcodes>
-                <schedule>
-                    <cron_expr>0 4 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>convert_porterbuddy/cron::updatePostcodes</model>
-                </run>
-            </convert_porterbuddy_update_postcodes>
         </jobs>
     </crontab>
     <default>
@@ -242,11 +234,8 @@
                 <availability_text_postcode_error>Beklager, levering samme dag er ikke mulig til postnummer {{postcode}}. Vi utvider stadig. Følg utviklingen på www.porterbuddy.com</availability_text_postcode_error>
                 <availability_text_delivery_out_of_stock>Beklager, dette produktet er utsolgt</availability_text_delivery_out_of_stock>
                 <availability_text_delivery_no_date>Beklager, levering samme dag er ikke mulig</availability_text_delivery_no_date>
-                <availability_choose_popup_title>Velg postnummer for leveranse</availability_choose_popup_title>
-                <availability_choose_popup_description>Leveransealternativer og tider kan variere med valg av leveranseområde</availability_choose_popup_description>
                 <availability_auto_update_composite>1</availability_auto_update_composite>
                 <days_ahead>1</days_ahead>
-                <timeslot_selection>checkout</timeslot_selection>
                 <pickup_windows_extra>3</pickup_windows_extra>
                 <porterbuddy_until>30</porterbuddy_until>
                 <hours_mon>00:00,24:00</hours_mon>
@@ -259,9 +248,6 @@
                 <require_signature_default>0</require_signature_default>
                 <id_check_default>0</id_check_default>
                 <only_to_recipient_default>0</only_to_recipient_default>
-                <return_enabled>0</return_enabled>
-                <return_text>Retur on-demand; Budet venter inntil 10 minutter og tar varer med seg varer i retur on ønskelig (pris {{formatted_price}})</return_text>
-                <return_short_text>+ included return</return_short_text>
                 <refresh_options_timeout>5</refresh_options_timeout>
                 <discount_type>none</discount_type>
                 <allow_leave_at_doorstep>1</allow_leave_at_doorstep>
