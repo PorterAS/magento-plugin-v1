@@ -174,6 +174,19 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         if ($result->getError()) {
             return $result;
         }
+        /** @var Mage_Sales_Model_Quote_Item $item */
+         $getAllItemsResponse = $request->getallItems();
+         $item = reset($getAllItemsResponse);
+         $quote = $item->getQuote();
+
+         //check item availability for pb
+         foreach ($request->getAllItems() as $item) {
+
+           if (!$item->getProduct()->isSaleable()) {
+             //item not in stock
+             return $result;
+           }
+         }
 
         try {
             $parameters = $this->prepareAvailabilityData($request);
@@ -207,7 +220,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
             $result = $this->addRateResult($request, $option, $result);
         }
 
-        $result = $this->applyDiscounts($request, $result);
+        $result = $this->applyDiscounts($request, $result, $quote->getCouponCode());
 
         // enable to construct new result object
         $transport = new Varien_Object(array('result' => $result));
@@ -306,59 +319,66 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
      */
     public function applyDiscounts(
         Mage_Shipping_Model_Rate_Request $request,
-        Convert_Porterbuddy_Model_Rate_Result $result
+        Convert_Porterbuddy_Model_Rate_Result $result,
+        $couponCode = null
     ) {
-        $discountType = $this->helper->getDiscountType();
-        $discountSubtotal = $this->helper->getDiscountSubtotal();
 
-        // known possible problem: $request->getBaseSubtotalInclTax can be empty in some cases, same problem with
-        // free shipping. This is because shipping total collector is called before tax subtotal collector, and so
-        // BaseSubtotalInclTax is not updated yet.
-        $basketValue = $request->getBaseSubtotalInclTax();
-        if ($basketValue == 0 && $request->getPackageValueWithDiscount()>0) {
-            $basketValue = $request->getPackageValueWithDiscount() * 1.25;
-        }
+      // known possible problem: $request->getBaseSubtotalInclTax can be empty in some cases, same problem with
+      // free shipping. This is because shipping total collector is called before tax subtotal collector, and so
+      // BaseSubtotalInclTax is not updated yet.
+      $basketValue = $request->getBaseSubtotalInclTax();
+      if ($basketValue == 0 && $request->getPackageValueWithDiscount()>0) {
+        $basketValue = $request->getPackageValueWithDiscount() * 1.25;
+      }
 
-        if ($basketValue < $discountSubtotal) {
-            // we need more gold
-            return $result;
-        }
-
-        if (self::DISCOUNT_TYPE_FIXED === $discountType) {
-            $discountAmount = $this->helper->getDiscountAmount();
-            if ($discountAmount <= 0) {
-                $this->helper->log("Invalid discount amount `$discountAmount`.", null, Zend_Log::WARN);
-                return $result;
-            }
-
-            /** @var Mage_Shipping_Model_Rate_Result_Method  $method */
-            foreach ($result->getAllRates() as $method) {
+      $totalDiscount = 0;
+      if ($couponCode != null){
+        $coupons = $this->helper->getDiscountCoupons();
+        foreach($coupons as $coupon){
+          if(trim($coupon['couponcode']) == $couponCode){
+            if($basketValue >= (int)trim($coupon['minimumbasket'])){
+              /** @var Mage_Shipping_Model_Rate_Result_Method  $method */
+              foreach ($result->getAllRates() as $method) {
+                $totalDiscount += (int)trim($coupon['discount']);
                 $price = $method->getPrice();
-                if ($price > 0) {
-                    $price -= $discountAmount;
-                    $price = max($price, 0.00);
-                    $method->setPrice(max($price, 0.00));
+                if($price > 0){
+                  $price -= (int)trim($coupon['discount']);
+                  $price = max($price, 0.00);
+                  $method->setPrice($price);
                 }
+              }
             }
-        } elseif (self::DISCOUNT_TYPE_PERCENT === $discountType) {
-            $discountPercent = $this->helper->getDiscountPercent();
-            if ($discountPercent <= 0 || $discountPercent > 100) {
-                $this->helper->log("Invalid discount percent `$discountPercent`.", null, Zend_Log::WARN);
-                return $result;
-            }
-
-            /** @var Mage_Shipping_Model_Rate_Result_Method  $method */
-            foreach ($result->getAllRates() as $method) {
-                $price = $method->getPrice();
-                if ($price > 0) {
-                    $price -= $price * $discountPercent / 100;
-                    $price = max($price, 0.00);
-                    $method->setPrice($price);
-                }
-            }
+            break;
+          }
         }
+      }
 
-        return $result;
+      $discounts = $this->helper->getDiscounts();
+      $discountAmount = 0;
+      foreach($discounts as $discount){
+        if((int)trim($discount['minimumbasket']) < $basketValue){
+          //Basket is eligible
+          if((int)trim($discount['discount']) > $discountAmount){
+            //best discount
+            $discountAmount = (int)trim($discount['discount']);
+          }
+        }
+      }
+      if($discountAmount > 0){
+        $totalDiscount += $discountAmount;
+        foreach ($result->getAllRates() as $method) {
+          $price = $method->getPrice();
+          if ($price > 0) {
+            $price -= $discountAmount;
+            $price = max($price, 0.00);
+            $method->setPrice(max($price, 0.00));
+          }
+        }
+      }
+      Mage::getSingleton('checkout/session')->setPbDiscount($totalDiscount);
+
+      $this->helper->log(Mage::getSingleton('checkout/session')->getPbDiscount());
+      return $result;
     }
 
     /**
@@ -501,7 +521,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
     {
         $params = array();
 
-        $params['pickupWindows'] = $this->timeslots->getAvailabilityPickupWindows();
+        $params['pickupWindows'] = $this->helper->getPickupWindows();
 
         $originStreet1 = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1);
         $originStreet2 = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2);
@@ -548,7 +568,6 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         $order = $shipment->getOrder();
         $methodInfo = $this->helper->parseMethod($request->getShippingMethod());
 
-        $methodInfo = $this->checkExpiredTimeslot($methodInfo);
         $parcels = $this->getParcels($request, $shipment);
 
         if (!$request->getRecipientEmail()) {
@@ -560,7 +579,6 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         $deliveryPhone = $this->helper->splitPhoneCodeNumber($request->getRecipientContactPhoneNumber());
         $senderEmail = Mage::getStoreConfig('trans_email/ident_'.$this->helper->getSenderEmailIdentify($shipment->getStoreId()).'/email');
 
-        $deliveryTimeslotIsKnown = ($methodInfo['start'] && $methodInfo['end']);
         $parameters = array(
             'origin' => [
                 'name' => Mage::getStoreConfig('trans_email/ident_general/name', $shipment->getStoreId()),
@@ -574,7 +592,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
                 'email' => $senderEmail,
                 'phoneCountryCode' => $pickupPhone[0] ?: $defaultPhoneCode,
                 'phoneNumber' => $pickupPhone[1],
-                'pickupWindows' => $this->timeslots->getPickupWindows($methodInfo),
+                'pickupWindows' => $this->helper->getPickupWindows(),
             ],
             'destination' => [
                 'name' => $request->getRecipientContactPersonName(),
@@ -588,10 +606,10 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
                 'email' => $request->getRecipientEmail(),
                 'phoneCountryCode' => $deliveryPhone[0] ?: $defaultPhoneCode,
                 'phoneNumber' => $deliveryPhone[1],
-                'deliveryWindow' => $deliveryTimeslotIsKnown ? [
+                'deliveryWindow' =>  [
                     'start' => $this->helper->formatApiDateTime($methodInfo['start']),
                     'end' => $this->helper->formatApiDateTime($methodInfo['end']),
-                ] : null,
+                ],
                 'bestAvailableWindow' => !$deliveryTimeslotIsKnown,
                 'verifications' => $this->getVerifications($shipment),
             ],
@@ -611,24 +629,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         return $parameters;
     }
 
-    /**
-     * For passed dates, get new closest timeslot
-     *
-     * @param array $methodInfo
-     * @return array
-     * @throws Convert_Porterbuddy_Exception
-     */
-    public function checkExpiredTimeslot($methodInfo)
-    {
-        $scheduledDate = new DateTime($methodInfo['start']);
-        $currentTime = $this->helper->getCurrentTime();
-        if ($currentTime > $scheduledDate) {
-            $this->helper->log("Delivery timeslot `{$methodInfo['start']}` expired.", $methodInfo, Zend_Log::ERR);
-            // FIXME
-            // throw new Convert_Porterbuddy_Exception($this->helper->__('Delivery timeslot %s expired', $methodInfo['start']));
-        }
-        return $methodInfo;
-    }
+
 
     /**
      * Creates shipment packages if needed, exports to Porterbuddy API format

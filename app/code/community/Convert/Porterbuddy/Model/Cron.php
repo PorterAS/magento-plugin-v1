@@ -5,10 +5,6 @@
  */
 class Convert_Porterbuddy_Model_Cron
 {
-    /**
-     * @var Convert_Porterbuddy_Model_Availability
-     */
-    protected $availability;
 
     /**
      * @var Convert_Porterbuddy_Helper_Data
@@ -22,11 +18,9 @@ class Convert_Porterbuddy_Model_Cron
 
     public function __construct(
         array $data = null, // for getModel to work
-        Convert_Porterbuddy_Model_Availability $availability = null,
         Convert_Porterbuddy_Helper_Data $helper = null,
         Convert_Porterbuddy_Model_Shipment $shipment = null
     ) {
-        $this->availability = $availability?: Mage::getSingleton('convert_porterbuddy/availability');
         $this->helper = $helper ?: Mage::helper('convert_porterbuddy');
         $this->shipment = $shipment ?: Mage::getSingleton('convert_porterbuddy/shipment');
     }

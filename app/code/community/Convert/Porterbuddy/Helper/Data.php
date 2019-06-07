@@ -25,15 +25,22 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_POSTCODES = 'carriers/cnvporterbuddy/postcodes';
     const XML_PATH_SHOW_AVAILABILITY = 'carriers/cnvporterbuddy/show_availability';
     const XML_PATH_LOCATION_DISCOVERY = 'carriers/cnvporterbuddy/location_discovery';
-    const XML_PATH_LOCATION_LINK_TEMPLATE = 'carriers/cnvporterbuddy/location_link_template';
     const XML_PATH_AVAILABILITY_TEMPLATE = 'carriers/cnvporterbuddy/availability_template';
     const XML_PATH_AVAILABILITY_TEXT_FETCHING = 'carriers/cnvporterbuddy/availability_text_fetching';
     const XML_PATH_AVAILABILITY_TEXT_CLICK_TO_SEE = 'carriers/cnvporterbuddy/availability_text_click_to_see';
     const XML_PATH_AVAILABILITY_TEXT_POSTCODE_ERROR = 'carriers/cnvporterbuddy/availability_text_postcode_error';
-    const XML_PATH_AVAILABILITY_TEXT_OUT_OF_STOCK = 'carriers/cnvporterbuddy/availability_text_delivery_out_of_stock';
     const XML_PATH_AVAILABILITY_TEXT_NO_DATE = 'carriers/cnvporterbuddy/availability_text_delivery_no_date';
+    const XML_PATH_AVAILABILITY_ENTER_POSTAL_CODE = 'carriers/cnvporterbuddy/availability_enter_postal_code';
+    const XML_PATH_AVAILABILITY_ENTER_POSTAL_CODE_PLACEHOLDER = 'carriers/cnvporterbuddy/availability_enter_postal_code_placeholder';
+    const XML_PATH_AVAILABILITY_DETECTING_LOCATION = 'carriers/cnvporterbuddy/availability_detecting_location';
+    const XML_PATH_AVAILABILITY_SERVICE_NOT_AVAILABLE = 'carriers/cnvporterbuddy/availability_service_not_available';
     const XML_PATH_AVAILABILITY_AUTO_UPDATE_COMPOSITE = 'carriers/cnvporterbuddy/availability_auto_update_composite';
-
+    const XML_PATH_AVAILABILITY_URL = 'carriers/cnvporterbuddy/availability_widget_url';
+    const XML_PATH_AVAILABILITY_CHANGE_LOCATION_BUTTON = 'carriers/cnvporterbuddy/availability_change_location_button';
+    const XML_PATH_AVAILABILITY_SEARCH_LOCATION_BUTTON = 'carriers/cnvporterbuddy/availability_search_location_button';
+    const XML_PATH_AVAILABILITY_TRY_AGAIN_BUTTON = 'carriers/cnvporterbuddy/availability_try_again_button';
+    const XML_PATH_AVAILABILITY_YOUR_POSTCODE = 'carriers/cnvporterbuddy/availability_your_postcode';
+    
     const XML_PATH_SENDER_EMAIL_IDENTITY = 'carriers/cnvporterbuddy/sender_email_identity';
     const XML_PATH_DEFAULT_PHONE_CODE = 'carriers/cnvporterbuddy/default_phone_code';
     const XML_PATH_PACKAGER_MODE = 'carriers/cnvporterbuddy/packager_mode';
@@ -46,10 +53,8 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_PRICE_OVERRIDE_EXPRESS = 'carriers/cnvporterbuddy/price_override_express';
     const XML_PATH_PRICE_OVERRIDE_DELIVERY = 'carriers/cnvporterbuddy/price_override_delivery';
 
-    const XML_PATH_DISCOUNT_TYPE = 'carriers/cnvporterbuddy/discount_type';
-    const XML_PATH_DISCOUNT_SUBTOTAL = 'carriers/cnvporterbuddy/discount_subtotal';
-    const XML_PATH_DISCOUNT_AMOUNT = 'carriers/cnvporterbuddy/discount_amount';
-    const XML_PATH_DISCOUNT_PERCENT = 'carriers/cnvporterbuddy/discount_percent';
+    const XML_PATH_DISCOUNTS = 'carriers/cnvporterbuddy/discounts';
+    const XML_PATH_DISCOUNT_COUPONS = 'carriers/cnvporterbuddy/discount_coupons';
 
     const XML_PATH_HOURS_MON = 'carriers/cnvporterbuddy/hours_mon';
     const XML_PATH_HOURS_TUE = 'carriers/cnvporterbuddy/hours_tue';
@@ -299,16 +304,6 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return string
      */
-    public function getLocationLinkTemplate()
-    {
-        return Mage::getStoreConfig(self::XML_PATH_LOCATION_LINK_TEMPLATE);
-    }
-
-    /**
-     * Delivery availability template text
-     *
-     * @return string
-     */
     public function getAvailabilityTemplate()
     {
         return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_TEMPLATE);
@@ -341,17 +336,96 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @return string
      */
-    public function getAvailabilityTextOutOfStock()
-    {
-        return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_TEXT_OUT_OF_STOCK);
-    }
-
-    /**
-     * @return string
-     */
     public function getAvailabilityTextNoDate()
     {
         return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_TEXT_NO_DATE);
+    }
+
+    /**
+     * Delivery availability template text
+     *
+     * @return string
+     */
+    public function getAvailabilityEnterPostalCode()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_ENTER_POSTAL_CODE);
+    }
+
+    /**
+    * Delivery availability template text
+    *
+    * @return string
+    */
+    public function getAvailabilityEnterPostalCodePlaceholder()
+    {
+      return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_ENTER_POSTAL_CODE_PLACEHOLDER);
+    }
+
+    /**
+    * Delivery availability template text
+    *
+    * @return string
+    */
+    public function getAvailabilityDetectingLocation()
+    {
+      return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_DETECTING_LOCATION);
+    }
+
+    /**
+    * Delivery availability template text
+    *
+    * @return string
+    */
+    public function getAvailabilityServiceNotAvailable()
+    {
+      return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_SERVICE_NOT_AVAILABLE);
+    }
+
+    /**
+    * Delivery availability template text
+    *
+    * @return string
+    */
+    public function getAvailabilityChangeLocationButton()
+    {
+      return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_CHANGE_LOCATION_BUTTON);
+    }
+
+    /**
+    * Delivery availability template text
+    *
+    * @return string
+    */
+    public function getAvailabilitySearchLocationButton()
+    {
+      return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_SEARCH_LOCATION_BUTTON);
+    }
+
+
+    /**
+    * Delivery availability template text
+    *
+    * @return string
+    */
+    public function getAvailabilityYourPostcode()
+    {
+      return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_YOUR_POSTCODE);
+    }
+    /**
+    * Delivery availability template text
+    *
+    * @return string
+    */
+    public function getAvailabilityTryAgainButton()
+    {
+      return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_TRY_AGAIN_BUTTON);
+    }
+    /**
+    * @return string
+    */
+    public function getAvailabilityURL()
+    {
+      return Mage::getStoreConfig(self::XML_PATH_AVAILABILITY_URL);
     }
 
     /**
@@ -369,7 +443,7 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
      * @return string[]|bool - ['open', 'close'], false if not working
      * @throws Convert_Porterbuddy_Exception
      */
-    public function getOpenHours($dayOfWeek)
+    public function getConfiguredOpenHours($dayOfWeek)
     {
         $map = array(
             'mon' => self::XML_PATH_HOURS_MON,
@@ -396,6 +470,116 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
             'close' => $parts[1],
         );
     }
+
+    /**
+    * Returns open hours range in UTC timezone
+    *
+    * @param DateTime
+    * @return DateTime[]|false Date range or false if not working
+    */
+    public function getOpenHours(DateTime $baseDate)
+    {
+      $localTimezone = $this->getTimezone();
+      $defaultTimezone = new DateTimeZone('UTC');
+
+      // ensure local timezone
+      $baseDate = clone $baseDate;
+      $baseDate->setTimezone($localTimezone);
+
+      $openHours = $this->getConfiguredOpenHours(strtolower($baseDate->format('D')));
+      if (false === $openHours) {
+        // not working
+        return false;
+      }
+
+      $openTime = $openHours['open'];
+      $closeTime = $openHours['close'];
+
+      // set time in local timezone and convert to UTC
+      $openDatetime = clone $baseDate;
+      $parts = explode(':', $openTime);
+      $openDatetime->setTimezone($localTimezone);
+      $openDatetime->setTime($parts[0], $parts[1], 0);
+      $openDatetime->setTimezone($defaultTimezone);
+
+      $closeDatetime = clone $baseDate;
+      $parts = explode(':', $closeTime);
+      $closeDatetime->setTimezone($localTimezone);
+      $closeDatetime->setTime($parts[0], $parts[1], 0);
+      $closeDatetime->setTimezone($defaultTimezone);
+
+      if ($openDatetime >= $closeDatetime) {
+        // misconfig, treat as day off
+        return false;
+      }
+
+      return array(
+        'open' => $openDatetime,
+        'close' => $closeDatetime,
+      );
+    }
+
+
+
+    /**
+    * Generate pickup windows as large as possible over several days
+    *
+    * @param DateTime|null $deliveryDate
+    * @param int $extraWindows
+    * @return array
+    */
+    public function getPickupWindows()
+    {
+      // generate up to delivery date + extra windows
+      $windows = [];
+      $currentTime = $this->getCurrentTime();
+      $date = $this->getCurrentTime();
+
+      $addedExtra = 0;
+      $triedExtra = 0;
+      $extraWindows = $this->getDaysAhead();
+      while ($addedExtra < $extraWindows) {
+        $hours = $this->getOpenHours($date);
+        if ($hours && $currentTime < $hours['close']) {
+          $hours['open'] = max($hours['open'], $currentTime);
+          $windows[] = array(
+            'start' => $hours['open'],
+            'end' => $hours['close'],
+          );
+          $addedExtra++;
+        }
+        $date->modify('+1 day');
+        if ($triedExtra++ > 20) {
+          // prevent infinite loop in case of misconfigured working hours
+          break;
+        }
+      }
+
+      // add packing time to first window
+      $addTime = $this->getPackingTime();
+      /** @var DateTime[] $window */
+      foreach ($windows as $i => $window) {
+        // if window can't fit packing time (shop is about to close), remove it and find next
+        $window['start']->modify("+$addTime minutes");
+        if ($window['start'] > $window['end']) {
+          unset($windows[$i]);
+          continue;
+        }
+        break;
+      }
+
+      // convert to API formst
+      $windows = array_map(function ($window) {
+        return array(
+          'start' => $this->formatApiDateTime($window['start']),
+          'end' => $this->formatApiDateTime($window['end']),
+        );
+      }, $windows);
+
+      return array_values($windows);
+    }
+
+
 
     /**
      * @param string $dayOfWeek optional
@@ -667,46 +851,44 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Discount type as defined in Convert_Porterbuddy_Model_Carrier::DISCOUNT_TYPE_*
-     *
-     * @return string
-     */
-    public function getDiscountType()
-    {
-        return Mage::getStoreConfig(self::XML_PATH_DISCOUNT_TYPE);
-    }
+          * Discounts
+          *
+          * @return int
+          */
+         public function getDiscounts()
+         {
+             $discounts = array();
+             $configDiscounts = Mage::getStoreConfig(self::XML_PATH_DISCOUNTS);
+             if($configDiscounts){
+                 $configDiscounts = unserialize($configDiscounts);
+                 foreach($configDiscounts as $row){
+                     if(isset($row['discount'])){
+                         $discounts[] = (array)$row;
+                     }
+                 }
+             }
+             return $discounts;
+         }
 
-    /**
-     * Min order subtotal to apply discount, in base currency
-     *
-     * @return float
-     */
-    public function getDiscountSubtotal()
-    {
-        $value = Mage::getStoreConfig(self::XML_PATH_DISCOUNT_SUBTOTAL);
-        return Mage::app()->getLocale()->getNumber($value);
-    }
-
-    /**
-     * Fixed discount amount, in base currency
-     *
-     * @return float
-     */
-    public function getDiscountAmount()
-    {
-        $value = Mage::getStoreConfig(self::XML_PATH_DISCOUNT_AMOUNT);
-        return Mage::app()->getLocale()->getNumber($value);
-    }
-
-    /**
-     * Discount percent
-     *
-     * @return int
-     */
-    public function getDiscountPercent()
-    {
-        return (int)Mage::getStoreConfig(self::XML_PATH_DISCOUNT_PERCENT);
-    }
+         /**
+          * Discount coupons
+          *
+          * @return int
+          */
+         public function getDiscountCoupons()
+         {
+             $coupons = array();
+             $configCoupons = Mage::getStoreConfig(self::XML_PATH_DISCOUNT_COUPONS);
+             if($configCoupons){
+                 $configCoupons = unserialize($configCoupons);
+                 foreach($configCoupons as $row){
+                     if(isset($row['couponcode'])){
+                         $coupons[] = (array)$row;
+                     }
+                 }
+             }
+             return $coupons;
+         }
 
     /**
      * @return float
@@ -1138,11 +1320,11 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function processPlaceholders(
         $template,
-        $wrapper = '<span class="porterbuddy-availability-{{name}}">{{value}}</span>'
+        $wrapper
     ) {
         $template = preg_replace_callback('/{{(.+)}}/U', function($matches) use ($wrapper) {
             $name = $matches[1];
-            $value = '#{' . $name . '}';
+            $value = '#{' . $name . '#}';
             if ($wrapper) {
                 $value = str_replace(array('{{name}}', '{{value}}'), array($name, $value), $wrapper);
             }

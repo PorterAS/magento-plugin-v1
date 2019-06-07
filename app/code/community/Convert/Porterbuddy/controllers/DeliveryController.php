@@ -5,10 +5,7 @@
  */
 class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Action
 {
-    /**
-     * @var Convert_Porterbuddy_Model_Availability
-     */
-    protected $availability;
+
 
     /**
      * @var Mage_Checkout_Model_Session
@@ -37,13 +34,11 @@ class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Ac
 
     protected function _construct(
         array $data = null,
-        Convert_Porterbuddy_Model_Availability $availability = null,
         Convert_Porterbuddy_Helper_Data $helper = null,
         Convert_Porterbuddy_Model_Geoip $geoip = null,
         Convert_Porterbuddy_Model_Shipment $shipment = null,
         Convert_Porterbuddy_Model_Timeslots $timeslots = null
     ) {
-        $this->availability = $availability ?: Mage::getSingleton('convert_porterbuddy/availability');
         $this->helper = $helper ?: Mage::helper('convert_porterbuddy');
         $this->geoip = $geoip ?: Mage::getSingleton('convert_porterbuddy/geoip');
         $this->shipment = $shipment ?: Mage::getSingleton('convert_porterbuddy/shipment');
@@ -82,21 +77,25 @@ class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Ac
      */
     public function optionsAction()
     {
+
         if (!$this->getRequest()->isPost()) {
             return $this->jsonError($this->helper->__('Method not allowed.'));
         }
-
         if (!$this->_validateFormKey()) {
             return $this->jsonError($this->helper->__('Invalid form key.'));
         }
-
-        $leaveDoorstep = $this->getRequest()->getPost('leave_doorstep');
-        $comment = $this->getRequest()->getPost('comment');
-
+        $type = $this->getRequest()->getPost('type');
         $quote = $this->getCheckout()->getQuote();
-        $quote
-            ->setPbLeaveDoorstep($leaveDoorstep)
-            ->setPbComment($comment);
+        if($type == 'comment'){
+
+          $comment = $this->getRequest()->getPost('comment');
+          $quote->setPbComment($comment);
+        }else if($type == 'doorstep'){
+
+          $leaveDoorstep = $this->getRequest()->getPost('leave_doorstep');
+          $quote->setPbLeaveDoorstep($leaveDoorstep);
+        }
+
 
         try {
             $quote->save();
@@ -148,13 +147,6 @@ class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Ac
             return $this->jsonError($this->helper->__('Product ID is required'));
         }
 
-        if (!$this->availability->isPostcodeSupported($postcode)) {
-            return $this->jsonError(
-                $this->helper->processPlaceholders(
-                    $this->helper->getAvailabilityTextPostcodeError()
-                )
-            );
-        }
 
         // check product is in stock
         /** @var Mage_Catalog_Model_Product $product */
@@ -183,6 +175,14 @@ class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Ac
                     $this->helper->getAvailabilityTextNoDate()
                 )
             );
+        }
+
+        if (!$product->isSaleable()){
+          return $this->jsonError(
+            $this->helper->processPlaceholders(
+              $this->helper->getAvailabilityTextOutOfStock()
+            )
+          );
         }
 
         $now = $this->helper->getCurrentTime();

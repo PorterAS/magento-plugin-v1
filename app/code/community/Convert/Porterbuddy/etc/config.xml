@@ -227,14 +227,26 @@
                 <choose_later_name>I will select specific time later</choose_later_name>
                 <show_availability>only_available</show_availability>
                 <location_discovery>browser,ip</location_discovery>
-                <availability_text_click_to_see><![CDATA[<a>Klikk her for å se om du kan få varen levert til deg i dag</a>]]></availability_text_click_to_see>
-                <location_link_template><![CDATA[Levering til deg ({{location}}) <a class="button primary">Endre</a>]]></location_link_template>
+
+
+                <availability_enter_postal_code>Kan jeg få varen levert hjem **idag**?</availability_enter_postal_code>
+                <availability_enter_postal_code_placeholder>Ditt postnummer...</availability_enter_postal_code_placeholder>
+                <availability_detecting_location>Finner din posisjon...</availability_detecting_location>
+                <availability_service_not_available>Beklager, tjenesten er ikke tilgjenglig for øyeblikket</availability_service_not_available>
+                <availability_change_location_button>Endre</availability_change_location_button>
+                <availability_search_location_button>Søk</availability_search_location_button>
+                <availability_try_again_button>Prøv igjen</availability_try_again_button>
+
+                <availability_text_delivery_no_date>Beklager, levering samme dag er ikke mulig</availability_text_delivery_no_date>
+
+                <availability_text_click_to_see>Klikk her for å se om du kan få varen levert til deg i dag></availability_text_click_to_see>
                 <availability_text_fetching>Henter leveransealternativer...</availability_text_fetching>
                 <availability_template><b>Hjem</b> {{date}} med Porterbuddy for <b>149,-</b> (bestill innen {{countdown}})</availability_template>
                 <availability_text_postcode_error>Beklager, levering samme dag er ikke mulig til postnummer {{postcode}}. Vi utvider stadig. Følg utviklingen på www.porterbuddy.com</availability_text_postcode_error>
-                <availability_text_delivery_out_of_stock>Beklager, dette produktet er utsolgt</availability_text_delivery_out_of_stock>
-                <availability_text_delivery_no_date>Beklager, levering samme dag er ikke mulig</availability_text_delivery_no_date>
+                <availability_your_postcode>Ditt postnummer: **{{postcode}}**</availability_your_postcode>
+
                 <availability_auto_update_composite>1</availability_auto_update_composite>
+                <availability_widget_url>https://widget.porterbuddy.com</availability_widget_url>
                 <days_ahead>1</days_ahead>
                 <pickup_windows_extra>3</pickup_windows_extra>
                 <porterbuddy_until>30</porterbuddy_until>

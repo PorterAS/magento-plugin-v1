@@ -31,12 +31,19 @@ class Convert_Porterbuddy_Block_Checkout extends Mage_Checkout_Block_Onepage_Shi
      */
     public function getTitle()
     {
+        $text = $this->helper->getTitle();
+
+        return $text;
+
+    }
+    /**
+     * @return string
+     */
+    public function getSubTitle()
+    {
         $text = $this->helper->getSubTitle();
 
-        return $this->helper->processPlaceholders(
-              $text,
-              '<span class="porterbuddy-widget-{{name}}">{{value}}</span>'
-        );
+        return $text;
 
     }
 
@@ -114,5 +121,13 @@ class Convert_Porterbuddy_Block_Checkout extends Mage_Checkout_Block_Onepage_Shi
     public function getPostcode()
     {
         return $this->getAddress()->getPostcode();
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getDiscount()
+    {
+        return Mage::getSingleton('checkout/session')->getPbDiscount();
     }
 }
