@@ -17,10 +17,13 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_API_TIMEOUT = 'carriers/cnvporterbuddy/api_timeout';
     const XML_PATH_DEVELOPMENT_API_URL = 'carriers/cnvporterbuddy/development_api_url';
     const XML_PATH_DEVELOPMENT_API_KEY = 'carriers/cnvporterbuddy/development_api_key';
+    const XML_PATH_DEVELOPMENT_PUBLIC_API_KEY = 'carriers/cnvporterbuddy/development_public_api_key';
     const XML_PATH_TESTING_API_URL = 'carriers/cnvporterbuddy/testing_api_url';
     const XML_PATH_TESTING_API_KEY = 'carriers/cnvporterbuddy/testing_api_key';
+    const XML_PATH_TESTING_PUBLIC_API_KEY = 'carriers/cnvporterbuddy/testing_public_api_key';
     const XML_PATH_PRODUCTION_API_URL = 'carriers/cnvporterbuddy/production_api_url';
     const XML_PATH_PRODUCTION_API_KEY = 'carriers/cnvporterbuddy/production_api_key';
+    const XML_PATH_PRODUCTION_PUBLIC_API_KEY = 'carriers/cnvporterbuddy/production_public_api_key';
 
     const XML_PATH_POSTCODES = 'carriers/cnvporterbuddy/postcodes';
     const XML_PATH_SHOW_AVAILABILITY = 'carriers/cnvporterbuddy/show_availability';
@@ -40,7 +43,7 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_AVAILABILITY_SEARCH_LOCATION_BUTTON = 'carriers/cnvporterbuddy/availability_search_location_button';
     const XML_PATH_AVAILABILITY_TRY_AGAIN_BUTTON = 'carriers/cnvporterbuddy/availability_try_again_button';
     const XML_PATH_AVAILABILITY_YOUR_POSTCODE = 'carriers/cnvporterbuddy/availability_your_postcode';
-    
+
     const XML_PATH_SENDER_EMAIL_IDENTITY = 'carriers/cnvporterbuddy/sender_email_identity';
     const XML_PATH_DEFAULT_PHONE_CODE = 'carriers/cnvporterbuddy/default_phone_code';
     const XML_PATH_PACKAGER_MODE = 'carriers/cnvporterbuddy/packager_mode';
@@ -233,6 +236,22 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
         }
     }
 
+    /**
+     * Porterbuddy API key with regard to selected API mode
+     *
+     * @return string
+     */
+    public function getPublicApiKey()
+    {
+        switch ($this->getApiMode()) {
+            case Convert_Porterbuddy_Model_Carrier::MODE_PRODUCTION:
+                return Mage::getStoreConfig(self::XML_PATH_PRODUCTION_PUBLIC_API_KEY);
+            case Convert_Porterbuddy_Model_Carrier::MODE_TESTING:
+                return Mage::getStoreConfig(self::XML_PATH_TESTING_PUBLIC_API_KEY);
+            default:
+                return Mage::getStoreConfig(self::XML_PATH_DEVELOPMENT_PUBLIC_API_KEY);
+        }
+    }
     /**
      * Default phone code
      *

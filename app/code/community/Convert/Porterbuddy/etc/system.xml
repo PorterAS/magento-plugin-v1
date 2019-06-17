@@ -70,7 +70,7 @@
             </api_mode>
             <development_api_key translate="label">
               <label>API Key (Development)</label>
-              <frontend_type>password</frontend_type>
+              <frontend_type>text</frontend_type>
               <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
               <sort_order>70</sort_order>
               <show_in_default>1</show_in_default>
@@ -80,7 +80,7 @@
             </development_api_key>
             <testing_api_key translate="label">
               <label>API Key (Testing)</label>
-              <frontend_type>password</frontend_type>
+              <frontend_type>text</frontend_type>
               <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
               <sort_order>80</sort_order>
               <show_in_default>1</show_in_default>
@@ -90,7 +90,7 @@
             </testing_api_key>
             <production_api_key translate="label">
               <label>API Key (Production)</label>
-              <frontend_type>password</frontend_type>
+              <frontend_type>text</frontend_type>
               <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
               <sort_order>90</sort_order>
               <show_in_default>1</show_in_default>
@@ -98,6 +98,33 @@
               <show_in_store>0</show_in_store>
               <depends><api_mode>production</api_mode></depends>
             </production_api_key>
+            <development_public_api_key translate="label">
+              <label>Public API Key (Development)</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>100</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends><api_mode>development</api_mode></depends>
+            </development_public_api_key>
+            <testing_public_api_key translate="label">
+              <label>Public API Key (Testing)</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>101</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends><api_mode>testing</api_mode></depends>
+            </testing_public_api_key>
+            <production_public_api_key translate="label">
+              <label>Public API Key (Production)</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>102</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends><api_mode>production</api_mode></depends>
+            </production_public_api_key>
             <sort_order translate="label">
               <label>Sort Order</label>
               <frontend_type>text</frontend_type>

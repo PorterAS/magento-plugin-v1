@@ -4,18 +4,42 @@
 $coreHelper = $this->helper('core');
 ?>
 <script>
+
+
 window.porterbuddy = {
-      token: 'y3wt37LqBsiLo62Jkx284XEdi4LzdX6pihZFwqYX',
-      view: 'availability'    };
+      token: <?php echo json_encode($this->helper->getPublicApiKey()) ?>,
+      view: 'availability',
+      text: {
+        availabilityClickToSee:	<?php echo json_encode($this->helper->getAvailabilityTextClickToSee()) ?>,
+        availabilityFetching: <?echo json_encode($this->helper->getAvailabilityTextFetching()) ?>,
+        availabilityPostcodeSuccess: <?echo json_encode($this->helper->getAvailabilityTemplate()) ?>,
+        availabilityPostcodeError: <? echo json_encode($this->helper->getAvailabilityTextPostcodeError()) ?>,
+        availabilityEnterPostalCode:<?echo json_encode($this->helper->getAvailabilityEnterPostalCode()) ?>,
+        availabilityEnterPostalCodePlaceholder:<?echo json_encode($this->helper->getAvailabilityEnterPostalCodePlaceholder()) ?>,
+        availabilityDeliveryNoDate:<?echo json_encode($this->helper->getAvailabilityTextNoDate()) ?>,
+        availabilityDetectingLocation:<?echo json_encode($this->helper->getAvailabilityDetectingLocation()) ?>,
+        availabilityServiceNotAvailable:<?echo json_encode($this->helper->getAvailabilityServiceNotAvailable()) ?>,
+        tryAgainButton:<?echo json_encode($this->helper->getAvailabilityTryAgainButton()) ?>,
+        searchLocationButton:<?echo json_encode($this->helper->getAvailabilitySearchLocationButton()) ?>,
+        changeLocationButton:<?echo json_encode($this->helper->getAvailabilityChangeLocationButton()) ?>,
+        yourPostalCode: <?echo json_encode($this->helper->getAvailabilityYourPostcode()) ?>,
+        title: <?php echo json_encode($this->helper->getTitle())?>,
+        subTitle: <?php echo json_encode($this->helper->getSubTitle()) ?>,
+        comment: <?php echo json_encode($this->helper->getCommentText()) ?>,
+        leaveDoorstep: <?php echo json_encode($this->helper->getLeaveDoorstepText()) ?>,
+        asap: <?php echo json_encode($this->helper->getAsapName()) ?>
+      },
+      pickupWindows: <?php echo json_encode($this->helper->getPickupWindows()) ?>
+    };
     (function() {
       var link = document.createElement('link');
       link.rel = 'stylesheet';
       link.type = 'text/css';
-      link.href = 'https://widget.porterbuddy-test.com/porterbuddy-widget.css';
+      link.href = '<?php echo $this->helper->getAvailabilityURL() . "/porterbuddy-widget.css" ?>';
       document.head.appendChild(link);
       var scriptEl = document.createElement('script');
       scriptEl.async = true;
-      scriptEl.src = 'https://widget.porterbuddy-test.com/porterbuddy-widget.js';
+      scriptEl.src = '<?php echo $this->helper->getAvailabilityURL() . "/porterbuddy-widget.js" ?>';
       document.head.appendChild(scriptEl);
     })();
 </script>
