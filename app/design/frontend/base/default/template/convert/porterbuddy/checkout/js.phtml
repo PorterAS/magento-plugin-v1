@@ -14,6 +14,8 @@ window.porterbuddyWidget = new PorterbuddyWidget({
 });
 </script>
 <script>
+
+
 window.porterbuddy = {
   token: <?php echo json_encode($this->helper->getPublicApiKey()) ?>,
   view: 'checkout',
@@ -22,8 +24,10 @@ window.porterbuddy = {
   postalCode: <?php echo json_encode($this->getPostcode()) ?>,
   discount: <?php echo $this->getDiscount() * 100 ?>,
   onSelectDeliveryWindow: function(selectedWindow){
-    let code = 'cnvporterbuddy_' + selectedWindow.product + '_' + selectedWindow.start + '_' + selectedWindow.end
-    let option = window.porterbuddyWidget.$porterbuddyRates.filter('[value="' + code + '"]').trigger('click', true);
+    if(selectedWindow){
+      let code = 'cnvporterbuddy_' + selectedWindow.product + '_' + selectedWindow.start + '_' + selectedWindow.end
+      let option = window.porterbuddyWidget.$porterbuddyRates.filter('[value="' + code + '"]').trigger('click', true);
+    }
   },
   onUpdateDeliveryWindows: function(callback) {
 
@@ -33,6 +37,9 @@ window.porterbuddy = {
     .done(function(deliveryWindows) {
       callback(deliveryWindows);
     })
+  },
+  onSetCallbacks: (callbacks) => {
+    window.pbUnselectDeliveryWindow = callbacks.unselectDeliveryWindow;
   },
   onComment: function( comment ){
 

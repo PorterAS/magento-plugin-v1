@@ -27,11 +27,24 @@ window.PorterbuddyWidget = Class.create({
         this.$widget = jQuery(this.widgetHtml);
         this.$allRates = this.$element.find('input[name=shipping_method]');
         this.$porterbuddyRates = this.$allRates.filter('[value^="' + Porterbuddy.CARRIER_CODE + '_"]');
+        var widgetComponent = this;
+        this.$groupRate = this.$widget.find('#s_method_porterbuddy');
+        this.$allRates.click(function(e, internal) {
+          var $rate = jQuery(this);
+          widgetComponent.$groupRate.prop('checked', widgetComponent.isPorterbuddyRate($rate));
+          if(!widgetComponent.isPorterbuddyRate($rate)){
+            window.pbUnselectDeliveryWindow();
+          }
+        });
         this.$porterbuddyRates.closest('li').hide();
         this.$widget.insertAfter(this.$porterbuddyRates.last().closest('li'));
 
     },
 
+    isPorterbuddyRate: function($rate) {
+        var exp = new RegExp('^' + Porterbuddy.CARRIER_CODE + '_');
+        return exp.test($rate.val());
+    },
 
     destroy: function () {
         if (this.$widget) {
