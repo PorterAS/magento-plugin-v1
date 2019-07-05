@@ -14,7 +14,7 @@
     <checkout_onepage_shippingmethod>
         <update handle="convert_porterbuddy_checkout_methods" />
     </checkout_onepage_shippingmethod>
-    
+
      <trollweb_kco_index_postal>
         <update handle="convert_porterbuddy_kco_checkout_methods" />
     </trollweb_kco_index_postal>
@@ -26,7 +26,7 @@
             <block type="convert_porterbuddy/checkout" name="porterbuddy_widget_content" as="content" template="convert/porterbuddy/checkout/widget.phtml" />
         </block>
     </convert_porterbuddy_checkout_methods>
-    
+
     <convert_porterbuddy_kco_checkout_methods>
         <update handle="convert_porterbuddy_assets" />
         <!-- rendered in observer for onepage -->
@@ -48,24 +48,22 @@
                 <type>skin_js</type>
                 <script>js/convert/porterbuddy.js</script>
             </action>
+
             <action method="addCss" ifconfig="carriers/cnvporterbuddy/active">
                 <name>css/convert/porterbuddy.css</name>
             </action>
+
         </reference>
     </convert_porterbuddy_assets>
 
     <catalog_product_view>
         <update handle="convert_porterbuddy_assets" />
-        <update handle="convert_porterbuddy_popup_assets" />
 
         <reference name="product.info.extrahint">
             <block type="core/text_list" name="porterbuddy.availability">
                 <block type="convert_porterbuddy/availability" name="porterbuddy.availability.widget" as="widget" template="convert/porterbuddy/availability/widget.phtml" />
                 <block type="convert_porterbuddy/availability" name="porterbuddy.availability.js" as="js" template="convert/porterbuddy/availability/js.phtml" />
             </block>
-        </reference>
-        <reference name="after_body_start">
-            <block type="convert_porterbuddy/availability" name="porterbuddy.availability.popup" template="convert/porterbuddy/availability/popup.phtml" />
         </reference>
     </catalog_product_view>
 </layout>

@@ -307,10 +307,10 @@ class Convert_Porterbuddy_Model_Observer
      */
     public function checkoutSuccessCreateShipment(Varien_Event_Observer $observer)
     {
+        $order = Mage::getModel('sales/order');
+        /** @var Mage_Sales_Model_Order $order */
 
-        if (!$this->helper->getAutoCreateShipment()) {
-            return;
-        }
+
         $orderIds = $observer->getOrderIds();
         if (!$orderIds) {
             $this->helper->log('Checkout confirmation - last order ID is empty', null, Zend_Log::WARN);
@@ -318,8 +318,6 @@ class Convert_Porterbuddy_Model_Observer
         }
 
         $orderId = reset($orderIds);
-        /** @var Mage_Sales_Model_Order $order */
-        $order = Mage::getModel('sales/order');
         $order->load($orderId);
         if (!$order->getId()) {
             $this->helper->log("Checkout confirmation - cannot load last order `$orderId`", null, Zend_Log::WARN);
@@ -332,13 +330,45 @@ class Convert_Porterbuddy_Model_Observer
         //    return;
         //}
         if (!$order->getShippingCarrier() instanceof Convert_Porterbuddy_Model_Carrier) {
-            $this->helper->log(
-              'Trying to create order for not porterbuddy order, returning',
-              array('order_id' => $order->getId()),
-              Zend_Log::NOTICE
-          );
             return false;
         }
+
+        $options = Mage::getSingleton('checkout/session')->getPbWindows();
+        $token = '';
+        foreach( $options as $option){
+          $type = $option['product'];
+          $start = new DateTime($option['start']);
+          $end = new DateTime($option['end']);
+
+          $methodCode = implode(
+              '_',
+              array(
+                  'cnvporterbuddy',
+                  $type,
+                  $start->format(DateTime::ATOM),
+                  $end->format(DateTime::ATOM)
+              )
+          );
+          if($methodCode == $order->getShippingMethod()){
+            $token =  $option['token'];
+            break;
+          }
+        }
+        $order->setPbToken($token);
+        try {
+            $order->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->helper->log($e);
+            return $this->jsonError($e->getMessage());
+        } catch (Exception $e) {
+            $this->helper->log($e);
+            return $this->jsonError();
+        }
+
+        if (!$this->helper->getAutoCreateShipment()) {
+            return;
+        }
+
         try {
             $this->helper->lockShipmentCreation(
                 $order,

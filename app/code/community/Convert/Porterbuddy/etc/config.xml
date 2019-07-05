@@ -8,7 +8,7 @@
 <config>
     <modules>
         <Convert_Porterbuddy>
-            <version>2.2.2</version>
+            <version>3.0.0</version>
         </Convert_Porterbuddy>
     </modules>
     <global>
@@ -66,6 +66,9 @@
                 <pb_timeslot_selection>
                     <to_order>*</to_order>
                 </pb_timeslot_selection>
+                <pb_token>
+                  <to_order>*</to_order>
+                </pb_token>
             </sales_convert_quote>
         </fieldsets>
         <template>
@@ -213,14 +216,6 @@
                     <model>convert_porterbuddy/cron::sendShipments</model>
                 </run>
             </convert_porterbuddy_send_shipments>
-            <convert_porterbuddy_update_postcodes>
-                <schedule>
-                    <cron_expr>0 4 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>convert_porterbuddy/cron::updatePostcodes</model>
-                </run>
-            </convert_porterbuddy_update_postcodes>
         </jobs>
     </crontab>
     <default>
@@ -228,25 +223,32 @@
             <cnvporterbuddy>
                 <active>0</active>
                 <model>convert_porterbuddy/carrier</model>
-                <sub_title>Levering hjem når du ønsker det</sub_title>
-                <title>Ekspresslevering med Porterbuddy</title>
-                <description>Du bestemmer selv hvor og når leveransen skal skje; hjemme, på jobb eller annet sted. Les mer om tjenesten på <a href="http://www.porterbuddy.no/">www.porterbuddy.no</a></description>
+                <sub_title>Bestill innen {{remaining}} og få varene levert {{delivery}} ({{selected_price}}) </sub_title>
+                <title>Varene levert på døren med Porterbuddy</title>
+                <description>Bestem selv når varene skal leveres. Du kan spore sendingen, og vi sender deg en melding før ankomst.</description>
                 <asap_name>Express levering</asap_name>
-                <choose_later_name>I will select specific time later</choose_later_name>
                 <show_availability>only_available</show_availability>
                 <location_discovery>browser,ip</location_discovery>
-                <availability_text_click_to_see><![CDATA[<a>Klikk her for å se om du kan få varen levert til deg i dag</a>]]></availability_text_click_to_see>
-                <location_link_template><![CDATA[Levering til deg ({{location}}) <a class="button primary">Endre</a>]]></location_link_template>
-                <availability_text_fetching>Henter leveransealternativer...</availability_text_fetching>
-                <availability_template><b>Hjem</b> {{date}} med Porterbuddy for <b>149,-</b> (bestill innen {{countdown}})</availability_template>
-                <availability_text_postcode_error>Beklager, levering samme dag er ikke mulig til postnummer {{postcode}}. Vi utvider stadig. Følg utviklingen på www.porterbuddy.com</availability_text_postcode_error>
-                <availability_text_delivery_out_of_stock>Beklager, dette produktet er utsolgt</availability_text_delivery_out_of_stock>
+
+                <availability_enter_postal_code>Kan jeg få varen levert hjem **idag**?</availability_enter_postal_code>
+                <availability_enter_postal_code_placeholder>Ditt postnummer...</availability_enter_postal_code_placeholder>
+                <availability_detecting_location>Finner din posisjon...</availability_detecting_location>
+                <availability_service_not_available>Beklager, tjenesten er ikke tilgjenglig for øyeblikket</availability_service_not_available>
+                <availability_change_location_button>Endre</availability_change_location_button>
+                <availability_search_location_button>Søk</availability_search_location_button>
+                <availability_try_again_button>Prøv igjen</availability_try_again_button>
+
                 <availability_text_delivery_no_date>Beklager, levering samme dag er ikke mulig</availability_text_delivery_no_date>
-                <availability_choose_popup_title>Velg postnummer for leveranse</availability_choose_popup_title>
-                <availability_choose_popup_description>Leveransealternativer og tider kan variere med valg av leveranseområde</availability_choose_popup_description>
+
+                <availability_text_click_to_see>Klikk her for å se om du kan få varen levert til deg i dag</availability_text_click_to_see>
+                <availability_text_fetching>Henter leveransealternativer...</availability_text_fetching>
+                <availability_template>**Hjem** {{delivery}} med Porterbuddy for **{{price_lowest_price}}** (bestill innen {{countdown_lowest_price}})</availability_template>
+                <availability_text_postcode_error>Beklager, levering samme dag er ikke mulig til postnummer {{postcode}}. Vi utvider stadig. Følg utviklingen på www.porterbuddy.com</availability_text_postcode_error>
+                <availability_your_postcode>Ditt postnummer: **{{postcode}}**</availability_your_postcode>
+
                 <availability_auto_update_composite>1</availability_auto_update_composite>
+                <availability_widget_url>https://widget.porterbuddy.com</availability_widget_url>
                 <days_ahead>1</days_ahead>
-                <timeslot_selection>checkout</timeslot_selection>
                 <pickup_windows_extra>3</pickup_windows_extra>
                 <porterbuddy_until>30</porterbuddy_until>
                 <hours_mon>00:00,24:00</hours_mon>
@@ -259,9 +261,6 @@
                 <require_signature_default>0</require_signature_default>
                 <id_check_default>0</id_check_default>
                 <only_to_recipient_default>0</only_to_recipient_default>
-                <return_enabled>0</return_enabled>
-                <return_text>Retur on-demand; Budet venter inntil 10 minutter og tar varer med seg varer i retur on ønskelig (pris {{formatted_price}})</return_text>
-                <return_short_text>+ included return</return_short_text>
                 <refresh_options_timeout>5</refresh_options_timeout>
                 <discount_type>none</discount_type>
                 <allow_leave_at_doorstep>1</allow_leave_at_doorstep>

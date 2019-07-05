@@ -3,29 +3,44 @@
 /** @var Mage_Core_Helper_Data $coreHelper */
 $coreHelper = $this->helper('core');
 ?>
-<script type="text/javascript">
-    jQuery(function() {
-        // create once in case block is duplicated
-        if (!window.porterbuddyAvailability) {
-            window.porterbuddyAvailability = window.porterbuddyAvailability || new PorterbudyAvailability({
-                $element: jQuery('.porterbuddy-availability'),
-                mapsApiKey: '<?php echo $this->jsQuoteEscape($this->getMapsApiKey()) ?>',
-                getLocationURL: '<?php echo $this->getUrl('convert_porterbuddy/delivery/location') ?>',
-                getAvailabilityURL: '<?php echo $this->getUrl('convert_porterbuddy/delivery/availability') ?>',
-                isAlwaysShow: <?php echo json_encode($this->isAlwaysShow()) ?>,
-                locationDiscovery: <?php echo json_encode($this->helper->getLocationDiscovery()) ?>,
-                defaultCountry: <?php echo json_encode($coreHelper->getDefaultCountry()) ?>,
-                textClickToSee: <?php echo json_encode($this->helper->getAvailabilityTextClickToSee()) ?>,
-                textFetching: <?php echo json_encode($this->helper->processPlaceholders(
-                    $this->helper->getAvailabilityTextFetching()
-                )) ?>,
-                textDeliveryUnavailable: <?php echo json_encode($this->helper->processPlaceholders(
-                    $this->helper->getAvailabilityTextPostcodeError()
-                )) ?>
-            });
-            <?php if ($this->getProduct()->isComposite() && $this->helper->availabilityAutoUpdateComposite()): ?>
-                window.porterbuddyAvailability.update();
-            <?php endif; ?>
-        }
-    });
+<script>
+
+
+window.porterbuddy = {
+      token: <?php echo json_encode($this->helper->getPublicApiKey()) ?>,
+      view: 'availability',
+      text: {
+        availabilityClickToSee:	<?php echo json_encode($this->helper->getAvailabilityTextClickToSee()) ?>,
+        availabilityFetching: <?echo json_encode($this->helper->getAvailabilityTextFetching()) ?>,
+        availabilityPostcodeSuccess: <?echo json_encode($this->helper->getAvailabilityTemplate()) ?>,
+        availabilityPostcodeError: <? echo json_encode($this->helper->getAvailabilityTextPostcodeError()) ?>,
+        availabilityEnterPostalCode:<?echo json_encode($this->helper->getAvailabilityEnterPostalCode()) ?>,
+        availabilityEnterPostalCodePlaceholder:<?echo json_encode($this->helper->getAvailabilityEnterPostalCodePlaceholder()) ?>,
+        availabilityDeliveryNoDate:<?echo json_encode($this->helper->getAvailabilityTextNoDate()) ?>,
+        availabilityDetectingLocation:<?echo json_encode($this->helper->getAvailabilityDetectingLocation()) ?>,
+        availabilityServiceNotAvailable:<?echo json_encode($this->helper->getAvailabilityServiceNotAvailable()) ?>,
+        tryAgainButton:<?echo json_encode($this->helper->getAvailabilityTryAgainButton()) ?>,
+        searchLocationButton:<?echo json_encode($this->helper->getAvailabilitySearchLocationButton()) ?>,
+        changeLocationButton:<?echo json_encode($this->helper->getAvailabilityChangeLocationButton()) ?>,
+        yourPostalCode: <?echo json_encode($this->helper->getAvailabilityYourPostcode()) ?>,
+        title: <?php echo json_encode($this->helper->getTitle())?>,
+        subTitle: <?php echo json_encode($this->helper->getSubTitle()) ?>,
+        comment: <?php echo json_encode($this->helper->getCommentText()) ?>,
+        leaveDoorstep: <?php echo json_encode($this->helper->getLeaveDoorstepText()) ?>,
+        asap: <?php echo json_encode($this->helper->getAsapName()) ?>
+      },
+      discount: <?php echo $this->getDiscount() * 100 ?>,
+      pickupWindows: <?php echo json_encode($this->helper->getPickupWindows()) ?>
+    };
+    (function() {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = '<?php echo $this->helper->getAvailabilityURL() . "/porterbuddy-widget.css" ?>';
+      document.head.appendChild(link);
+      var scriptEl = document.createElement('script');
+      scriptEl.async = true;
+      scriptEl.src = '<?php echo $this->helper->getAvailabilityURL() . "/porterbuddy-widget.js" ?>';
+      document.head.appendChild(scriptEl);
+    })();
 </script>

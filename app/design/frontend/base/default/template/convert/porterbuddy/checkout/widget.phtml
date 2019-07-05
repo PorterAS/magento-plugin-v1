@@ -5,57 +5,16 @@
  */
 /** @var Convert_Porterbuddy_Block_Checkout $this */
 ?>
-<li id="porterbuddy-widget" class="porterbuddy-widget porterbuddy-widget-item">
-    <input name="shipping_method_porterbuddy" type="radio" value="" id="s_method_porterbuddy" class="radio"/>
+<li id="porterbuddy-checkout-widget" class="porterbuddy-checkout-widget porterbuddy-widget-item">
+    <input name="shipping_method_porterbuddy" type="radio" value="s_method_porterbuddy" id="s_method_porterbuddy" class="radio"/>
     <label class="porterbuddy-widget-title" for="s_method_porterbuddy">
-        <?php echo $this->getTitle() ?>
+      <span data-porterbuddy-text="subTitle"><?php echo $this->getTitle() ?></span>
     </label>
-    <div class="porterbuddy-widget-logo-wrapper">
-        <img src="<?php echo $this->getSkinUrl('images/logo_porterbuddy.svg') ?>" class="image porterbuddy-widget-logo" width="118" height="24" alt="<?php echo $this->escapeHtml($this->__('Porterbuddy')) ?>" />
-    </div>
-    <div class="porterbuddy-widget-description">
+
+    <div class="porterbuddy-widget-description carrier-method-desc">
         <?php echo $this->getDescription() ?>
     </div>
 
-    <?php if ($this->showTimeslots()): ?>
-        <div class="porterbuddy-widget-date-selectors">
-            <a href="javascript: void(0);" class="porterbuddy-widget-date-selector prev-date">
-                <span><?php echo $this->__('Previous Day') ?></span>
-            </a>
-            <span id="selected-date" class="porterbuddy-widget-selected-date selected-date">
-                <!--placeholder-->
-            </span>
-            <a href="javascript: void(0);" class="porterbuddy-widget-date-selector next-date">
-                <span><?php echo $this->__('Next Day') ?></span>
-            </a>
-        </div>
-    <?php endif; ?>
+    <div id="porterbuddy-widget"></div>
 
-    <div id="timeslots" class="porterbuddy-widget-timeslots">
-        <div class="porterbuddy-widget-timeslot #{class}" data-value="#{value}" data-datetime="#{datetime}">
-            <h6>#{label}</h6>
-            <p>#{price}</p>
-        </div>
-    </div>
-
-    <?php if ($this->getReturnEnabled()): ?>
-        <div class="porterbuddy-widget-return">
-            <label>
-                <input type="checkbox" value="1" id="porterbuddy_return" />
-                <?php echo $this->getReturnText() ?>
-            </label>
-        </div>
-    <?php endif; ?>
-    <div class="porterbuddy-widget-leave-doorstep" <?php if (!$this->getAllowLeaveAtDoorstep()) echo ' style="display: none;"' ?> >
-        <label>
-            <input type="checkbox" value="1" id="porterbuddy_leave_doorstep"
-                <?php if ($this->getLeaveDoorstep()) echo ' checked="checked"' ?> />
-            <?php echo $this->getLeaveDoorstepText() ?>
-        </label>
-    </div>
-    <div class="porterbuddy-widget-comment">
-        <textarea id="porterbuddy_comment"
-              placeholder="<?= $this->escapeHtml($this->getCommentText()) ?>"
-              maxlength="512"><?php echo $this->escapeHtml($this->getComment()) ?></textarea>
-    </div>
 </li>

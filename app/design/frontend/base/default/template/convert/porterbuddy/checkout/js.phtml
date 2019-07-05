@@ -1,21 +1,123 @@
 <?php
 /**
- * @author Convert Team
- * @copyright Copyright (c) 2017 Convert (http://www.convert.no/)
- */
+* @author Convert Team
+* @copyright Copyright (c) 2017 Convert (http://www.convert.no/)
+*/
 /** @var Convert_Porterbuddy_Block_Checkout $this */
 $coreHelper = $this->helper('core');
 ?>
+
+
 <script type="text/javascript">
-    window.porterbuddyWidget = new PorterbuddyWidget({
-        formKey: '<?php echo $this->getFormKey() ?>',
-        refreshUrl: '<?php echo $this->getUrl('convert_porterbuddy/delivery/refresh') ?>',
-        refreshOptionsTimeout: <?php echo json_encode($this->getRefreshOptionsTimeout()) ?>,
-        optionsSaveUrl: '<?php echo $this->getUrl('convert_porterbuddy/delivery/options') ?>',
-        showTimeslots: <?php echo json_encode($this->showTimeslots()) ?>,
-        dates: <?php echo json_encode($this->getDates()) ?>,
-        widgetHtml: <?php echo json_encode($this->getChildHtml()) ?>,
-        defaultCountry: <?php echo json_encode($coreHelper->getDefaultCountry()) ?>,
-        postcode: <?php echo json_encode($this->getPostcode()) ?>
-    });
+window.porterbuddyWidget = new PorterbuddyWidget({
+  widgetHtml: <?php echo json_encode($this->getChildHtml()) ?>
+});
 </script>
+<script>
+
+
+window.porterbuddy = {
+  token: <?php echo json_encode($this->helper->getPublicApiKey()) ?>,
+  view: 'checkout',
+  deliveryWindows: <?php echo json_encode(Mage::getSingleton('checkout/session')->getPbWindows())?>,
+  updateDeliveryWindowsInterval: <?php echo $this->getRefreshOptionsTimeout() * 60 ?>,
+  postalCode: <?php echo json_encode($this->getPostcode()) ?>,
+  discount: <?php echo $this->getDiscount() * 100 ?>,
+  onSelectDeliveryWindow: function(selectedWindow){
+    if(selectedWindow){
+      let code = 'cnvporterbuddy_' + selectedWindow.product + '_' + selectedWindow.start + '_' + selectedWindow.end
+      let option = window.porterbuddyWidget.$porterbuddyRates.filter('[value="' + code + '"]').trigger('click', true);
+    }
+  },
+  onUpdateDeliveryWindows: function(callback) {
+
+    jQuery.ajax('<?php echo $this->getUrl('convert_porterbuddy/delivery/refresh') ?>', {
+      dataType: 'json'
+    })
+    .done(function(deliveryWindows) {
+      callback(deliveryWindows);
+    })
+  },
+  onSetCallbacks: (callbacks) => {
+    window.pbUnselectDeliveryWindow = callbacks.unselectDeliveryWindow;
+  },
+  onComment: function( comment ){
+
+      //send, check response.error
+      jQuery.ajax('<?php echo $this->getUrl('convert_porterbuddy/delivery/options') ?>', {
+        type: 'post',
+        dataType: 'json',
+        data: {
+          form_key: '<?php echo $this->getFormKey() ?>',
+          comment: comment,
+          type: 'comment'
+        }
+      }).done(function (data) {
+        if (data.error) {
+          console.error(data.message);
+        } else {
+          return;
+        }
+      }).fail(function () {
+        console.error("error saving note to courier");
+      });
+
+      return;
+
+    },
+    onLeaveAtDoorstep: function( leaveAtDoorstep ){
+      jQuery.ajax('<?php echo $this->getUrl('convert_porterbuddy/delivery/options') ?>', {
+        type: 'post',
+        dataType: 'json',
+        data: {
+          form_key: '<?php echo $this->getFormKey() ?>',
+          leave_doorstep: leaveAtDoorstep,
+          type: 'doorstep'
+        }
+      }).done(function (data) {
+        if (data.error) {
+          console.error(data.message);
+        } else {
+          return;
+        }
+      }).fail(function () {
+        console.error("error saving leave at doorstep");
+      });
+
+      return;
+    },
+    text: {
+      availabilityClickToSee:	<?php echo json_encode($this->helper->getAvailabilityTextClickToSee()) ?>,
+      availabilityFetching: <?echo json_encode($this->helper->getAvailabilityTextFetching()) ?>,
+      availabilityPostcodeSuccess: <?echo json_encode($this->helper->getAvailabilityTemplate()) ?>,
+      availabilityPostcodeError: <? echo json_encode($this->helper->getAvailabilityTextPostcodeError()) ?>,
+      availabilityEnterPostalCode:<?echo json_encode($this->helper->getAvailabilityEnterPostalCode()) ?>,
+      availabilityEnterPostalCodePlaceholder:<?echo json_encode($this->helper->getAvailabilityEnterPostalCodePlaceholder()) ?>,
+      availabilityDeliveryNoDate:<?echo json_encode($this->helper->getAvailabilityTextNoDate()) ?>,
+      availabilityDetectingLocation:<?echo json_encode($this->helper->getAvailabilityDetectingLocation()) ?>,
+      availabilityServiceNotAvailable:<?echo json_encode($this->helper->getAvailabilityServiceNotAvailable()) ?>,
+      tryAgainButton:<?echo json_encode($this->helper->getAvailabilityTryAgainButton()) ?>,
+      searchLocationButton:<?echo json_encode($this->helper->getAvailabilitySearchLocationButton()) ?>,
+      changeLocationButton:<?echo json_encode($this->helper->getAvailabilityChangeLocationButton()) ?>,
+      yourPostalCode: <?echo json_encode($this->helper->getAvailabilityYourPostcode()) ?>,
+      title: <?php echo json_encode($this->helper->getTitle())?>,
+      subTitle: <?php echo json_encode($this->helper->getSubTitle()) ?>,
+      comment: <?php echo json_encode($this->helper->getCommentText()) ?>,
+      leaveDoorstep: <?php echo json_encode($this->helper->getLeaveDoorstepText()) ?>,
+      asap: <?php echo json_encode($this->helper->getAsapName()) ?>
+
+    }
+
+  };
+  (function() {
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = '<?php echo $this->helper->getAvailabilityURL() . "/porterbuddy-widget.css" ?>';
+    document.head.appendChild(link);
+    var scriptEl = document.createElement('script');
+    scriptEl.async = true;
+    scriptEl.src = '<?php echo $this->helper->getAvailabilityURL() . "/porterbuddy-widget.js" ?>';
+    document.head.appendChild(scriptEl);
+  })();
+  </script>

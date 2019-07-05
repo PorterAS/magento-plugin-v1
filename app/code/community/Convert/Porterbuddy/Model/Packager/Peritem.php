@@ -183,10 +183,11 @@ class Convert_Porterbuddy_Model_Packager_Peritem implements Convert_Porterbuddy_
      */
     public function getDimensions(Mage_Catalog_Model_Product $product, $useDefaults = true)
     {
+        $_product = Mage::getModel('catalog/product')->load($product->getId());
         $definedDimensions = array(
-            'width' => $this->getAttributeValue($product, $this->helper->getWidthAttribute()),
-            'length' => $this->getAttributeValue($product, $this->helper->getLengthAttribute()),
-            'height' => $this->getAttributeValue($product, $this->helper->getHeightAttribute()),
+            'width' => $this->getAttributeValue($_product, $this->helper->getWidthAttribute()),
+            'length' => $this->getAttributeValue($_product, $this->helper->getLengthAttribute()),
+            'height' => $this->getAttributeValue($_product, $this->helper->getHeightAttribute()),
         );
 
         $definedDimensions = array_filter($definedDimensions);

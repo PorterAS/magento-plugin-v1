@@ -59,14 +59,6 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
             </asap_name>
-            <choose_later_name translate="label">
-              <label>Choose Timeslot Later Name</label>
-              <frontend_type>text</frontend_type>
-              <sort_order>50</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </choose_later_name>
             <api_mode translate="label">
               <label>Porterbuddy Mode</label>
               <frontend_type>select</frontend_type>
@@ -78,7 +70,7 @@
             </api_mode>
             <development_api_key translate="label">
               <label>API Key (Development)</label>
-              <frontend_type>password</frontend_type>
+              <frontend_type>text</frontend_type>
               <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
               <sort_order>70</sort_order>
               <show_in_default>1</show_in_default>
@@ -88,7 +80,7 @@
             </development_api_key>
             <testing_api_key translate="label">
               <label>API Key (Testing)</label>
-              <frontend_type>password</frontend_type>
+              <frontend_type>text</frontend_type>
               <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
               <sort_order>80</sort_order>
               <show_in_default>1</show_in_default>
@@ -98,7 +90,7 @@
             </testing_api_key>
             <production_api_key translate="label">
               <label>API Key (Production)</label>
-              <frontend_type>password</frontend_type>
+              <frontend_type>text</frontend_type>
               <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
               <sort_order>90</sort_order>
               <show_in_default>1</show_in_default>
@@ -106,6 +98,33 @@
               <show_in_store>0</show_in_store>
               <depends><api_mode>production</api_mode></depends>
             </production_api_key>
+            <development_public_api_key translate="label">
+              <label>Public API Key (Development)</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>100</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends><api_mode>development</api_mode></depends>
+            </development_public_api_key>
+            <testing_public_api_key translate="label">
+              <label>Public API Key (Testing)</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>101</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends><api_mode>testing</api_mode></depends>
+            </testing_public_api_key>
+            <production_public_api_key translate="label">
+              <label>Public API Key (Production)</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>102</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends><api_mode>production</api_mode></depends>
+            </production_public_api_key>
             <sort_order translate="label">
               <label>Sort Order</label>
               <frontend_type>text</frontend_type>
@@ -151,39 +170,20 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
             </location_discovery>
-            <postcodes_update translate="label">
-              <label>Allowed Postcodes</label>
-              <frontend_type>button</frontend_type>
-              <frontend_model>convert_porterbuddy/adminhtml_frontend_postcodes</frontend_model>
-              <sort_order>160</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>0</show_in_website>
-              <show_in_store>0</show_in_store>
-            </postcodes_update>
             <availability_text_click_to_see translate="label tooltip">
               <label>Click to see text</label>
               <tooltip><![CDATA[Can use &lt;a&gt;link&lt;/a&gt;, &lt;a class="button"&gt;link&lt;/a&gt; for clickable link]]></tooltip>
               <frontend_type>text</frontend_type>
-              <sort_order>170</sort_order>
+              <sort_order>200</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
             </availability_text_click_to_see>
-            <location_link_template translate="label comment tooltip">
-              <label>Location Link Template</label>
-              <comment>Can use {{location}}, {{postcode}}, {{city}}, {{country}} placeholders</comment>
-              <tooltip><![CDATA[Can use &lt;a&gt;link&lt;/a&gt;, &lt;a class="button"&gt;link&lt;/a&gt; for clickable link]]></tooltip>
-              <frontend_type>text</frontend_type>
-              <sort_order>180</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </location_link_template>
             <availability_text_fetching translate="label comment">
               <label>Availability fetching text</label>
               <comment>Can use {{location}}, {{postcode}}, {{city}}, {{country}} placeholders</comment>
               <frontend_type>text</frontend_type>
-              <sort_order>190</sort_order>
+              <sort_order>201</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
@@ -192,7 +192,7 @@
               <label>Availability Text Template</label>
               <comment>Can use {{date}}, {{countdown}} placeholders</comment>
               <frontend_type>text</frontend_type>
-              <sort_order>200</sort_order>
+              <sort_order>202</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
@@ -201,45 +201,85 @@
               <label>Postcode not available text</label>
               <comment>Can use {{location}}, {{postcode}}, {{city}}, {{country}} placeholders</comment>
               <frontend_type>text</frontend_type>
-              <sort_order>210</sort_order>
+              <sort_order>203</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
             </availability_text_postcode_error>
-            <availability_text_delivery_out_of_stock translate="label comment">
-              <label>Product is out of stock text</label>
-              <comment>Can use {{location}}, {{postcode}}, {{city}}, {{country}} placeholders</comment>
-              <frontend_type>text</frontend_type>
-              <sort_order>220</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </availability_text_delivery_out_of_stock>
             <availability_text_delivery_no_date translate="label comment">
               <label>No available dates text</label>
               <comment>Can use {{location}}, {{postcode}}, {{city}}, {{country}} placeholders</comment>
               <frontend_type>text</frontend_type>
-              <sort_order>230</sort_order>
+              <sort_order>204</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
             </availability_text_delivery_no_date>
-            <availability_choose_popup_title translate="label">
-              <label>Availability Change Popup Title</label>
+            <availability_enter_postal_code>
+              <label>Text above entering post code field</label>
               <frontend_type>text</frontend_type>
-              <sort_order>250</sort_order>
+              <sort_order>205</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </availability_choose_popup_title>
-            <availability_choose_popup_description translate="label">
-              <label>Availability Change Popup Description</label>
-              <frontend_type>textarea</frontend_type>
-              <sort_order>260</sort_order>
+            </availability_enter_postal_code>
+            <availability_enter_postal_code_placeholder>
+              <label>Text inside postcode box</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>206</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </availability_choose_popup_description>
+            </availability_enter_postal_code_placeholder>
+            <availability_detecting_location>
+              <label>Text when detecting location</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>207</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </availability_detecting_location>
+            <availability_service_not_available>
+              <label>Text when detecting location</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>208</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </availability_service_not_available>
+            <availability_change_location_button>
+              <label>Change Location Button Text</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>209</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </availability_change_location_button>
+            <availability_search_location_button>
+              <label>Search Location Button Text</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>210</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </availability_search_location_button>
+            <availability_try_again_button>
+              <label>Try again button text</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>211</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </availability_try_again_button>
+            <availability_your_postcode>
+              <label>Text showing postcode information is based upon</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>212</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </availability_your_postcode>
+
             <availability_auto_update_composite translate="label comment">
               <label>Load configurable product availability</label>
               <comment>Disable if automatic simple option preselect is installed to eliminate double loading and widget flickering</comment>
@@ -250,7 +290,14 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
             </availability_auto_update_composite>
-
+            <availability_widget_url translate= "label">
+              <label>URL for availablitly widget</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>280</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </availability_widget_url>
             <heading_checkout_widget translate="label">
               <label>Checkout Widget Settings</label>
               <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
@@ -259,15 +306,6 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
             </heading_checkout_widget>
-            <timeslot_selection translate="label">
-              <label>Pick time slot</label>
-              <frontend_type>select</frontend_type>
-              <source_model>convert_porterbuddy/config_source_timeslot</source_model>
-              <sort_order>310</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>0</show_in_store>
-            </timeslot_selection>
             <days_ahead translate="label">
               <label>Available Days Ahead</label>
               <frontend_type>text</frontend_type>
@@ -277,43 +315,6 @@
               <show_in_store>0</show_in_store>
               <validate>validate-number validate-zero-or-greater</validate>
             </days_ahead>
-            <return_enabled translate="label">
-              <label>Return Enabled</label>
-              <frontend_type>select</frontend_type>
-              <source_model>adminhtml/system_config_source_yesno</source_model>
-              <sort_order>330</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>0</show_in_store>
-            </return_enabled>
-            <return_text translate="label comment tooltip">
-              <label>Return Text</label>
-              <comment>Checkbox text on checkout widget</comment>
-              <tooltip>Can use {{formatted_price}} placeholder</tooltip>
-              <frontend_type>text</frontend_type>
-              <sort_order>340</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </return_text>
-            <return_short_text translate="label comment">
-              <label>Return Short Text</label>
-              <comment>Added to shipping method in order view</comment>
-              <frontend_type>text</frontend_type>
-              <sort_order>350</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </return_short_text>
-            <return_price translate="label">
-              <label>Return Price</label>
-              <frontend_type>text</frontend_type>
-              <sort_order>360</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>0</show_in_store>
-              <validate>validate-number validate-zero-or-greater</validate>
-            </return_price>
             <refresh_options_timeout translate="label">
               <label>Refresh delivery options every, minutes</label>
               <frontend_type>text</frontend_type>
@@ -384,47 +385,25 @@
               <show_in_website>1</show_in_website>
               <show_in_store>0</show_in_store>
             </heading_discount>
-            <discount_type translate="label">
-              <label>Discount Type</label>
-              <frontend_type>select</frontend_type>
-              <source_model>convert_porterbuddy/config_source_discountType</source_model>
+            <discounts translate="label">
+              <label>Discounts</label>
+              <frontend_model>convert_porterbuddy/adminhtml_frontend_discounts</frontend_model>
+              <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
               <sort_order>510</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>0</show_in_store>
-            </discount_type>
-            <discount_subtotal translate="label">
-              <label>Minimum Order Amount</label>
-              <frontend_type>text</frontend_type>
-              <validate>validate-number validate-zero-or-greater</validate>
+            </discounts>
+            <discount_coupons translate="label">
+              <label>Configure Coupon Code</label>
+              <comment>Coupons must be configured in Magneto also</comment>
+              <frontend_model>convert_porterbuddy/adminhtml_frontend_coupons</frontend_model>
+              <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
               <sort_order>520</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>0</show_in_store>
-              <depends>
-                <discount_type separator=",">fixed,percent</discount_type>
-              </depends>
-            </discount_subtotal>
-            <discount_amount translate="label">
-              <label>Discount Amount</label>
-              <frontend_type>text</frontend_type>
-              <validate>validate-number validate-zero-or-greater</validate>
-              <sort_order>530</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>0</show_in_store>
-              <depends><discount_type>fixed</discount_type></depends>
-            </discount_amount>
-            <discount_percent translate="label">
-              <label>Discount Percent</label>
-              <frontend_type>text</frontend_type>
-              <validate>validate-number validate-zero-or-greater</validate>
-              <sort_order>540</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>0</show_in_store>
-              <depends><discount_type>percent</discount_type></depends>
-            </discount_percent>
+            </discount_coupons>
 
             <heading_hours translate="label">
               <label>Open Hours</label>
@@ -621,6 +600,15 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
             </default_phone_code>
+            <override_telephone_number translate="label comment">
+              <label>Telephone Number Override</label>
+              <comment>Optional, used to override phone number from Settings/General/Store information</comment>
+              <frontend_type>text</frontend_type>
+              <sort_order>835</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </override_telephone_number>
             <packager_mode translate="label">
               <label>Packager mode</label>
               <frontend_type>select</frontend_type>
@@ -891,33 +879,6 @@
               <show_in_website>1</show_in_website>
               <show_in_store>0</show_in_store>
             </heading_availability>
-            <maps_api_key translate="label">
-              <label>Google Maps API Key</label>
-              <frontend_type>text</frontend_type>
-              <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-              <sort_order>1310</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </maps_api_key>
-            <geoip_status translate="label">
-              <label>GeoIP Database Downloaded</label>
-              <frontend_type>label</frontend_type>
-              <frontend_model>convert_porterbuddy/adminhtml_frontend_geoip_status</frontend_model>
-              <sort_order>1320</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>0</show_in_website>
-              <show_in_store>0</show_in_store>
-            </geoip_status>
-            <geoip_synchronize translate="label comment">
-              <frontend_type>button</frontend_type>
-              <frontend_model>convert_porterbuddy/adminhtml_frontend_geoip_synchronize</frontend_model>
-              <sort_order>1330</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>0</show_in_website>
-              <show_in_store>0</show_in_store>
-              <comment>If you synchronize GeoIP database too often you may be banned for several hours.</comment>
-            </geoip_synchronize>
 
             <heading_cargonizer translate="label">
               <label>Cargonizer Printing Options</label>

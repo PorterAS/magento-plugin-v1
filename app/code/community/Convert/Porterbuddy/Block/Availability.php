@@ -12,10 +12,6 @@ class Convert_Porterbuddy_Block_Availability extends Mage_Core_Block_Template
         $this->helper = Mage::helper('convert_porterbuddy');
     }
 
-    public function getMapsApiKey()
-    {
-        return $this->helper->getMapsApiKey();
-    }
 
     /**
      * Retrieve currently viewed product object
@@ -31,19 +27,28 @@ class Convert_Porterbuddy_Block_Availability extends Mage_Core_Block_Template
     }
 
     /**
-     * @return string
+     * Retrieve currently viewed product object
+     *
+     * @return Mage_Catalog_Model_Product
      */
-    public function getChoosePopupTitle()
+    public function getDiscount()
     {
-        return $this->helper->getAvailabilityChoosePopupTitle();
+      $discounts = $this->helper->getDiscounts();
+      if($discounts.length == 0){
+        return 0;
+      }
+      return $discounts[0]['discount'];
     }
 
     /**
-     * @return string
+     * Retrieve currently viewed product object
+     *
+     * @return boolean
      */
-    public function getChoosePopupDescription()
+    public function showAvailabilityWidget()
     {
-        return $this->helper->getAvailabilityChoosePopupDescription();
+      $product = $this->getProduct();
+      return $product->isAvailable() && !$product->isVirtual();
     }
 
     /**
