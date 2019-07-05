@@ -34,10 +34,11 @@ class Convert_Porterbuddy_Block_Availability extends Mage_Core_Block_Template
     public function getDiscount()
     {
       $discounts = $this->helper->getDiscounts();
-      if($discounts.length == 0){
-        return 0;
+      if(sizeof($discounts) > 0){
+        return $discounts[0]['discount'];
+      }else{
+          return 0;
       }
-      return $discounts[0]['discount'];
     }
 
     /**

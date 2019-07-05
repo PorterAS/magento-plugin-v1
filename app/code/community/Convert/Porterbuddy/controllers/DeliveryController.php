@@ -91,11 +91,13 @@ class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Ac
           $comment = $this->getRequest()->getPost('comment');
           $quote->setPbComment($comment);
         }elseif($type == 'doorstep'){
-
-          $leaveDoorstep = $this->getRequest()->getPost('leave_doorstep');
-          $quote->setPbLeaveDoorstep($leaveDoorstep);
+          $doorstep =  $this->getRequest()->getPost('leave_doorstep');
+          if($doorstep == 'true'){
+          $quote->setPbLeaveDoorstep(1);
+          }else{
+          $quote->setPbLeaveDoorstep(0);
+          }
         }
-
 
         try {
             $quote->save();

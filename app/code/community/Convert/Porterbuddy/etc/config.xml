@@ -8,7 +8,7 @@
 <config>
     <modules>
         <Convert_Porterbuddy>
-            <version>3.0.0</version>
+            <version>3.0.1</version>
         </Convert_Porterbuddy>
     </modules>
     <global>
@@ -67,7 +67,7 @@
                     <to_order>*</to_order>
                 </pb_timeslot_selection>
                 <pb_token>
-                  <to_order>*</to_order>
+                    <to_order>*</to_order>
                 </pb_token>
             </sales_convert_quote>
         </fieldsets>
