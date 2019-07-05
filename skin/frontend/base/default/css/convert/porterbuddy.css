@@ -1,417 +1,50 @@
-/* Widget */
-.porterbuddy-widget {
-	padding: 15px;
-}
-
-.sp-methods .porterbuddy-widget {
-	padding: 0;
-}
-
-.porterbuddy-widget .porterbuddy-widget-logo-wrapper {
-	float: right;
-}
-
-.porterbuddy-widget .porterbuddy-widget-logo-wrapper img {
-	margin-top: 4px;
-}
-
-@media screen and (max-width: 500px) {
-	.porterbuddy-widget .porterbuddy-widget-logo-wrapper {
-		width: 28px;
-		height: 33px;
-		overflow: hidden;
-	}
-}
-
-.porterbuddy-widget .porterbuddy-widget-logo-wrapper img {
-	display: block;
-}
-
-.porterbuddy-widget .porterbuddy-widget-description {
-	font-size: 13px;
-	line-height: 1.615;
-	margin: 14px 0;
-}
-
-.porterbuddy-widget .porterbuddy-widget-timeslots {
-	flex-wrap: wrap;
-	margin-left: -3px;
-	margin-right: -3px;
-}
-
-.porterbuddy-widget .porterbuddy-widget-timeslot {
-	border: 1px solid #cdcdcd;
-	flex-basis: 40%;
-	height: 63px;
-	text-align: center;
-	margin: 3px;
-	display: flex;
-	flex-flow: column;
-	justify-content: center;
-	padding-left: 12px;
-	padding-right: 12px;
-	box-sizing: border-box;
-}
-
-.porterbuddy-widget .porterbuddy-timeslot-delivery-select-later {
-	flex-basis: 190px;
-}
-
-@media screen and (max-width: 767px) {
-	.porterbuddy-widget .porterbuddy-widget-timeslot {
-		flex-basis: 40%;
-		flex-grow: 1;
-		padding-left: 8px;
-		padding-right: 8px;
-	}
-}
-
-.porterbuddy-widget .porterbuddy-widget-timeslot:hover {
-	background-color: #d7f6f3;
-	cursor: default;
-}
-
-.porterbuddy-widget .porterbuddy-widget-timeslot.active {
-	background-color: #99e8e1;
-}
-
-.porterbuddy-widget .porterbuddy-widget-timeslot.active p {
-	color: black;
-}
-
-.porterbuddy-widget .porterbuddy-widget-timeslot h6 {
-	font-size: 16px;
-	color: black;
-	text-transform: uppercase;
-	font-weight: 700;
-	margin: 0;
-	white-space: nowrap;
-}
-
-.porterbuddy-widget .porterbuddy-widget-timeslot.porterbuddy-timeslot-asap h6,
-.porterbuddy-widget .porterbuddy-widget-timeslot.porterbuddy-timeslot-delivery-select-later h6 {
-	font-size: 13px;
-	line-height: 15px;
-	white-space: normal;
-}
-
-.porterbuddy-widget .porterbuddy-widget-timeslot.porterbuddy-timeslot-delivery-select-later h6 {
-	white-space: nowrap;
-}
-
-.porterbuddy-widget .porterbuddy-widget-timeslot p {
-	font-size: 13px;
-	color: rgba(0,0,0,0.5);
-	margin: 0;
-}
-
-.porterbuddy-widget .porterbuddy-widget-timeslot p .price {
-	font-weight: normal;
-}
-
-.porterbuddy-widget .porterbuddy-widget-date-selectors {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 21px;
-	align-items: center;
-}
-
-.porterbuddy-widget .porterbuddy-widget-selected-date {
-	font-size: 14px;
-	font-weight: 700;
-	text-transform: uppercase;
-	color: black;
-	text-align: center;
-	margin: 0 5px;
-}
-
-@media screen and (min-width: 768px) {
-	.porterbuddy-widget .porterbuddy-widget-selected-date {
-		font-size: 20px;
-	}
-}
-
-.porterbuddy-widget .porterbuddy-widget-date-selector {
-	font-size: 13px;
-	color: black;
-	text-decoration: none;
-	line-height: 30px;
-	outline: 0;
-}
-
-@media screen and (max-width: 767px) {
-	.porterbuddy-widget .porterbuddy-widget-date-selector {
-		width: 9px;
-		height: 15px;
-		overflow: hidden;
-	}
-
-	.porterbuddy-widget .porterbuddy-widget-date-selector span {
-		display: none;
-	}
-}
-
-.porterbuddy-widget .porterbuddy-widget-date-selector.unavailable {
-	color: rgba(0,0,0,0.3);
-}
-
-.porterbuddy-widget .porterbuddy-widget-date-selector.unavailable:before,
-.porterbuddy-widget .porterbuddy-widget-date-selector.unavailable:after {
-	opacity: 0.3;
-}
-
-.porterbuddy-widget .porterbuddy-widget-date-selector.prev-date:before,
-.porterbuddy-widget .porterbuddy-widget-date-selector.next-date:after {
-	width: 9px;
-	height: 15px;
-	content: " ";
-	display: inline-block;
-	vertical-align: middle;
-}
-
-.porterbuddy-widget .porterbuddy-widget-date-selector.prev-date:before {
-	background: url("../../images/porterbuddy-arrow-prev.svg") 0 0 no-repeat;
-	margin-right: 5px;
-}
-
-.porterbuddy-widget .porterbuddy-widget-date-selector.next-date:after {
-	background: url("../../images/porterbuddy-arrow-next.svg") 0 0 no-repeat;
-	margin-left: 5px;
-}
-
-@media screen and (max-width: 767px) {
-	.porterbuddy-widget .porterbuddy-widget-date-selector.prev-date:before,
-	.porterbuddy-widget .porterbuddy-widget-date-selector.next-date:after {
-		display: block;
-		margin: 0;
-	}
-}
-
-/* Popup */
-.porterbuddy-popup {
-	padding: 1em 2em;
-	max-width: 800px;
-}
-
-@media screen and (max-width: 767px) {
-	.porterbuddy-popup {
-		max-width: 340px;
-		margin-left: auto;
-		margin-right: auto;
-	}
-}
-
-.porterbuddy-popup .alert {
-	border: 1px solid transparent;
-	border-radius: 0.25rem;
-	margin-bottom: 1rem;
-	padding: 0.75rem 1.25rem;
-}
-.porterbuddy-popup .alert.alert-info {
-	background-color: #d9edf7;
-	border-color: #bcdff1;
-	color: #31708f;
-}
-.porterbuddy-popup .alert.alert-success {
-	background-color: #dff0d8;
-	border-color: #d0e9c6;
-	color: #3c763d;
-}
-.porterbuddy-popup .alert.alert-error {
-	background-color: #f2dede;
-	border-color: #ebcccc;
-	color: #a94442;
-}
-
-.porterbuddy-popup .image-logo {
-	margin: 0 auto 15px;
-}
-
-@media screen and (min-width: 768px) {
-	.porterbuddy-popup .image-logo {
-		position: absolute;
-	}
-}
-
-.porterbuddy-popup__header {
-	margin: 1em 0;
-}
-
-@media screen and (min-width: 768px) {
-	.porterbuddy-popup__header {
-		position: relative;
-	}
-}
-
-.porterbuddy-popup__header__title {
-	font-size: 20px;
-	font-weight: bold;
-	text-align: center;
-	color: black;
-	text-transform: uppercase;
-}
-
-@media screen and (min-width: 768px) {
-	.porterbuddy-popup__header__title {
-		margin-left: 110px;
-		margin-right: 110px;
-	}
-}
-
-.porterbuddy-popup__header__description {
-	margin: 0.5em auto 30px;
-	text-align: center;
-	font-size: 13px;
-	line-height: 1.615;
-}
-
-@media screen and (min-width: 768px) {
-	.porterbuddy-popup__header__description {
-		max-width: 80%;
-	}
-}
-
-.porterbuddy-popup__content {
-	padding: 0 0 2em;
-}
-
-.porterbuddy-popup__content__address {
-	text-align: center;
-}
-
-.porterbuddy-popup__content__address span {
-	margin-right: 5px;
-}
-
-.porterbuddy-popup__footer {
-	text-align: center;
-}
-
-.porterbuddy-popup__footer .button {
-	background-color: #125c75;
-	width: 250px;
-	height: 50px;
-	font-size: 15px;
-	text-transform: uppercase;
-	font-weight: 700;
-}
-
-.porterbuddy-popup__footer .button:hover {
-	background-color: #0b3949;
-	cursor: pointer;
-}
-
-.porterbuddy-widget .porterbuddy-widget-comment textarea {
-	min-height: 4.1rem;
-	margin-bottom: 0;
-	border: 1px solid #ccc;
-	padding: 0.5em 1em;
-	resize: vertical;
-}
-
-
-
-.porterbuddy-widget .porterbuddy-widget-return,
-.porterbuddy-widget .porterbuddy-widget-leave-doorstep {
-	margin-top: 9px;
-}
-
-.porterbuddy-widget .porterbuddy-widget-return + .porterbuddy-widget-leave-doorstep {
-	margin-top: 0;
-}
-
-.porterbuddy-widget .porterbuddy-widget-return,
-.porterbuddy-widget .porterbuddy-widget-comment {
-	margin-top: 15px;
-	margin-right: 15px;
-}
-
-.porterbuddy-widget .porterbuddy-widget-return input[type="checkbox"],
-.porterbuddy-widget .porterbuddy-widget-leave-doorstep input[type="checkbox"] {
-	position: absolute;
-	left: 0;
-	top: 16px;
-	margin: 0;
-	transform: translateY(-50%);
-}
-
-.porterbuddy-widget .porterbuddy-widget-return label,
-.porterbuddy-widget .porterbuddy-widget-comment label,
-.porterbuddy-widget .porterbuddy-widget-leave-doorstep label {
-	font-size: 13px;
-	display: block !important;
-	padding-left: 21px !important;
-	position: relative;
-	background-color: transparent !important;
-}
-
-/* Geo-based availability widget */
-.porterbuddy-availability {
-	border: 1px solid #cccccc;
-	padding: 1em;
-	clear: both;
-	margin-bottom: 16px;
-}
-
-.porterbuddy-availability .porterbuddy-widget-logo-wrapper {
-	margin: 0 0 .5em;
-	display: inline-block;
-}
-
-.porterbuddy-availability.postcode-error .porterbuddy-widget-logo-wrapper {
-	margin: 0;
-}
-
-.porterbuddy-availability .porterbuddy-widget-logo-wrapper img {
-	display: block;
-}
-
-.porterbuddy-availability .porterbuddy-availability-location-link {
-	float: right;
-	font-weight: bold;
-	font-size: 12px;
-	line-height: 24px;
-}
-
-@media screen and (max-width: 600px) {
-	.porterbuddy-availability .porterbuddy-availability-location-link {
-		display: block;
-		float: none;
-		margin: 5px 3px;
-	}
-}
-
-.porterbuddy-availability .porterbuddy-availability-location-link .button {
-	cursor: pointer;
-	margin-left: 5px;
-	font-size: 12px;
-	padding: 3px 8px 2px;
-	vertical-align: top;
-}
-
-.porterbuddy-availability.postcode-error .porterbuddy-availability-location-link {
-	cursor: pointer;
-	font-size: 13px;
-}
-
-@media screen and (max-width: 1200px) {
-	.porterbuddy-availability.postcode-error .porterbuddy-availability-location-link {
-		float: none;
-		clear: both;
-		display: block;
-	}
-}
-
-.porterbuddy-availability .porterbuddy-availability-date {
-	font-weight: bold;
-}
-
-.porterbuddy-availability .porterbuddy-availability-countdown {
-	font-weight: bold;
-}
-
-.porterbuddy-availability .porterbuddy-availability-text {
-	clear: both;
-	font-size: 15px;
-	margin-left: 3px;
+.porterbuddy-header {
+    display: block;
+    position: relative;
+    font-weight: 500;
+    font-size: 16px;
+}
+#porterbuddy-widget-title {
+    padding: 1.2rem 1.2rem 1.2rem 4rem;
+    margin-bottom: 0 !important;
+    border-bottom: 0 !important;
+}
+#porterbuddy-widget-wrapper {
+    padding: 1rem 1rem 1rem 1rem;
+    border: 2px solid #3065ae;
+}
+
+.shipping-logo {
+    margin: 1rem 0 1rem auto;
+    display: block;
+}
+
+#polarcore #kco_shipping_available .sp-methods #porterbuddy-widget .pb-btn--secondary{
+    position: relative;
+    color: #353535;
+    background: #fff;
+    background-color: #fff;
+    border: 1px solid #353535;
+    outline: 1px solid transparent;
+    font-size: 1em;
+    text-align: left;
+    line-height: 1.5;
+    letter-spacing: normal;
+    top: 0;
+    right: 0;
+    height: 2.5em;
+    padding: 0 1.5em;
+    margin: 0;
+}
+#polarcore #kco_shipping_available .sp-methods #porterbuddy-widget .pb-btn--secondary::before{
+    content: none;
+}
+#polarcore #kco_shipping_available .sp-methods dd .pb-checkout__label input{
+    display: inline-block;
+}
+.product-view #porterbuddy-widget {
+    display: flex;
+    width: 100%;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }

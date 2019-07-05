@@ -59,8 +59,8 @@
     <catalog_product_view>
         <update handle="convert_porterbuddy_assets" />
 
-        <reference name="product.info.extrahint">
-            <block type="core/text_list" name="porterbuddy.availability">
+        <reference name="product.info.options.wrapper.bottom">
+            <block type="core/text_list" name="porterbuddy.availability" before="content">
                 <block type="convert_porterbuddy/availability" name="porterbuddy.availability.widget" as="widget" template="convert/porterbuddy/availability/widget.phtml" />
                 <block type="convert_porterbuddy/availability" name="porterbuddy.availability.js" as="js" template="convert/porterbuddy/availability/js.phtml" />
             </block>
