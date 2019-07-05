@@ -6,15 +6,18 @@
 /** @var Convert_Porterbuddy_Block_Checkout $this */
 ?>
 <li id="porterbuddy-checkout-widget" class="porterbuddy-checkout-widget porterbuddy-widget-item">
-    <input name="shipping_method_porterbuddy" type="radio" value="s_method_porterbuddy" id="s_method_porterbuddy" class="radio"/>
-    <label class="porterbuddy-widget-title" for="s_method_porterbuddy">
-      <span data-porterbuddy-text="subTitle"><?php echo $this->getTitle() ?></span>
-    </label>
-
-    <div class="porterbuddy-widget-description carrier-method-desc">
-        <?php echo $this->getDescription() ?>
+    <div id="porterbuddy-header-wrapper">
+        <input name="shipping_methody" type="radio" value="s_method_porterbuddy" id="s_method_porterbuddy" class="radio"/>
+        <label id="porterbuddy-widget-title" for="s_method_porterbuddy">
+            <div class="porterbuddy-header"> <?php echo $this->getTitle() ?></div>
+            <span data-porterbuddy-text="selectedPrice" class="price"></span>
+        </label>
     </div>
-
+    <div id="porterbuddy-widget-wrapper">
+    <div id="porterbuddy-info">
+       <span data-porterbuddy-text="subTitle"><?php echo $this->getTitle() ?></span>
+        <span class="shipping-description"> <?php echo $this->getDescription() ?> </span>
+    </div>
     <div id="porterbuddy-widget"></div>
-
+    </div>
 </li>

@@ -29,15 +29,25 @@ window.PorterbuddyWidget = Class.create({
         this.$porterbuddyRates = this.$allRates.filter('[value^="' + Porterbuddy.CARRIER_CODE + '_"]');
         var widgetComponent = this;
         this.$groupRate = this.$widget.find('#s_method_porterbuddy');
+        this.$porterbuddyRates.closest('li').hide();
+        this.$widget.insertAfter(this.$porterbuddyRates.last().closest('li'));
+        var $listClass = this.$groupRate.closest('dd').attr('class');
+        var $headerClass = $listClass.substring(0, $listClass.indexOf('--')) + '--header';
+        this.$groupHeader = this.$element.filter('dt.' + $headerClass);
+
         this.$allRates.click(function(e, internal) {
           var $rate = jQuery(this);
           widgetComponent.$groupRate.prop('checked', widgetComponent.isPorterbuddyRate($rate));
           if(!widgetComponent.isPorterbuddyRate($rate)){
             window.pbUnselectDeliveryWindow();
+            widgetComponent.$groupHeader.removeClass('selected-shipping');
           }
         });
-        this.$porterbuddyRates.closest('li').hide();
-        this.$widget.insertAfter(this.$porterbuddyRates.last().closest('li'));
+        this.$groupRate.click(function(e, internal) {
+            if(widgetComponent.$porterbuddyRates.find(":checked").length === 0){
+               widgetComponent.$porterbuddyRates.eq(0).trigger('click', true);
+            }
+        });
 
     },
 
