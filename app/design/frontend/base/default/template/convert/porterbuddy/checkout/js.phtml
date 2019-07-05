@@ -19,7 +19,7 @@ window.porterbuddyWidget = new PorterbuddyWidget({
 window.porterbuddy = {
   token: <?php echo json_encode($this->helper->getPublicApiKey()) ?>,
   view: 'checkout',
-  deliveryWindows: <?php echo json_encode(Mage::getSingleton('checkout/session')->getPbWindows($options))?>,
+  deliveryWindows: <?php echo json_encode(Mage::getSingleton('checkout/session')->getPbWindows())?>,
   updateDeliveryWindowsInterval: <?php echo $this->getRefreshOptionsTimeout() * 60 ?>,
   postalCode: <?php echo json_encode($this->getPostcode()) ?>,
   discount: <?php echo $this->getDiscount() * 100 ?>,

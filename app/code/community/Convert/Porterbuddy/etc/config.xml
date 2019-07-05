@@ -8,7 +8,7 @@
 <config>
     <modules>
         <Convert_Porterbuddy>
-            <version>2.2.2</version>
+            <version>3.0.0</version>
         </Convert_Porterbuddy>
     </modules>
     <global>
@@ -66,6 +66,9 @@
                 <pb_timeslot_selection>
                     <to_order>*</to_order>
                 </pb_timeslot_selection>
+                <pb_token>
+                  <to_order>*</to_order>
+                </pb_token>
             </sales_convert_quote>
         </fieldsets>
         <template>
@@ -220,7 +223,7 @@
             <cnvporterbuddy>
                 <active>0</active>
                 <model>convert_porterbuddy/carrier</model>
-                <sub_title>Bestill innen {{remaining}} og få varene levert {{delivery}} ({{selected_price}},-) </sub_title>
+                <sub_title>Bestill innen {{remaining}} og få varene levert {{delivery}} ({{selected_price}}) </sub_title>
                 <title>Varene levert på døren med Porterbuddy</title>
                 <description>Bestem selv når varene skal leveres. Du kan spore sendingen, og vi sender deg en melding før ankomst.</description>
                 <asap_name>Express levering</asap_name>
@@ -239,7 +242,7 @@
 
                 <availability_text_click_to_see>Klikk her for å se om du kan få varen levert til deg i dag</availability_text_click_to_see>
                 <availability_text_fetching>Henter leveransealternativer...</availability_text_fetching>
-                <availability_template>**Hjem** {{delivery}} med Porterbuddy for **{{price_lowest_price}},-** (bestill innen {{countdown_lowest_price}})</availability_template>
+                <availability_template>**Hjem** {{delivery}} med Porterbuddy for **{{price_lowest_price}}** (bestill innen {{countdown_lowest_price}})</availability_template>
                 <availability_text_postcode_error>Beklager, levering samme dag er ikke mulig til postnummer {{postcode}}. Vi utvider stadig. Følg utviklingen på www.porterbuddy.com</availability_text_postcode_error>
                 <availability_your_postcode>Ditt postnummer: **{{postcode}}**</availability_your_postcode>
 

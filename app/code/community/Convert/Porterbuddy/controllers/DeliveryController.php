@@ -90,7 +90,7 @@ class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Ac
 
           $comment = $this->getRequest()->getPost('comment');
           $quote->setPbComment($comment);
-        }else if($type == 'doorstep'){
+        }elseif($type == 'doorstep'){
 
           $leaveDoorstep = $this->getRequest()->getPost('leave_doorstep');
           $quote->setPbLeaveDoorstep($leaveDoorstep);
@@ -121,7 +121,7 @@ class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Ac
         $address = $this->getCheckout()->getQuote()->getShippingAddress();
         $address->setCollectShippingRates(true);
 
-        return $this->prepareDataJSON(Mage::getSingleton('checkout/session')->getPbWindows($options));
+        return $this->prepareDataJSON(Mage::getSingleton('checkout/session')->getPbWindows());
     }
 
 

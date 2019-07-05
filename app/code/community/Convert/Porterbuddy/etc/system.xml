@@ -600,6 +600,15 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
             </default_phone_code>
+            <override_telephone_number translate="label comment">
+              <label>Telephone Number Override</label>
+              <comment>Optional, used to override phone number from Settings/General/Store information</comment>
+              <frontend_type>text</frontend_type>
+              <sort_order>835</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </override_telephone_number>
             <packager_mode translate="label">
               <label>Packager mode</label>
               <frontend_type>select</frontend_type>

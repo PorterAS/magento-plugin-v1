@@ -29,6 +29,20 @@ class Convert_Porterbuddy_Block_Availability extends Mage_Core_Block_Template
     /**
      * Retrieve currently viewed product object
      *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function getDiscount()
+    {
+      $discounts = $this->helper->getDiscounts();
+      if($discounts.length == 0){
+        return 0;
+      }
+      return $discounts[0]['discount'];
+    }
+
+    /**
+     * Retrieve currently viewed product object
+     *
      * @return boolean
      */
     public function showAvailabilityWidget()

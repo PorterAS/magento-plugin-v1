@@ -576,29 +576,15 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
 
         $defaultPhoneCode = $this->helper->getDefaultPhoneCode();
         $pickupPhone = $this->helper->splitPhoneCodeNumber($request->getShipperContactPhoneNumber());
+
+        if($this->helper->getOverrideTelephoneNumber()){
+          $pickupPhone = $this->helper->splitPhoneCodeNumber($this->helper->getOverrideTelephoneNumber());
+        }
+
         $deliveryPhone = $this->helper->splitPhoneCodeNumber($request->getRecipientContactPhoneNumber());
         $senderEmail = Mage::getStoreConfig('trans_email/ident_'.$this->helper->getSenderEmailIdentify($shipment->getStoreId()).'/email');
 
-        $options = Mage::getSingleton('checkout/session')->getPbWindows($options);
-        $token = '';
-        foreach( $options as $option){
-          $type = $option['product'];
-          $start = new DateTime($option['start']);
-          $end = new DateTime($option['end']);
 
-          $methodCode = implode(
-              '_',
-              array(
-                  $type,
-                  $start->format(DateTime::ATOM),
-                  $end->format(DateTime::ATOM)
-              )
-          );
-          if($methodCode == $request->getShippingMethod()){
-            $token =  $option['token'];
-            break;
-          }
-        }
         $parameters = array(
             'origin' => [
                 'name' => Mage::getStoreConfig('trans_email/ident_general/name', $shipment->getStoreId()),
@@ -629,9 +615,8 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
                 'deliveryWindow' =>  [
                     'start' => $this->helper->formatApiDateTime($methodInfo['start']),
                     'end' => $this->helper->formatApiDateTime($methodInfo['end']),
-                    'token' => $token
+                    'token' => $order->getPbToken()
                 ],
-                'bestAvailableWindow' => !$deliveryTimeslotIsKnown,
                 'verifications' => $this->getVerifications($shipment),
             ],
             'parcels' => $parcels,

@@ -29,6 +29,7 @@ window.porterbuddy = {
         leaveDoorstep: <?php echo json_encode($this->helper->getLeaveDoorstepText()) ?>,
         asap: <?php echo json_encode($this->helper->getAsapName()) ?>
       },
+      discount: <?php echo $this->getDiscount() * 100 ?>,
       pickupWindows: <?php echo json_encode($this->helper->getPickupWindows()) ?>
     };
     (function() {
