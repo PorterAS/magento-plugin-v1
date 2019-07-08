@@ -40,6 +40,7 @@ window.porterbuddy = {
   },
   onSetCallbacks: (callbacks) => {
     window.pbUnselectDeliveryWindow = callbacks.unselectDeliveryWindow;
+    window.pbSetSelectedDeliveryWindow = callbacks.setSelectedDeliveryWindow;
   },
   onComment: function( comment ){
 
@@ -96,7 +97,6 @@ window.porterbuddy = {
       availabilityDeliveryNoDate:<?echo json_encode($this->helper->getAvailabilityTextNoDate()) ?>,
       availabilityDetectingLocation:<?echo json_encode($this->helper->getAvailabilityDetectingLocation()) ?>,
       availabilityServiceNotAvailable:<?echo json_encode($this->helper->getAvailabilityServiceNotAvailable()) ?>,
-      availabilityDeliveryOutOfStock: "{{selected_price}}",
       tryAgainButton:<?echo json_encode($this->helper->getAvailabilityTryAgainButton()) ?>,
       searchLocationButton:<?echo json_encode($this->helper->getAvailabilitySearchLocationButton()) ?>,
       changeLocationButton:<?echo json_encode($this->helper->getAvailabilityChangeLocationButton()) ?>,

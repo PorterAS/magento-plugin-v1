@@ -34,6 +34,8 @@ window.PorterbuddyWidget = Class.create({
         var $listClass = this.$groupRate.closest('dd').attr('class');
         var $headerClass = $listClass.substring(0, $listClass.indexOf('--')) + '--header';
         this.$groupHeader = this.$element.filter('dt.' + $headerClass);
+        this.$selectedRate = null;
+        this.$previousSelectedRate = null;
 
         this.$allRates.click(function(e, internal) {
           var $rate = jQuery(this);
@@ -41,11 +43,25 @@ window.PorterbuddyWidget = Class.create({
           if(!widgetComponent.isPorterbuddyRate($rate)){
             window.pbUnselectDeliveryWindow();
             widgetComponent.$groupHeader.removeClass('selected-shipping');
+            if(widgetComponent.$selectedRate != null){
+              widgetComponent.$selectedRate.checked = false;
+              widgetComponent.$selectedRate = null;
+            }
+          }else{
+            widgetComponent.$selectedRate = $rate;
+            widgetComponent.$previousSelectedRate = $rate;
           }
         });
         this.$groupRate.click(function(e, internal) {
             if(widgetComponent.$porterbuddyRates.find(":checked").length === 0){
-               widgetComponent.$porterbuddyRates.eq(0).trigger('click', true);
+              if(widgetComponent.$previousSelectedRate != null ){
+                var windowVals = widgetComponent.$previousSelectedRate.val().split('_');
+                window.pbSetSelectedDeliveryWindow({'product': windowVals[1], 'start': windowVals[2], 'end': windowVals[3]});
+                widgetComponent.$previousSelectedRate.trigger('click', true);
+              }else{
+                window.pbSetSelectedDeliveryWindow(null, true);
+                widgetComponent.$porterbuddyRates.eq(0).trigger('click', true);
+              }
             }
         });
 
