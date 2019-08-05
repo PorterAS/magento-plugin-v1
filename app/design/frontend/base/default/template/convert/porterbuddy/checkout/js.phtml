@@ -48,7 +48,7 @@ window.porterbuddy = {
     jQuery.ajax('<?php echo $this->getUrl('convert_porterbuddy/delivery/refresh') ?>', {
       dataType: 'json'
     })
-    .done(function(deliveryWindows) {
+    .then(function(deliveryWindows) {
       callback(deliveryWindows);
     });
   },

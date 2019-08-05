@@ -20,8 +20,7 @@ Porterbuddy.SOURCE_USER = 'user';
  */
 window.PorterbuddyWidget = Class.create({
     initialize: function (data) {
-        this.$element = jQuery(jQuery('input[name=shipping_method]').closest('form')[0] ||
-            jQuery('input[name=shipping_method]').closest('div')[0]);
+        this.$element = jQuery("dl.sp-methods");
 
         this.widgetHtml = data.widgetHtml;
         this.chosenOptionNotAvailableText = data.chosenOptionNotAvailableText;
@@ -36,7 +35,6 @@ window.PorterbuddyWidget = Class.create({
         var $headerClass = $listClass.substring(0, $listClass.indexOf('--')) + '--header';
         this.$groupHeader = this.$element.filter('dt.' + $headerClass);
         this.$selectedRate = null;
-        this.$previousSelectedRate = null;
 
         this.$allRates.click(function(e, internal) {
           var $rate = jQuery(this);
