@@ -266,6 +266,8 @@
                 <allow_leave_at_doorstep>1</allow_leave_at_doorstep>
                 <leave_doorstep_text>Budet kan levere pakken utenfor døren på leveranse adressen</leave_doorstep_text>
                 <comment_text>Evt. beskjed til budet</comment_text>
+                <chosen_option_not_available_text>We're sorry, the Porterbuddy delivery window you chose is no longer availabe, please choose another</chosen_option_not_available_text>
+                <porterbuddy_not_available_text>We're sorry, Porterbuddy is no longer available, please choose another shipping option</porterbuddy_not_available_text>
                 <auto_create_shipment>1</auto_create_shipment>
                 <api_mode>development</api_mode>
                 <development_api_key backend_model="adminhtml/system_config_backend_encrypted"/>

@@ -92,6 +92,8 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_ALLOW_LEAVE_AT_DOORSTEP = 'carriers/cnvporterbuddy/allow_leave_at_doorstep';
     const XML_PATH_LEAVE_DOORSTEP_TEXT = 'carriers/cnvporterbuddy/leave_doorstep_text';
     const XML_PATH_COMMENT_TEXT = 'carriers/cnvporterbuddy/comment_text';
+    const XML_PATH_CHOSEN_OPTION_NOT_AVAILABLE_TEXT = 'carriers/cnvporterbuddy/chosen_option_not_available_text';
+    const XML_PATH_PORTERBUDDY_NOT_AVAILABLE_TEXT = 'carriers/cnvporterbuddy/porterbuddy_not_available_text';
     const XML_PATH_WEIGHT_UNIT = 'carriers/cnvporterbuddy/weight_unit';
     const XML_PATH_DIMENSION_UNIT = 'carriers/cnvporterbuddy/dimension_unit';
     const XML_PATH_DEFAULT_PRODUCT_WEIGHT = 'carriers/cnvporterbuddy/default_product_weight';
@@ -949,6 +951,22 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCommentText()
     {
         return Mage::getStoreConfig(self::XML_PATH_COMMENT_TEXT);
+    }
+
+    /**
+     * @return string
+     */
+    public function getChosenOptionNotAvailableText()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_CHOSEN_OPTION_NOT_AVAILABLE_TEXT);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPorterbuddyNotAvailableText()
+    {
+       return Mage::getStoreConfig(self::XML_PATH_PORTERBUDDY_NOT_AVAILABLE_TEXT);
     }
 
     /**

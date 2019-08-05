@@ -10,23 +10,37 @@ $coreHelper = $this->helper('core');
 
 <script type="text/javascript">
 window.porterbuddyWidget = new PorterbuddyWidget({
-  widgetHtml: <?php echo json_encode($this->getChildHtml()) ?>
+  widgetHtml: <?php echo json_encode($this->getChildHtml()) ?>,
+  chosenOptionNotAvailableText: <?php echo json_encode($this->helper->getChosenOptionNotAvailableText()) ?>,
+  porterbuddyNotAvailableText: <?php echo json_encode($this->helper->getPorterbuddyNotAvailableText()) ?>
 });
 </script>
 <script>
+
+window.pbPostCode = <?php echo json_encode($this->getPostcode()) ?>;
+window._klarnaCheckout(function(api) {
+  api.on({
+    'shipping-address-change': function(data) {
+      if(data.postal-code != window.pbPostalCode){
+       window.pbForceRefresh();
+      }
+     }
+   });
+});
 
 
 window.porterbuddy = {
   token: <?php echo json_encode($this->helper->getPublicApiKey()) ?>,
   view: 'checkout',
   deliveryWindows: <?php echo json_encode(Mage::getSingleton('checkout/session')->getPbWindows())?>,
+  initialSelectedWindow: ( window.$previousSelectedRate != null ? {'product': window.$previousSelectedRate.val().split('_')[1], 'start': window.$previousSelectedRate.val().split('_')[2], 'end': window.$previousSelectedRate.val().split('_')[3]} : undefined ),
   updateDeliveryWindowsInterval: <?php echo $this->getRefreshOptionsTimeout() * 60 ?>,
   postalCode: <?php echo json_encode($this->getPostcode()) ?>,
   discount: <?php echo $this->getDiscount() * 100 ?>,
   onSelectDeliveryWindow: function(selectedWindow){
     if(selectedWindow){
-      let code = 'cnvporterbuddy_' + selectedWindow.product + '_' + selectedWindow.start + '_' + selectedWindow.end
-      let option = window.porterbuddyWidget.$porterbuddyRates.filter('[value="' + code + '"]').trigger('click', true);
+      var code = 'cnvporterbuddy_' + selectedWindow.product + '_' + selectedWindow.start + '_' + selectedWindow.end;
+      var option = window.porterbuddyWidget.$porterbuddyRates.filter('[value="' + code + '"]').trigger('click', true);
     }
   },
   onUpdateDeliveryWindows: function(callback) {
@@ -36,10 +50,12 @@ window.porterbuddy = {
     })
     .done(function(deliveryWindows) {
       callback(deliveryWindows);
-    })
+    });
   },
-  onSetCallbacks: (callbacks) => {
+  onSetCallbacks: function(callbacks) {
     window.pbUnselectDeliveryWindow = callbacks.unselectDeliveryWindow;
+    window.pbSetSelectedDeliveryWindow = callbacks.setSelectedDeliveryWindow;
+    window.pbForceRefresh = callbacks.forceRefresh;
   },
   onComment: function( comment ){
 
