@@ -20,10 +20,13 @@ Porterbuddy.SOURCE_USER = 'user';
  */
 window.PorterbuddyWidget = Class.create({
     initialize: function (data) {
-        this.$element = jQuery(jQuery('input[name=shipping_method]').closest('form')[0] ||
-            jQuery('input[name=shipping_method]').closest('div')[0]);
+        this.$element = jQuery("dl.sp-methods");
 
         this.widgetHtml = data.widgetHtml;
+
+        this.chosenOptionNotAvailableText = data.chosenOptionNotAvailableText;
+        this.porterbuddyNotAvailableText = data.porterbuddyNotAvailableText;
+
         this.$widget = jQuery(this.widgetHtml);
         this.$allRates = this.$element.find('input[name=shipping_method]');
         this.$porterbuddyRates = this.$allRates.filter('[value^="' + Porterbuddy.CARRIER_CODE + '_"]');
@@ -35,7 +38,6 @@ window.PorterbuddyWidget = Class.create({
         var $headerClass = $listClass.substring(0, $listClass.indexOf('--')) + '--header';
         this.$groupHeader = this.$element.filter('dt.' + $headerClass);
         this.$selectedRate = null;
-        this.$previousSelectedRate = null;
 
         this.$allRates.click(function(e, internal) {
           var $rate = jQuery(this);
@@ -49,21 +51,50 @@ window.PorterbuddyWidget = Class.create({
             }
           }else{
             widgetComponent.$selectedRate = $rate;
-            widgetComponent.$previousSelectedRate = $rate;
+            window.$previousSelectedRate = $rate;
           }
         });
         this.$groupRate.click(function(e, internal) {
             if(widgetComponent.$porterbuddyRates.find(":checked").length === 0){
-              if(widgetComponent.$previousSelectedRate != null ){
-                var windowVals = widgetComponent.$previousSelectedRate.val().split('_');
+              if(window.$previousSelectedRate != null ){
+                var windowVals = window.$previousSelectedRate.val().split('_');
                 window.pbSetSelectedDeliveryWindow({'product': windowVals[1], 'start': windowVals[2], 'end': windowVals[3]});
-                widgetComponent.$previousSelectedRate.trigger('click', true);
+                window.$previousSelectedRate.trigger('click', true);
               }else{
                 window.pbSetSelectedDeliveryWindow(null, true);
                 widgetComponent.$porterbuddyRates.eq(0).trigger('click', true);
               }
             }
         });
+
+        if(window.$previousSelectedRate != null){
+          this.selectAfterRefresh();
+        }
+
+    },
+
+    selectAfterRefresh: function(){
+      if(window.$previousSelectedRate == null){
+        //we shoudn't be here
+        return;
+      }
+      if(this.$porterbuddyRates.length === 0 ){
+        //no rates possible
+        this.$element[0].scrollIntoView();
+        alert(this.porterbuddyNotAvailableText);
+        return;
+      }
+      var windowVals = window.$previousSelectedRate.val().split('_');
+      var code = 'cnvporterbuddy_' + window.$previousSelectedRate.product + '_' + window.$previousSelectedRate.start + '_' + window.$previousSelectedRate.end;
+
+      var option = window.porterbuddyWidget.$porterbuddyRates.filter('[value="' + code + '"]');
+      if(option.length === 0){
+        //chosen option no longer available
+        this.$element[0].scrollIntoView();
+        alert(this.chosenOptionNotAvailableText);
+        return;
+      }
+      option.eq(0).trigger('click', true);
 
     },
 

@@ -10,11 +10,24 @@ $coreHelper = $this->helper('core');
 
 <script type="text/javascript">
 window.porterbuddyWidget = new PorterbuddyWidget({
-  widgetHtml: <?php echo json_encode($this->getChildHtml()) ?>
+  widgetHtml: <?php echo json_encode($this->getChildHtml()) ?>,
+  chosenOptionNotAvailableText: <?php echo json_encode($this->helper->getChosenOptionNotAvailableText()) ?>,
+  porterbuddyNotAvailableText: <?php echo json_encode($this->helper->getPorterbuddyNotAvailableText()) ?>
 });
 </script>
 <script>
 
+window.pbPostCode = <?php echo json_encode($this->getPostcode()) ?>;
+
+window._klarnaCheckout(function(api) {
+ api.on({
+   'shipping-address-change': function(data) {
+     if(data.postal-code != window.pbPostalCode){
+      window.pbForceRefresh();
+     }
+    }
+  });
+});
 
 window.porterbuddy = {
   token: <?php echo json_encode($this->helper->getPublicApiKey()) ?>,
@@ -25,7 +38,7 @@ window.porterbuddy = {
   discount: <?php echo $this->getDiscount() * 100 ?>,
   onSelectDeliveryWindow: function(selectedWindow){
     if(selectedWindow){
-      let code = 'cnvporterbuddy_' + selectedWindow.product + '_' + selectedWindow.start + '_' + selectedWindow.end
+      let code = 'cnvporterbuddy_' + selectedWindow.product + '_' + selectedWindow.start + '_' + selectedWindow.end;
       let option = window.porterbuddyWidget.$porterbuddyRates.filter('[value="' + code + '"]').trigger('click', true);
     }
   },
@@ -34,9 +47,9 @@ window.porterbuddy = {
     jQuery.ajax('<?php echo $this->getUrl('convert_porterbuddy/delivery/refresh') ?>', {
       dataType: 'json'
     })
-    .done(function(deliveryWindows) {
+    .then(function(deliveryWindows) {
       callback(deliveryWindows);
-    })
+    });
   },
   onSetCallbacks: (callbacks) => {
     window.pbUnselectDeliveryWindow = callbacks.unselectDeliveryWindow;

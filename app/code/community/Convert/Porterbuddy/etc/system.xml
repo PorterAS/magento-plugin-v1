@@ -349,7 +349,32 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
             </comment_text>
-
+            <comment_text translate="label">
+              <label>Comment to courier text</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>390</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </comment_text>
+            <chosen_option_not_available_text translate="label">
+              <label>Chosen Option Not Available</label>
+              <comment>Shown when a refresh causes the selected option to be removed</comment>
+              <frontend_type>text</frontend_type>
+              <sort_order>391</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </chosen_option_not_available_text>
+            <porterbuddy_not_available_text translate="label">
+              <label>Porterbuddy Not Available</label>
+              <comment>Shown when a refresh causes all porterbuddy options to be removed after a user has selected one</comment>
+              <frontend_type>text</frontend_type>
+              <sort_order>392</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </porterbuddy_not_available_text>
             <heading_price_override translate="label">
               <label>Prices Override</label>
               <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
