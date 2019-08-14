@@ -36,6 +36,9 @@ window.PorterbuddyWidget = Class.create({
         this.$groupHeader = this.$element.filter('dt.' + $headerClass);
         this.$selectedRate = null;
 
+        this.$porterbuddyRates.closest('li').hide();
+        this.$widget.insertAfter(this.$porterbuddyRates.last().closest('li'));
+
         this.$allRates.click(function(e, internal) {
           var $rate = jQuery(this);
           widgetComponent.$groupRate.prop('checked', widgetComponent.isPorterbuddyRate($rate));
@@ -61,15 +64,15 @@ window.PorterbuddyWidget = Class.create({
               window.pbSetSelectedDeliveryWindow(null, true);
               widgetComponent.$porterbuddyRates.eq(0).trigger('click', true);
             }
+
           }
         });
+        widgetComponent.$groupRate.prop('checked', true);
 
         if(window.$previousSelectedRate != null){
           this.selectAfterRefresh();
         }
 
-        this.$porterbuddyRates.closest('li').hide();
-        this.$widget.insertAfter(this.$porterbuddyRates.last().closest('li'));
 
     },
 

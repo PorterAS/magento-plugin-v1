@@ -41,6 +41,8 @@ window.porterbuddy = {
     if(selectedWindow){
       var code = 'cnvporterbuddy_' + selectedWindow.product + '_' + selectedWindow.start + '_' + selectedWindow.end;
       var option = window.porterbuddyWidget.$porterbuddyRates.filter('[value="' + code + '"]').trigger('click', true);
+      window.porterbuddyWidget.$groupRate.prop('checked', true);
+
     }
   },
   onUpdateDeliveryWindows: function(callback) {
