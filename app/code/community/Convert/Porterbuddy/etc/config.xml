@@ -34,6 +34,11 @@
             <convert_porterbuddy>
                 <class>Convert_Porterbuddy_Block</class>
             </convert_porterbuddy>
+            <checkout>
+                <rewrite>
+                    <onepage_shipping_method_available>Convert_Porterbuddy_Block_Checkout_Onepage_Shipping_Method</onepage_shipping_method_available>
+                </rewrite>
+            </checkout>
         </blocks>
         <events>
             <sales_convert_quote_address_to_order>
