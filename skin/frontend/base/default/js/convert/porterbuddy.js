@@ -7,6 +7,7 @@ function Porterbuddy() {}
 Porterbuddy.CARRIER_CODE = 'cnvporterbuddy';
 Porterbuddy.METHOD_EXPRESS = 'express';
 Porterbuddy.METHOD_DELIVERY = 'delivery';
+Porterbuddy.METHOD_LARGE = 'large';
 Porterbuddy.COOKIE = 'porterbuddy_location';
 Porterbuddy.SOURCE_BROWSER = 'browser';
 Porterbuddy.SOURCE_IP = 'ip';

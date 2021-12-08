@@ -9,6 +9,8 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
 
     const METHOD_EXPRESS = 'express';
     const METHOD_DELIVERY = 'delivery';
+    const METHOD_LARGE = 'large';
+
 
     const MODE_PRODUCTION = 'production';
     const MODE_TESTING = 'testing';
@@ -176,14 +178,23 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         }
         /** @var Mage_Sales_Model_Quote_Item $item */
          $getAllItemsResponse = $request->getallItems();
+         if(!is_null($this->helper->getMaxPackages())){
+           if(count($getAllItemsResponse) > $this->helper->getMaxPackages() ){
+             return $result;
+           }
+
+         }
          $item = reset($getAllItemsResponse);
          $quote = $item->getQuote();
 
          //check item availability for pb
          foreach ($request->getAllItems() as $item) {
-
-           if (!$item->getProduct()->isSaleable()) {
+           $_product = $item->getProduct();
+           if (!$_product->isSaleable()) {
              //item not in stock
+             return $result;
+           }
+           if($_product->getData('porterbuddy_available') === false){
              return $result;
            }
          }
@@ -207,7 +218,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         foreach ($options as $option) {
             if (self::METHOD_EXPRESS == $option['product']) {
                 $expressOption = $option;
-            } elseif (self::METHOD_DELIVERY == $option['product']) {
+            } elseif (self::METHOD_DELIVERY == $option['product'] || self::METHOD_LARGE == $option['product']) {
                 $scheduledOptions[] = $option;
             }
         }
@@ -509,6 +520,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         return array(
             self::METHOD_EXPRESS => $this->helper->getAsapName(),
             self::METHOD_DELIVERY => $this->helper->__('Delivery'),
+            self::METHOD_LARGE => $this->helper->__('Large'),
         );
     }
 
@@ -543,7 +555,12 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
 
         // create availability check context
         $params['parcels'] = $this->packager->estimateParcels($request);
-        $params['products'] = array(self::METHOD_DELIVERY, self::METHOD_EXPRESS);
+        $deliveryMethod = self::METHOD_DELIVERY;
+        foreach ($params['parcels'] as $thisParcel){
+            if($thisParcel['isLarge'])
+                $deliveryMethod = self::METHOD_LARGE;
+        }
+        $params['products'] = array($deliveryMethod);
 
         $transport = new Varien_Object(array('params' => $params));
         Mage::dispatchEvent('convert_porterbuddy_availability_data', array(

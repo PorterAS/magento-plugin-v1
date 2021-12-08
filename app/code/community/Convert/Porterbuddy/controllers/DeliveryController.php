@@ -165,6 +165,13 @@ class Convert_Porterbuddy_DeliveryController extends Mage_Checkout_Controller_Ac
                 )
             );
         }
+        if($product->getData('porterbuddy_available') === false){
+          return $this->jsonError(
+              $this->helper->processPlaceholders(
+                  $this->helper->getAvailabilityServiceNotAvailable()
+              ));
+        }
+
         if ($product->isVirtual()) {
             return $this->jsonError($this->helper->__('Virtual products cannot be shipped'));
         }

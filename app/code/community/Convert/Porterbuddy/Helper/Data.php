@@ -49,6 +49,8 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_OVERRIDE_TELEPHONE_NUMBER = 'carriers/cnvporterbuddy/override_telephone_number';
 
     const XML_PATH_PACKAGER_MODE = 'carriers/cnvporterbuddy/packager_mode';
+    const XML_PATH_MAX_PACKAGES = 'carriers/cnvporterbuddy/max_packages';
+    const XML_PATH_ENABLE_LARGE = 'carriers/cnvporterbuddy/enable_large';
     const XML_PATH_PACKING_TIME = 'carriers/cnvporterbuddy/packing_time';
     const XML_PATH_TIMESLOT_SELECTION = 'carriers/cnvporterbuddy/timeslot_selection';
     const XML_PATH_DAYS_AHEAD = 'carriers/cnvporterbuddy/days_ahead';
@@ -303,6 +305,26 @@ class Convert_Porterbuddy_Helper_Data extends Mage_Core_Helper_Abstract
     public function getPackingTime()
     {
         return (float)Mage::getStoreConfig(self::XML_PATH_PACKING_TIME);
+    }
+
+    /**
+     * Returns max number of packages
+     *
+     * @return int
+     */
+    public function getMaxPackages()
+    {
+        return (int)Mage::getStoreConfig(self::XML_PATH_MAX_PACKAGES);
+    }
+
+    /**
+     * Returns enable large sizing
+     *
+     * @return int
+     */
+    public function getEnableLarge()
+    {
+        return (int)Mage::getStoreConfig(self::XML_PATH_ENABLE_LARGE);
     }
 
     /**
