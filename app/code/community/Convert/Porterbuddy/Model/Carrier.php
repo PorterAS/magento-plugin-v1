@@ -178,23 +178,14 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
         }
         /** @var Mage_Sales_Model_Quote_Item $item */
          $getAllItemsResponse = $request->getallItems();
-         if(!is_null($this->helper->getMaxPackages())){
-           if(count($getAllItemsResponse) > $this->helper->getMaxPackages() ){
-             return $result;
-           }
-
-         }
          $item = reset($getAllItemsResponse);
          $quote = $item->getQuote();
 
          //check item availability for pb
          foreach ($request->getAllItems() as $item) {
-           $_product = $item->getProduct();
-           if (!$_product->isSaleable()) {
+
+           if (!$item->getProduct()->isSaleable()) {
              //item not in stock
-             return $result;
-           }
-           if($_product->getData('porterbuddy_available') === false){
              return $result;
            }
          }
@@ -555,12 +546,7 @@ class Convert_Porterbuddy_Model_Carrier extends Mage_Shipping_Model_Carrier_Abst
 
         // create availability check context
         $params['parcels'] = $this->packager->estimateParcels($request);
-        $deliveryMethod = self::METHOD_DELIVERY;
-        foreach ($params['parcels'] as $thisParcel){
-            if($thisParcel['isLarge'])
-                $deliveryMethod = self::METHOD_LARGE;
-        }
-        $params['products'] = array($deliveryMethod);
+        $params['products'] = $this->helper->getEnableLarge()?array(self::METHOD_DELIVERY, self::METHOD_LARGE):array(self::METHOD_DELIVERY);
 
         $transport = new Varien_Object(array('params' => $params));
         Mage::dispatchEvent('convert_porterbuddy_availability_data', array(

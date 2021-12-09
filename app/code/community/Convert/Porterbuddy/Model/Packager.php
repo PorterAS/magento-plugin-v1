@@ -125,7 +125,7 @@ class Convert_Porterbuddy_Model_Packager
                 $description = $this->helper->__('%s products', count($shipment->getAllItems()));
             }
 
-            $nextParcel = array(
+            $parcels[] = array(
                 'description' => $description,
                 'widthCm' => $this->helper->convertDimensionToCm(
                     $package->getData('params/width'),
@@ -144,11 +144,6 @@ class Convert_Porterbuddy_Model_Packager
                     $package->getData('params/weight_unit')
                 ) ?: $this->helper->getDefaultProductWeight(),
             );
-            $nextParcel['isLarge'] = ($this->helper->getEnableLarge() &&
-                $nextParcel['widthCm'] > 50 &&
-                $nextParcel['heightCm'] > 50 &&
-                $nextParcel['depthCm'] > 50);
-            $parcels[] = $nextParcel;
         }
 
         return $parcels;

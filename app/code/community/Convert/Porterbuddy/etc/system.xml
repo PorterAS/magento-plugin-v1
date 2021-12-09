@@ -643,14 +643,6 @@
               <show_in_website>1</show_in_website>
               <show_in_store>0</show_in_store>
             </packager_mode>
-            <max_packages translate="label">
-              <label>Maximum number of packages</label>
-              <frontend_type>text</frontend_type>
-              <sort_order>845</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </max_packages>
             <enable_large translate="label">
               <label>Large Sizing from Parcel Sizes</label>
               <frontend_type>text</frontend_type>
